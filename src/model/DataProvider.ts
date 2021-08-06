@@ -1,6 +1,7 @@
 import {Sequelize} from "sequelize";
 import {initUserProvider} from "./User";
 import {Logger} from "../../core/Logger";
+import {settings} from "../../core/Settings";
 
 export class DataProvider {
     public async init() {
@@ -8,13 +9,13 @@ export class DataProvider {
     }
 
     private _sequelize = new Sequelize(
-        process.env["DB_NAME"] as string, 
-        process.env["DB_USER"] as string, 
-        process.env["DB_PASSWORD"] as string, 
+        settings.DB_NAME, 
+        settings.DB_USER, 
+        settings.DB_PASSWORD, 
         {
             dialect: 'mysql',
-            host: process.env["DB_HOST"] as string,
-            port: parseInt(process.env["DB_PORT"] as string),
+            host: settings.DB_HOST,
+            port: settings.DB_PORT,
             logging: msg => Logger.log(msg)
         })
 

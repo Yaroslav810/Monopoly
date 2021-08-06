@@ -3,11 +3,10 @@ import {mainRouts} from "./modules/main/routs";
 import {SessionStorage} from "./model/SessionStorage";
 import {initApp} from "../core/initApp";
 import {userRouts} from "./modules/user/routs";
-import * as dotenv from "dotenv";
+import {settings} from "../core/Settings";
 
-dotenv.config();
 const config = {
-    port: 3800,
+    port: settings.APP_PORT,
 }
 const routs = [
     mainRouts,
