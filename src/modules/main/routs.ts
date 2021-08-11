@@ -7,6 +7,16 @@ import {SessionStorage} from "../../model/SessionStorage";
 import {DataProvider} from "../../model/DataProvider";
 
 export function mainRouts(router: IRouter<DataProvider, SessionStorage>) {
+    // router.addRout({
+    //     path: '/',
+    //     method: HttpMethod.GET,
+    //     pathVariables: object({}),
+    //     requestScheme: object({}),
+    //     responseScheme: object({
+    //         message: string(),
+    //     }),
+    //     action: ,
+    // })
     router.addRout({
         path: '/hello/:name',
         method: HttpMethod.GET,
