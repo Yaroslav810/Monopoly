@@ -1,6 +1,6 @@
-import { array } from "../../../../core/scheme/array";
-import { object } from "../../../../core/scheme/object";
-import { number } from "../../../../core/scheme/number";
+import { array } from "../../../core/scheme/array";
+import { object } from "../../../core/scheme/object";
+import { number } from "../../../core/scheme/number";
 
 export function RatingResponse() {
   const ratingItem = object({

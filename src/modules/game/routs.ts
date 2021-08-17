@@ -3,15 +3,13 @@ import {HttpMethod} from "../../../core/http/HttpMethod";
 import {SessionStorage} from "../../model/SessionStorage";
 import {DataProvider} from "../../model/DataProvider";
 import { any } from "../../../core/scheme/raw";
-import { RatingResponse, RolesResponse } from "./schemes/schemes";
+import { RatingResponse, RolesResponse } from "./schemes";
 import { getRating } from "./actions/getRating";
 import { getRoles } from "./actions/getRoles";
 
 export function gameRouts(router: IRouter<DataProvider, SessionStorage>) {
-    const baseUrl: string = '/game'
-
     router.addRout({
-        path: `${baseUrl}/get-rating`,
+        path: '/game/get-rating',
         method: HttpMethod.GET,
         pathVariables: any(),
         requestScheme: any(),
@@ -20,7 +18,7 @@ export function gameRouts(router: IRouter<DataProvider, SessionStorage>) {
     })
 
     router.addRout({
-        path: `${baseUrl}/get-roles`,
+        path: '/game/get-roles',
         method: HttpMethod.GET,
         pathVariables: any(),
         requestScheme: any(),
