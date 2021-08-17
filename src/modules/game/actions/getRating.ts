@@ -1,47 +1,48 @@
 import {Context} from "../../../../core/routing/IRouter";
 import {DataProvider} from "../../../model/DataProvider";
 import {SessionStorage} from "../../../model/SessionStorage";
+import { playerId } from "../../../model/Player";
 
 export async function getRating(_: Context<DataProvider, SessionStorage>) {
   return {
     railways: [
       {
-        team_name: 'Техасская',
+        team_id: playerId.SOUTH_EASTERN_RAILWAY,
         ratingChange1: 8,
         ratingChange2: 12,
         ratingChange3: -2,
         rating: 124
       },
       {
-        team_name: 'Нью-Йоркская',
+        team_id: playerId.PACIFIC_RAILWAY,
         ratingChange1: 8,
         ratingChange2: 12,
         ratingChange3: -2,
         rating: 124
       },
       {
-        team_name: 'Северная',
+        team_id: playerId.SOUTH_WESTERN_RAILWAY,
         ratingChange1: 8,
         ratingChange2: 12,
         ratingChange3: -2,
         rating: 124
       },
       {
-        team_name: 'Юго-западная',
+        team_id: playerId.NORTHERN_RAILWAY,
         ratingChange1: 8,
         ratingChange2: 12,
         ratingChange3: -2,
         rating: 124
       },
       {
-        team_name: 'Тихоокеанская',
+        team_id: playerId.NEW_YORK_RAILWAY,
         ratingChange1: 8,
         ratingChange2: 12,
         ratingChange3: -2,
         rating: 124
       },
       {
-        team_name: 'Юго-восточная',
+        team_id: playerId.TEXAS_RAILWAY,
         ratingChange1: 8,
         ratingChange2: 12,
         ratingChange3: -2,
@@ -50,21 +51,21 @@ export async function getRating(_: Context<DataProvider, SessionStorage>) {
     ],
     policies: [
       {
-        team_name: 'Республика',
+        team_id: playerId.FEDERATION,
         ratingChange1: 2,
         ratingChange2: 2,
         ratingChange3: 2,
         rating: 5,
       },
       {
-        team_name: 'Конфедерация',
+        team_id: playerId.CONFEDERATION,
         ratingChange1: 2,
         ratingChange2: 2,
         ratingChange3: 2,
         rating: 5
       },
       {
-        team_name: 'Федерация',
+        team_id: playerId.REPUBLIC,
         ratingChange1: 2,
         ratingChange2: 2,
         ratingChange3: 2,
@@ -73,28 +74,28 @@ export async function getRating(_: Context<DataProvider, SessionStorage>) {
     ],
     tradingCompanies: [
       {
-        team_name: 'ТК Вашингтона',
+        team_id: playerId.PRESCOTT,
         ratingChange1: 55,
         ratingChange2: -35,
         ratingChange3: -22,
         rating: 75
       },
       {
-        team_name: 'ТК Прескотта',
+        team_id: playerId.WASHINGTON,
         ratingChange1: 55,
         ratingChange2: -35,
         ratingChange3: -22,
         rating: 75
       },
       {
-        team_name: 'ТК Литл-Рока',
+        team_id: playerId.BISMARCK,
         ratingChange1: 55,
         ratingChange2: -35,
         ratingChange3: -22,
         rating: 75
       },
       {
-        team_name: 'ТК Бисмарка',
+        team_id: playerId.LITTLE_ROCK,
         ratingChange1: 55,
         ratingChange2: -35,
         ratingChange3: -22,

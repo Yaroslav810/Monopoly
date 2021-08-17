@@ -1,9 +1,9 @@
 import {IRouter} from "../../../core/routing/IRouter";
-import {object} from "../../../core/scheme/object";
 import {HttpMethod} from "../../../core/http/HttpMethod";
 import {SessionStorage} from "../../model/SessionStorage";
 import {DataProvider} from "../../model/DataProvider";
-import { getRatingResponseScheme, getRolesResponseScheme } from "./builders/schemeBuilder";
+import { any } from "../../../core/scheme/raw";
+import { RatingResponse, RolesResponse } from "./schemes/schemes";
 import { getRating } from "./actions/getRating";
 import { getRoles } from "./actions/getRoles";
 
@@ -13,18 +13,18 @@ export function gameRouts(router: IRouter<DataProvider, SessionStorage>) {
     router.addRout({
         path: `${baseUrl}/get-rating`,
         method: HttpMethod.GET,
-        pathVariables: object({}),
-        requestScheme: object({}),
-        responseScheme: getRatingResponseScheme(),
+        pathVariables: any(),
+        requestScheme: any(),
+        responseScheme: RatingResponse(),
         action: getRating
     })
 
     router.addRout({
         path: `${baseUrl}/get-roles`,
         method: HttpMethod.GET,
-        pathVariables: object({}),
-        requestScheme: object({}),
-        responseScheme: getRolesResponseScheme(),
+        pathVariables: any(),
+        requestScheme: any(),
+        responseScheme: RolesResponse(),
         action: getRoles
     })
 }

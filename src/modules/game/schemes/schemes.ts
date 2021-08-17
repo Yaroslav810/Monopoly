@@ -1,11 +1,10 @@
-import { array } from "./../../../../core/scheme/array";
-import { object } from "./../../../../core/scheme/object";
-import { string } from "./../../../../core/scheme/string";
-import { number } from "./../../../../core/scheme/number";
+import { array } from "../../../../core/scheme/array";
+import { object } from "../../../../core/scheme/object";
+import { number } from "../../../../core/scheme/number";
 
-export function getRatingResponseScheme() {
+export function RatingResponse() {
   const ratingItem = object({
-    team_name: string(),
+    team_id: number(),
     ratingChange1: number(),
     ratingChange2: number(),
     ratingChange3: number(),
@@ -19,10 +18,10 @@ export function getRatingResponseScheme() {
   })
 }
 
-export function getRolesResponseScheme() {
+export function RolesResponse() {
   const rolesItem = object({
-    name: string(),
-    player: array(string())
+    role_id: number(),
+    players_id: array(number())
   })
 
   return object({

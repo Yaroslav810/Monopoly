@@ -1,35 +1,37 @@
 import {Context} from "../../../../core/routing/IRouter";
 import {DataProvider} from "../../../model/DataProvider";
 import {SessionStorage} from "../../../model/SessionStorage";
+import { playerId } from "../../../model/Player";
+import { roleId } from "../../../model/Role";
 
 export async function getRoles(_: Context<DataProvider, SessionStorage>) {
   return {
     railways: {
-      name: 'Железнодорожник',
-      player: [
-        'Юго-восточная ж/д',
-        'Тихоокеанская ж/д',
-        'Юго-западная ж/д',
-        'Северная ж/д',
-        'Нью-Йоркская ж/д',
-        'Техасская ж/д'
+      role_id: roleId.RAILWAYS,
+      players_id: [
+        playerId.SOUTH_EASTERN_RAILWAY,
+        playerId.PACIFIC_RAILWAY,
+        playerId.SOUTH_WESTERN_RAILWAY,
+        playerId.NORTHERN_RAILWAY,
+        playerId.NEW_YORK_RAILWAY,
+        playerId.TEXAS_RAILWAY
       ]
     },
     policies: {
-      name: 'Торговец',
-      player: [
-        'ТК Прескотта',
-        'ТК Вашингтона',
-        'ТК Бисмарка',
-        'ТК Литтл-Рока'
+      role_id: roleId.POLICIES,
+      players_id: [
+        playerId.FEDERATION,
+        playerId.CONFEDERATION,
+        playerId.REPUBLIC
       ]
     },
     tradingCompanies: {
-      name: 'Политик',
-      player: [
-        'Федерация',
-        'Конфедерация',
-        'Республика'
+      role_id: roleId.TRADINGCOMPANIES,
+      players_id: [
+        playerId.PRESCOTT,
+        playerId.WASHINGTON,
+        playerId.BISMARCK,
+        playerId.LITTLE_ROCK
       ]
     }
   }
