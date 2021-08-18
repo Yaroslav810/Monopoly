@@ -1,10 +1,7 @@
-import {Context} from "../../../../core/routing/IRouter";
-import {DataProvider} from "../../../model/DataProvider";
-import {SessionStorage} from "../../../model/SessionStorage";
-import { playerId } from "../../../model/Player";
-import { roleId } from "../../../model/Role";
+import {playerId} from "../../../model/Player";
+import {roleId} from "../../../model/Role";
 
-export async function getRoles(_: Context<DataProvider, SessionStorage>) {
+export const getRoles = async () => {
   return {
     railways: {
       role_id: roleId.RAILWAYS,

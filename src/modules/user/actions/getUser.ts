@@ -1,9 +1,8 @@
-import {Context} from "../../../../core/routing/IRouter";
-import {DataProvider} from "../../../model/DataProvider";
-import {SessionStorage} from "../../../model/SessionStorage";
 import {verifyExisting} from "../../../../core/http/httputils";
+import {Action} from "../../_common/Action";
+import {GetUser} from "../schemes";
 
-export async function getUser({dataProvider}: Context<DataProvider, SessionStorage>, {userId}: {userId: string}) {
+export const getUser: Action<typeof GetUser> = async ({dataProvider}, {userId}) => {
     const user = verifyExisting(await dataProvider.user.get(userId))
     return {
         id: user.id,

@@ -1,9 +1,6 @@
-import {Context} from "../../../../core/routing/IRouter";
-import {DataProvider} from "../../../model/DataProvider";
-import {SessionStorage} from "../../../model/SessionStorage";
-import { playerId } from "../../../model/Player";
+import {playerId} from "../../../model/Player";
 
-export async function getRating(_: Context<DataProvider, SessionStorage>) {
+export const getRating = async () => {
   return {
     railways: [
       {

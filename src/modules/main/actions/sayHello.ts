@@ -1,10 +1,7 @@
-import {Context} from "../../../../core/routing/IRouter";
-import {DataProvider} from "../../../model/DataProvider";
-import {SessionStorage} from "../../../model/SessionStorage";
+import {Action} from "../../_common/Action";
+import {SayHello} from "../schemes";
 
-type Props = {name: string}
-
-export async function sayHello(_: Context<DataProvider, SessionStorage>, {name}: Props) {
+export const sayHello: Action<typeof SayHello> = async (_, {name}) => {
     return {
         message: `Hello ${name}`,
     }

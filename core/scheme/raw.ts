@@ -10,7 +10,7 @@ export function raw<T>(value: T): Validator<T> {
 	}
 }
 
-export function any(): Validator<unknown> {
+export function empty(): Validator<unknown> {
 	return val => val as unknown;
 }
 

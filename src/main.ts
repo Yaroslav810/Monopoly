@@ -15,6 +15,9 @@ const routs = [
     gameRouts
 ]
 const dataProvider = new DataProvider()
-dataProvider.init().then(() => {
-    initApp<DataProvider, SessionStorage>(config, dataProvider, routs)
-});
+
+dataProvider
+    .init()
+    .then(() => {
+        initApp<DataProvider, SessionStorage>(config, dataProvider, routs)
+    });

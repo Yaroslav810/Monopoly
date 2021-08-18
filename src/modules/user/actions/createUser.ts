@@ -1,10 +1,7 @@
-import {Context} from "../../../../core/routing/IRouter";
-import {DataProvider} from "../../../model/DataProvider";
-import {SessionStorage} from "../../../model/SessionStorage";
+import {Action} from "../../_common/Action";
+import {CreateUser} from "../schemes";
 
-type Props = {name: string}
-
-export async function createUser({dataProvider}: Context<DataProvider, SessionStorage>, _: unknown, {name}: Props) {
+export const createUser: Action<typeof CreateUser> = async ({dataProvider}, _, {name}) => {
     const user = await dataProvider.user.create({name})
     await user.save()
     return {
