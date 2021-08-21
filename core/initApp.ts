@@ -1,8 +1,6 @@
 import {Router} from "./routing/Router";
 import {ExpressServer} from "./http/ExpressServer";
 import {SessionsManager} from "./session/SessionManager";
-import { HttpMethod } from "./http/HttpMethod";
-
 export function initApp<DATA_PROVIDER, SESSION_STORAGE>(
     config: {port: number},
     dataProvider: DATA_PROVIDER,
@@ -16,9 +14,4 @@ export function initApp<DATA_PROVIDER, SESSION_STORAGE>(
     }
 
     server.start(config)
-    
-    server.listen(HttpMethod.POST, '/', (req, res) => {
-        console.log(req.body)
-        res.resolveJson({id: 1, name: 'Ivan'})
-    })
 }
