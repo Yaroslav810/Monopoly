@@ -5,7 +5,7 @@ import {settings} from "../../core/Settings";
 
 export class DataProvider {
     public async init() {
-        return this._sequelize.sync({force: true})
+        return this._sequelize.sync({force: false})
     }
 
     private _sequelize = new Sequelize(
