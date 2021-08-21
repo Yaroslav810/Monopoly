@@ -1,5 +1,6 @@
 import * as express from "express";
 import * as bodyParser from "body-parser";
+import * as cors from "cors";
 import {Request as ExpressRequest, Response as ExpressResponse} from "express-serve-static-core";
 import { IServer, Request, Response } from "../routing/IServer";
 import { HttpMethod} from "./HttpMethod";
@@ -9,6 +10,7 @@ export class ExpressServer implements IServer {
 	constructor() {
 		this._app.use(bodyParser.urlencoded({ extended: true }));
 		this._app.use(bodyParser.json());
+		this._app.use(cors());
 	}
 
 	public listen(method: HttpMethod, path: string, handler: (request: Request, response: Response) => void): void {
