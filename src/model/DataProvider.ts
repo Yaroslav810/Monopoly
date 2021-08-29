@@ -1,5 +1,7 @@
 import {Sequelize} from "sequelize";
 import {initUserProvider} from "./User";
+import {initNativeAmericanProvider} from "./NativeAmerican";
+import {initClanProvider} from "./Clan";
 import {Logger} from "../../core/Logger";
 import {settings} from "../../core/Settings";
 
@@ -24,4 +26,6 @@ export class DataProvider {
         })
 
     readonly user = initUserProvider(this._sequelize)
+    readonly nativeAmerican = initNativeAmericanProvider(this._sequelize)
+    readonly clan = initClanProvider(this._sequelize)
 }
