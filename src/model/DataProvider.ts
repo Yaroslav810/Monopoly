@@ -5,7 +5,7 @@ import {settings} from "../../core/Settings";
 
 export class DataProvider {
     public async init() {
-        return this._sequelize.sync({force: false})
+        return this._sequelize.sync({force: true})
     }
 
     private _sequelize = new Sequelize(
@@ -16,7 +16,11 @@ export class DataProvider {
             dialect: 'mysql',
             host: settings.DB_HOST,
             port: settings.DB_PORT,
-            logging: msg => Logger.log(msg)
+            logging: msg => Logger.log(msg),
+            define: {
+                timestamps: false,
+                freezeTableName: true
+            }
         })
 
     readonly user = initUserProvider(this._sequelize)
