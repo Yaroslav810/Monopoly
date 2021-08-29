@@ -23,14 +23,6 @@ export function initUserProvider(sequelize: Sequelize) {
             type: DataTypes.STRING(30),
             allowNull: false
         },
-    },
-    {
-        indexes: [
-            {
-                unique: true,
-                fields: ["id"]
-            }
-        ]
     });
     return {
         get(userId: string) {
