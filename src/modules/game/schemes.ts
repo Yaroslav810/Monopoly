@@ -13,7 +13,7 @@ const RatingItem = () => object({
 
 const RolesItem = () => object({
   role_id: number(),
-  players_id: array(number())
+  players_id: array(number()) 
 })
 
 export namespace Rating {
