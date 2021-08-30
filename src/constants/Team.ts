@@ -1,4 +1,4 @@
-export enum playerId {
+export enum TeamId {
   SOUTH_EASTERN_RAILWAY = 1,
   PACIFIC_RAILWAY = 2,
   SOUTH_WESTERN_RAILWAY = 3,
