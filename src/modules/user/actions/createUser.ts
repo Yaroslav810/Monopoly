@@ -5,7 +5,7 @@ export const createUser: Action<typeof CreateUser> = async ({dataProvider}, _, {
     const user = await dataProvider.user.create({name})
     await user.save()
     return {
-        id: user.id,
+        uuid: user.uuid,
         name: user.name,
     }
 }

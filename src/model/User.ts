@@ -2,8 +2,9 @@ import {Sequelize, DataTypes, Model, BuildOptions} from "sequelize";
 import {generateUUId} from "../../core/utils/UUIDUtils";
 
 class User extends Model {
-    public id!: string;
+    public id!: number;
     public name!: string;
+    public uuid!: string;
 }
 
 type UserStatic = typeof Model & {
@@ -13,20 +14,28 @@ type UserStatic = typeof Model & {
 export function initUserProvider(sequelize: Sequelize) {
     const userProvider = <UserStatic>sequelize.define('User', {
         id: {
-            type: DataTypes.STRING(36),
+            type: DataTypes.INTEGER,
             primaryKey: true,
-            unique: true,
-            allowNull: false,
-            defaultValue: generateUUId,
+            autoIncrement: true,
+            allowNull: false
         },
         name: {
             type: DataTypes.STRING,
             allowNull: false
         },
-    });
+        uuid: {
+            type: DataTypes.STRING(36),
+            unique: true,
+            allowNull: false,
+            defaultValue: generateUUId,
+        }
+    })
+
     return {
-        get(userId: string) {
-            return userProvider.findByPk(userId)
+        getUserByUuid(userUuid: string) {
+            return userProvider.findOne({
+                where: {uuid: userUuid}
+            })
         },
         create(user: { name: string }) {
             return userProvider.create(user)

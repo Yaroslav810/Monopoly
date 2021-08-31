@@ -16,7 +16,7 @@ export function userRouts(router: IRouter<DataProvider, SessionStorage>) {
         action: createUser,
     })
     router.addRout({
-        path: '/user/get/:userId',
+        path: '/user/get/:userUuid',
         method: HttpMethod.GET,
         pathVariables: GetUser.PathVariables(),
         requestScheme: GetUser.Request(),

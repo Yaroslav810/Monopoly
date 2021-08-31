@@ -10,7 +10,7 @@ type GameStatic = typeof Model & {
     new (values?: object, options?: BuildOptions): Game
 }
 
-export function intiGameProvider(sequelize: Sequelize) {
+export function initGameProvider(sequelize: Sequelize) {
     const gameProvider = <GameStatic>sequelize.define('Game', {
         id: {
             type: DataTypes.INTEGER,
@@ -34,6 +34,13 @@ export function intiGameProvider(sequelize: Sequelize) {
         create() {
             return gameProvider.create({
                 uuid: generateUUId()
+            })
+        },
+        getGameByUuid(uuid: string) {
+            return gameProvider.findOne({
+                where: {
+                    uuid: uuid
+                }
             })
         }
     }

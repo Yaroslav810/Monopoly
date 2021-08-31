@@ -2,10 +2,10 @@ import {verifyExisting} from "../../../../core/http/httputils";
 import {Action} from "../../_common/Action";
 import {GetUser} from "../schemes";
 
-export const getUser: Action<typeof GetUser> = async ({dataProvider}, {userId}) => {
-    const user = verifyExisting(await dataProvider.user.get(userId))
+export const getUser: Action<typeof GetUser> = async ({dataProvider}, {userUuid}) => {
+    const user = verifyExisting(await dataProvider.user.getUserByUuid(userUuid))
     return {
-        id: user.id,
+        uuid: user.uuid,
         name: user.name,
     }
 }

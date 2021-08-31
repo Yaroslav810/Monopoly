@@ -5,6 +5,7 @@ import {settings} from "../core/Settings";
 import {mainRouts} from "./modules/main/routs";
 import {userRouts} from "./modules/user/routs";
 import {gameRouts} from "./modules/game/routs";
+import { teamRouts } from "./modules/team/routs";
 
 const config = {
     port: settings.APP_PORT,
@@ -12,7 +13,8 @@ const config = {
 const routs = [
     mainRouts,
     userRouts,
-    gameRouts
+    gameRouts,
+    teamRouts
 ]
 const dataProvider = new DataProvider()
 

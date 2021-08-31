@@ -6,16 +6,16 @@ export const CreateUser = {
     PathVariables: empty,
     Request: () => object({name: string()}),
     Response: () => object({
-        id: guid(),
+        uuid: guid(),
         name: string(),
     }),
 }
 
 export const GetUser = {
-    PathVariables: () => object({userId: guid()}),
+    PathVariables: () => object({userUuid: guid()}),
     Request: empty,
     Response: () => object({
-        id: guid(),
+        uuid: guid(),
         name: string(),
     }),
 }
