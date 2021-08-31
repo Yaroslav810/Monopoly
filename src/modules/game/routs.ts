@@ -26,7 +26,7 @@ export function gameRouts(router: IRouter<DataProvider, SessionStorage>) {
     })
     router.addRout({
         path: '/game/create',
-        method: HttpMethod.GET,
+        method: HttpMethod.POST,
         pathVariables: CreateGame.PathVariables(),
         requestScheme: CreateGame.Request(),
         responseScheme: CreateGame.Response(),
