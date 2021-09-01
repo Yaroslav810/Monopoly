@@ -4,7 +4,8 @@ import {SessionStorage} from "../../model/SessionStorage";
 import {DataProvider} from "../../model/DataProvider";
 import {getRating} from "./actions/getRating";
 import {getRoles} from "./actions/getRoles";
-import {Rating, Roles} from "./schemes";
+import { createGame } from "./actions/createGame";
+import {CreateGame, Rating, Roles} from "./schemes";
 
 export function gameRouts(router: IRouter<DataProvider, SessionStorage>) {
     router.addRout({
@@ -22,5 +23,13 @@ export function gameRouts(router: IRouter<DataProvider, SessionStorage>) {
         requestScheme: Roles.Request(),
         responseScheme: Roles.Response(),
         action: getRoles
+    })
+    router.addRout({
+        path: '/game/create',
+        method: HttpMethod.GET,
+        pathVariables: CreateGame.PathVariables(),
+        requestScheme: CreateGame.Request(),
+        responseScheme: CreateGame.Response(),
+        action: createGame
     })
 }

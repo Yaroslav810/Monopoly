@@ -1,45 +1,45 @@
-import {playerId} from "../../../model/Player";
+import {TeamId} from "../../../constants/Team";
 
 export const getRating = async () => {
   return {
     railways: [
       {
-        team_id: playerId.SOUTH_EASTERN_RAILWAY,
+        team_id: TeamId.SOUTH_EASTERN_RAILWAY,
         ratingChange1: 8,
         ratingChange2: 12,
         ratingChange3: -2,
         rating: 124
       },
       {
-        team_id: playerId.PACIFIC_RAILWAY,
+        team_id: TeamId.PACIFIC_RAILWAY,
         ratingChange1: 8,
         ratingChange2: 12,
         ratingChange3: -2,
         rating: 124
       },
       {
-        team_id: playerId.SOUTH_WESTERN_RAILWAY,
+        team_id: TeamId.SOUTH_WESTERN_RAILWAY,
         ratingChange1: 8,
         ratingChange2: 12,
         ratingChange3: -2,
         rating: 124
       },
       {
-        team_id: playerId.NORTHERN_RAILWAY,
+        team_id: TeamId.NORTHERN_RAILWAY,
         ratingChange1: 8,
         ratingChange2: 12,
         ratingChange3: -2,
         rating: 124
       },
       {
-        team_id: playerId.NEW_YORK_RAILWAY,
+        team_id: TeamId.NEW_YORK_RAILWAY,
         ratingChange1: 8,
         ratingChange2: 12,
         ratingChange3: -2,
         rating: 124
       },
       {
-        team_id: playerId.TEXAS_RAILWAY,
+        team_id: TeamId.TEXAS_RAILWAY,
         ratingChange1: 8,
         ratingChange2: 12,
         ratingChange3: -2,
@@ -48,21 +48,21 @@ export const getRating = async () => {
     ],
     policies: [
       {
-        team_id: playerId.FEDERATION,
+        team_id: TeamId.FEDERATION,
         ratingChange1: 2,
         ratingChange2: 2,
         ratingChange3: 2,
         rating: 5,
       },
       {
-        team_id: playerId.CONFEDERATION,
+        team_id: TeamId.CONFEDERATION,
         ratingChange1: 2,
         ratingChange2: 2,
         ratingChange3: 2,
         rating: 5
       },
       {
-        team_id: playerId.REPUBLIC,
+        team_id: TeamId.REPUBLIC,
         ratingChange1: 2,
         ratingChange2: 2,
         ratingChange3: 2,
@@ -71,28 +71,28 @@ export const getRating = async () => {
     ],
     tradingCompanies: [
       {
-        team_id: playerId.PRESCOTT,
+        team_id: TeamId.PRESCOTT,
         ratingChange1: 55,
         ratingChange2: -35,
         ratingChange3: -22,
         rating: 75
       },
       {
-        team_id: playerId.WASHINGTON,
+        team_id: TeamId.WASHINGTON,
         ratingChange1: 55,
         ratingChange2: -35,
         ratingChange3: -22,
         rating: 75
       },
       {
-        team_id: playerId.BISMARCK,
+        team_id: TeamId.BISMARCK,
         ratingChange1: 55,
         ratingChange2: -35,
         ratingChange3: -22,
         rating: 75
       },
       {
-        team_id: playerId.LITTLE_ROCK,
+        team_id: TeamId.LITTLE_ROCK,
         ratingChange1: 55,
         ratingChange2: -35,
         ratingChange3: -22,
