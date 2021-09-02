@@ -2,7 +2,6 @@ import { BuildOptions, DataTypes, Model, Sequelize } from "sequelize";
 import { generateUUId } from "../../core/utils/UUIDUtils";
 
 class Game extends Model {
-    public id!: number;
     public uuid!: string;
 }
 
@@ -12,15 +11,9 @@ type GameStatic = typeof Model & {
 
 export function initGameProvider(sequelize: Sequelize) {
     const gameProvider = <GameStatic>sequelize.define('Game', {
-        id: {
-            type: DataTypes.INTEGER,
-            primaryKey: true,
-            autoIncrement: true,
-            unique: true,
-            allowNull: false
-        },
         uuid: {
             type: DataTypes.UUID,
+            primaryKey: true,
             unique: true,
             allowNull: false
         }

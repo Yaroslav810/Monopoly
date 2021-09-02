@@ -1,10 +1,8 @@
 import {Sequelize} from "sequelize";
 import {Logger} from "../../core/Logger";
 import {settings} from "../../core/Settings";
-import {initUserProvider} from "./User";
 import { initGameProvider } from "./Game";
-import { initTeamProvider } from "./Team";
-import { initGamerProvider } from "./Gamer";
+import { initPlayerProvider } from "./Player";
 
 export class DataProvider {
     public async init() {
@@ -22,8 +20,6 @@ export class DataProvider {
             logging: msg => Logger.log(msg)
         })
 
-    readonly user = initUserProvider(this._sequelize)
     readonly game = initGameProvider(this._sequelize)
-    readonly team = initTeamProvider(this._sequelize)
-    readonly gamer = initGamerProvider(this._sequelize)
+    readonly player = initPlayerProvider(this._sequelize)
 }

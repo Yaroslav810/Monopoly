@@ -6,11 +6,8 @@ import { guid } from "../../../core/scheme/string";
 export namespace ReserveTeam {
   export const PathVariables = empty
   export const Request = () => object({
-    sessionGame: guid(),
-    userToken: guid(),
+    playerToken: guid(),
     teamId: number()
   })
-  export const Response = () => object({
-    teamToken: guid()
-  })
+  export const Response = () => empty
 }

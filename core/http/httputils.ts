@@ -8,18 +8,15 @@ export function verifyExisting<T>(item: null|T): T {
 	return item
 }
 
-export function verifyUserAccess<T>(item: null|T): T {
-	if (!item) {
-		throw new HttpError(HttpStatus.UNAUTHORIZED, 'Unauthorized');
-	}
-	return item
-}
-
 export function verifyParameter<T>(parametr: T|null, message: string): T {
 	if (parametr == null) {
 		throw new HttpError(HttpStatus.BAD_REQUEST, message);
 	}
 	return parametr
+}
+
+export function sendUnauthorized(message: string = 'Unauthorized') {
+	throw new HttpError(HttpStatus.UNAUTHORIZED, message)
 }
 
 export function sendForbidden(message: string) {

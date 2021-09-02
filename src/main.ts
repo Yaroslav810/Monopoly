@@ -3,7 +3,7 @@ import {SessionStorage} from "./model/SessionStorage";
 import {initApp} from "../core/initApp";
 import {settings} from "../core/Settings";
 import {mainRouts} from "./modules/main/routs";
-import {userRouts} from "./modules/user/routs";
+import {playerRouts} from "./modules/player/routs";
 import {gameRouts} from "./modules/game/routs";
 import { teamRouts } from "./modules/team/routs";
 
@@ -12,7 +12,7 @@ const config = {
 }
 const routs = [
     mainRouts,
-    userRouts,
+    playerRouts,
     gameRouts,
     teamRouts
 ]

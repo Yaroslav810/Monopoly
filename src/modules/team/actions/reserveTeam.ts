@@ -1,25 +1,33 @@
-import { sendForbidden, verifyExisting, verifyParameter, verifyUserAccess } from "../../../../core/http/httputils";
+import { sendForbidden, sendUnauthorized, verifyParameter } from "../../../../core/http/httputils";
+import { empty } from "../../../../core/scheme/raw";
 import { TeamId } from "../../../constants/Team";
+import { DataProvider } from "../../../model/DataProvider";
 import { Action } from "../../_common/Action";
 import { ReserveTeam } from "../schemes";
 
-export const reserveTeam: Action<typeof ReserveTeam> = async ({dataProvider}, _, {sessionGame, userToken, teamId}) => {
-    const game = verifyExisting(await dataProvider.game.getGameByUuid(sessionGame))
-    const user = verifyUserAccess(await dataProvider.user.getUserByUuid(userToken))
+const verifyUserAccess = <T>(player: null|T): T => {
+    if (!player) {
+        sendUnauthorized()
+    }
+    return player as T
+}
+
+const isTeamExist = async (dataProvider: DataProvider, gameUuid: string, teamId: number) => {
+    const player = await dataProvider.player.getPlayerByGameUuidAndTeamId(gameUuid, teamId)
+
+    return (player !== null) ? true : false
+}
+
+export const reserveTeam: Action<typeof ReserveTeam> = async ({dataProvider}, _, {playerToken, teamId}) => {
+    const player = verifyUserAccess(await dataProvider.player.getPlayerByUuid(playerToken))
     verifyParameter(TeamId[teamId], 'If we are playing a sea battle, then you obviously did not get into the team')
-    if (await dataProvider.gamer.getGamerFromGameIdAndUserId(game.id, user.id)) {
+    if (player.teamId) {
         sendForbidden('The user is already reserved for another team in the current game session')
     }
-    if (await dataProvider.gamer.getGamerFromGameIdAndTeamId(game.id, teamId)) {
+    if (await isTeamExist(dataProvider, player.gameUuid, teamId)) {
         sendForbidden('The current role in this game session is already reserved for another team')
     }
-    let team = await dataProvider.team.getTeamByCode(teamId)
-    if (!team) {
-        team = await dataProvider.team.create(teamId)
-    }
-    await dataProvider.gamer.create(game.id, user.id, team.id)
+    await dataProvider.player.updateTeamIdByUuid(teamId, player.uuid)
 
-    return {
-        teamToken: team.uuid
-    }
+    return empty
 }
