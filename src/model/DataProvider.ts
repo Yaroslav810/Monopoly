@@ -11,12 +11,12 @@ import { initCapitalStateProvider } from "./CapitalState";
 import { initCityProductProvider } from "./CityProduct";
 import { initGuardRailwayCompanyProvider } from "./GuardRailwayCompany";
 import { initProductProvider } from "./Product";
-import { initRailwayProvider } from "./railway";
+import { initRailwayProvider } from "./Railway";
 import { initRailwayCompanyProvider } from "./RailwayCompany";
 import { initRiverProvider } from "./River";
 import { initTerrainProvider } from "./Terrain";
 import { initTradeCompanyProvider } from "./TradeCompany";
-import { initWarehouseProvider } from "./warehouse";
+import { initWarehouseProvider } from "./Warehouse";
 
 export class DataProvider {
     public async init() {
