@@ -5,6 +5,18 @@ import {Logger} from "../../core/Logger";
 import {settings} from "../../core/Settings";
 import {initUserProvider} from "./User";
 import { intiGameProvider } from "./Game";
+import {initStaticObjectProvider} from "./StaticObject"
+import {initCityProvider} from "./City";
+import { initCapitalStateProvider } from "./CapitalState";
+import { initCityProductProvider } from "./CityProduct";
+import { initGuardRailwayCompanyProvider } from "./GuardRailwayCompany";
+import { initProductProvider } from "./Product";
+import { initRailwayProvider } from "./railway";
+import { initRailwayCompanyProvider } from "./RailwayCompany";
+import { initRiverProvider } from "./River";
+import { initTerrainProvider } from "./Terrain";
+import { initTradeCompanyProvider } from "./TradeCompany";
+import { initWarehouseProvider } from "./warehouse";
 
 export class DataProvider {
     public async init() {
@@ -30,4 +42,19 @@ export class DataProvider {
     readonly game = intiGameProvider(this._sequelize)
     readonly nativeAmerican = initNativeAmericanProvider(this._sequelize)
     readonly clan = initClanProvider(this._sequelize)
+    readonly staticObject = initStaticObjectProvider(this._sequelize)
+    readonly army = initUserProvider(this._sequelize)
+    readonly terrain = initTerrainProvider(this._sequelize)
+    readonly state = initUserProvider(this._sequelize)
+    readonly city = initCityProvider(this._sequelize)
+    readonly rout = initCityProvider(this._sequelize)
+    readonly capitalState = initCapitalStateProvider(this._sequelize)
+    readonly railwayCompany = initRailwayCompanyProvider(this._sequelize)
+    readonly guardRailwayCompany = initGuardRailwayCompanyProvider(this._sequelize)
+    readonly railway = initRailwayProvider(this._sequelize)
+    readonly warehouse = initWarehouseProvider(this._sequelize)
+    readonly tradeCompany = initTradeCompanyProvider(this._sequelize)
+    readonly CityProduct = initCityProductProvider(this._sequelize)
+    readonly Product = initProductProvider(this._sequelize)
+    readonly River = initRiverProvider(this._sequelize)
 }

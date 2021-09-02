@@ -2,8 +2,7 @@ import {Sequelize, DataTypes, Model, BuildOptions} from "sequelize";
 
 class Clan extends Model {
     public id!: string;
-    public name!: string;
-    public color!: string;    
+    public name!: string;   
 }
 
 type ClanStatic = typeof Model & {
@@ -19,10 +18,6 @@ export function initClanProvider(sequelize: Sequelize) {
             allowNull: false,
         },
         name: {
-            type: DataTypes.STRING(45),
-            allowNull: false,
-        },
-        color: {
             type: DataTypes.STRING(45),
             allowNull: false,
         }
