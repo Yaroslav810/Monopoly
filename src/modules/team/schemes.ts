@@ -1,3 +1,4 @@
+import { array } from "../../../core/scheme/array";
 import { number } from "../../../core/scheme/number";
 import { object } from "../../../core/scheme/object";
 import { empty } from "../../../core/scheme/raw";
@@ -10,4 +11,12 @@ export namespace ReserveTeam {
     teamId: number()
   })
   export const Response = () => empty
+}
+
+export namespace FreeTeam {
+  export const PathVariables = empty
+  export const Request = () => object({
+    gameToken: guid(),
+  })
+  export const Response = () => array(number())
 }
