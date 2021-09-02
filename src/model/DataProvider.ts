@@ -1,12 +1,12 @@
-import {Sequelize} from "sequelize";
-import {initNativeAmericanProvider} from "./NativeAmerican";
-import {initClanProvider} from "./Clan";
-import {Logger} from "../../core/Logger";
-import {settings} from "../../core/Settings";
-import {initUserProvider} from "./User";
+import { Sequelize } from "sequelize";
+import { initNativeAmericanProvider } from "./NativeAmerican";
+import { initClanProvider } from "./Clan";
+import { Logger } from "../../core/Logger";
+import { settings } from "../../core/Settings";
+import { initUserProvider } from "./User";
 import { intiGameProvider } from "./Game";
-import {initStaticObjectProvider} from "./StaticObject"
-import {initCityProvider} from "./City";
+import { initStaticObjectProvider } from "./StaticObject"
+import { initCityProvider } from "./City";
 import { initCapitalStateProvider } from "./CapitalState";
 import { initCityProductProvider } from "./CityProduct";
 import { initGuardRailwayCompanyProvider } from "./GuardRailwayCompany";
