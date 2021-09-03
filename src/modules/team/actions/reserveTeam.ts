@@ -1,6 +1,5 @@
-import { sendForbidden, sendUnauthorized, verifyParameter } from "../../../../core/http/httputils";
+import { sendForbidden, sendUnauthorized } from "../../../../core/http/httputils";
 import { empty } from "../../../../core/scheme/raw";
-import { TeamId } from "../../../constants/Team";
 import { DataProvider } from "../../../model/DataProvider";
 import { Action } from "../../_common/Action";
 import { ReserveTeam } from "../schemes";

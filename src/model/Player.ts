@@ -74,10 +74,10 @@ export function initPlayerProvider(sequelize: Sequelize) {
                 }
             })
         },
-        getPlayersByGameUuid(gameUuid: string) {
+        getPlayersByGameId(gameId: string) {
             return playerProvider.findAll({
                 where: {
-                    gameUuid: gameUuid
+                    gameId: gameId
                 }
             })
         },

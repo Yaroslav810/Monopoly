@@ -4,8 +4,8 @@ import { Action } from "../../_common/Action";
 import { FreeTeam } from "../schemes";
 
 export const getFreeTeams: Action<typeof FreeTeam> = async ({dataProvider}, _, {gameToken}) => {
-    verifyExisting(await dataProvider.game.getGameByUuid(gameToken))
-    const players = await dataProvider.player.getPlayersByGameUuid(gameToken)
+    verifyExisting(await dataProvider.game.getGameById(gameToken))
+    const players = await dataProvider.player.getPlayersByGameId(gameToken)
 
     const busyTeams: Array<number> = []
     players.forEach(player => {
