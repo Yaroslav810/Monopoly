@@ -2,10 +2,10 @@ import { BuildOptions, DataTypes, Model, Sequelize } from "sequelize";
 import { generateUUId } from "../../core/utils/UUIDUtils";
 
 class Player extends Model {
-    public uuid!: string;
+    public id!: string;
     public name!: string;
     public teamId!: number;
-    public gameUuid!: string;
+    public gameId!: string;
 }
 
 type PlayerStatic = typeof Model & {
@@ -14,7 +14,7 @@ type PlayerStatic = typeof Model & {
 
 export function initPlayerProvider(sequelize: Sequelize) {
     const playerProvider = <PlayerStatic>sequelize.define('Player', {
-        uuid: {
+        id: {
             type: DataTypes.UUID,
             primaryKey: true,
             unique: true,
@@ -28,15 +28,15 @@ export function initPlayerProvider(sequelize: Sequelize) {
             type: DataTypes.INTEGER,
             field: 'team_id'
         },
-        gameUuid: {
+        gameId: {
             type: DataTypes.UUID,
             allowNull: false,
             references: {
                 model: 'Game',
-                key: 'Uuid'
+                key: 'Id'
             },
             onDelete: "cascade",
-            field: 'game_uuid'
+            field: 'game_id'
         }
     }, 
     {
@@ -44,42 +44,42 @@ export function initPlayerProvider(sequelize: Sequelize) {
         indexes: [
             {
                 unique: true,
-                fields: ['team_id', 'game_uuid']
+                fields: ['team_id', 'game_id']
             }
         ],
         underscored: true
     })
 
     return {
-        create(player: {name: string, gameUuid: string, teamId: number | null}) {
+        create(player: {name: string, gameId: string, teamId: number | null}) {
             return playerProvider.create({
-                uuid: generateUUId(),
+                id: generateUUId(),
                 name: player.name,
                 teamId: player.teamId,
-                gameUuid: player.gameUuid
+                gameId: player.gameId
             })
         },
-        getPlayerByUuid(uuid: string) {
+        getPlayerById(id: string) {
             return playerProvider.findOne({
                 where: {
-                    uuid: uuid
+                    id: id
                 }
             })
         },
-        getPlayerByGameUuidAndTeamId(gameUuid: string, teamId: number) {
+        getPlayerByGameIdAndTeamId(gameId: string, teamId: number) {
             return playerProvider.findOne({
                 where: {
-                    gameUuid: gameUuid,
+                    gameId: gameId,
                     teamId: teamId
                 }
             })
         },
-        updateTeamIdByUuid(teamId: number, uuid: string) {
+        updateTeamIdById(teamId: number, id: string) {
             return playerProvider.update({
                 teamId: teamId
             }, {
                 where: {
-                    uuid: uuid
+                    id: id
                 }
             })
         }
