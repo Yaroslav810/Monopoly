@@ -1,18 +1,18 @@
 import {Sequelize, DataTypes, Model, BuildOptions} from "sequelize";
 import {generateUUId} from "../../core/utils/UUIDUtils";
 
-class CapitalState extends Model {
+class CapitalTeam extends Model {
     public id!: number;
     public cityId!: number;
     public roleId!: number;
 }
 
-type CapitalStateStatic = typeof Model & {
-    new (values?: object, options?: BuildOptions): CapitalState;
+type CapitalTeamStatic = typeof Model & {
+    new (values?: object, options?: BuildOptions): CapitalTeam;
 }
 
 export function initCapitalStateProvider(sequelize: Sequelize) {
-    const CapitalStateProvider = <CapitalStateStatic>sequelize.define('capital_state', {
+    const CapitalTeamProvider = <CapitalTeamStatic>sequelize.define('capital_team', {
         id: {
             type: DataTypes.STRING(32),
             primaryKey: true,
@@ -30,8 +30,8 @@ export function initCapitalStateProvider(sequelize: Sequelize) {
         }
     });
     return {
-        get(CapitalStateID: string) {
-            return CapitalStateProvider.findByPk(CapitalStateID)
+        get(CapitalTeamID: string) {
+            return CapitalTeamProvider.findByPk(CapitalTeamID)
         }
     }
 }

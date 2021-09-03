@@ -20,7 +20,7 @@ export function intiGameProvider(sequelize: Sequelize) {
             allowNull: false
         },
         uuid: {
-            type: DataTypes.UUID,
+            type: DataTypes.STRING,
             unique: true,
             allowNull: false
         }

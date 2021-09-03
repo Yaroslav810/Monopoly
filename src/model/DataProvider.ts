@@ -6,7 +6,7 @@ import { initUserProvider } from "./User";
 import { intiGameProvider } from "./Game";
 import { initStaticObjectProvider } from "./StaticObject"
 import { initCityProvider } from "./City";
-import { initCapitalStateProvider } from "./CapitalState";
+import { initCapitalStateProvider } from "./CapitalTeam";
 import { initCityProductProvider } from "./CityProduct";
 import { initGuardRailwayCompanyProvider } from "./GuardRailwayCompany";
 import { initRailwayProvider } from "./Railway";
