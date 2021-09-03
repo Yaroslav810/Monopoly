@@ -2,25 +2,18 @@ import { BuildOptions, DataTypes, Model, Sequelize } from "sequelize";
 import { generateUUId } from "../../core/utils/UUIDUtils";
 
 class Game extends Model {
-    public id!: number;
-    public uuid!: string;
+    public id!: string;
 }
 
 type GameStatic = typeof Model & {
     new (values?: object, options?: BuildOptions): Game
 }
 
-export function intiGameProvider(sequelize: Sequelize) {
+export function initGameProvider(sequelize: Sequelize) {
     const gameProvider = <GameStatic>sequelize.define('game', {
         id: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.UUID,
             primaryKey: true,
-            autoIncrement: true,
-            unique: true,
-            allowNull: false
-        },
-        uuid: {
-            type: DataTypes.STRING,
             unique: true,
             allowNull: false
         }
@@ -29,7 +22,14 @@ export function intiGameProvider(sequelize: Sequelize) {
     return {
         create() {
             return gameProvider.create({
-                uuid: generateUUId()
+                id: generateUUId()
+            })
+        },
+        getGameById(id: string) {
+            return gameProvider.findOne({
+                where: {
+                    id: id
+                }
             })
         }
     }
