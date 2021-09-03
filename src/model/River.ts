@@ -1,4 +1,5 @@
 import {Sequelize, DataTypes, Model, BuildOptions} from "sequelize";
+import {generateUUId} from "../../core/utils/UUIDUtils";
 
 class River extends Model {
     public id!: number;
@@ -15,10 +16,11 @@ type RiverStatic = typeof Model & {
 export function initRiverProvider(sequelize: Sequelize) {
     const RiverProvider = <RiverStatic>sequelize.define('river', {
         id: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING(32),
             primaryKey: true,
             unique: true,
             allowNull: false,
+            defaultValue: generateUUId
         },
         addressVert1: {
             type: DataTypes.SMALLINT,

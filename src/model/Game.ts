@@ -11,7 +11,7 @@ type GameStatic = typeof Model & {
 }
 
 export function intiGameProvider(sequelize: Sequelize) {
-    const gameProvider = <GameStatic>sequelize.define('Game', {
+    const gameProvider = <GameStatic>sequelize.define('game', {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
@@ -24,10 +24,6 @@ export function intiGameProvider(sequelize: Sequelize) {
             unique: true,
             allowNull: false
         }
-    }, 
-    {
-        freezeTableName: true,
-        createdAt: 'creationDate'
     })
 
     return {

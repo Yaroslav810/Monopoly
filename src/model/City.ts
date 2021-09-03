@@ -1,11 +1,12 @@
 import {Sequelize, DataTypes, Model, BuildOptions} from "sequelize";
+import {generateUUId} from "../../core/utils/UUIDUtils";
 
 class City extends Model {
     public id!: number;
     public name!: string;
     public addressVert!: number;
     public addressHoriz!: number;
-    public state!: number;
+    public roleId!: number;
 }
 
 type CityStatic = typeof Model & {
@@ -15,10 +16,11 @@ type CityStatic = typeof Model & {
 export function initCityProvider(sequelize: Sequelize) {
     const CityProvider = <CityStatic>sequelize.define('city', {
         id: {
-            type: DataTypes.SMALLINT,
+            type: DataTypes.STRING(32),
             primaryKey: true,
             unique: true,
             allowNull: false,
+            defaultValue: generateUUId
         },
         name: {
             type: DataTypes.STRING,
@@ -32,7 +34,7 @@ export function initCityProvider(sequelize: Sequelize) {
             type: DataTypes.SMALLINT,
             allowNull: false,
         },
-        state: {
+        roleId: {
             type: DataTypes.TINYINT,
             allowNull: true,
         }

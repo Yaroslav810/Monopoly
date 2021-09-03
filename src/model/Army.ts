@@ -1,11 +1,12 @@
 import {Sequelize, DataTypes, Model, BuildOptions} from "sequelize";
+import {generateUUId} from "../../core/utils/UUIDUtils";
 
 class Army extends Model {
     public id!: number;
     public addressVert!: number;
     public addressHoriz!: number;
     public quantity!: number;
-    public state!: number;
+    public roleId!: number;
 }
 
 type ArmyStatic = typeof Model & {
@@ -15,10 +16,11 @@ type ArmyStatic = typeof Model & {
 export function initArmyProvider(sequelize: Sequelize) {
     const ArmyProvider = <ArmyStatic>sequelize.define('army', {
         id: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING(32),
             primaryKey: true,
             unique: true,
             allowNull: false,
+            defaultValue: generateUUId
         },
         addressVert: {
             type: DataTypes.SMALLINT,
@@ -32,7 +34,7 @@ export function initArmyProvider(sequelize: Sequelize) {
           type: DataTypes.TINYINT,
           allowNull: false,
         },
-        state: {
+        roleId: {
             type: DataTypes.TINYINT,
             allowNull: false,
         }

@@ -1,9 +1,10 @@
 import {Sequelize, DataTypes, Model, BuildOptions} from "sequelize";
+import {generateUUId} from "../../core/utils/UUIDUtils";
 
 class Warehouse extends Model {
     public id!: number;
-    public tradeCompany!: number;
-    public city!: number;
+    public tradeCompanyId!: number;
+    public cityId!: number;
     public quantity!: number;
 }
 
@@ -14,16 +15,17 @@ type WarehouseStatic = typeof Model & {
 export function initWarehouseProvider(sequelize: Sequelize) {
     const WarehouseProvider = <WarehouseStatic>sequelize.define('warehouse', {
         id: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING(32),
             primaryKey: true,
             unique: true,
             allowNull: false,
+            defaultValue: generateUUId
         },
-        tradeCompany: {
+        tradeCompanyId: {
             type: DataTypes.TINYINT,
             allowNull: false,
         },
-        city: {
+        cityId: {
             type: DataTypes.SMALLINT,
             allowNull: false,
         },

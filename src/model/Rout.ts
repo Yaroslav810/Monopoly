@@ -1,10 +1,11 @@
 import {Sequelize, DataTypes, Model, BuildOptions} from "sequelize";
+import {generateUUId} from "../../core/utils/UUIDUtils";
 
 class Rout extends Model {
     public id!: number;
-    public city1!: number;
-    public city2!: number;
-    public railwayCompany!: number;
+    public cityId1!: number;
+    public cityId2!: number;
+    public railwayCompanyId!: number;
     public cost!: number;
 }
 
@@ -15,20 +16,21 @@ type RoutStatic = typeof Model & {
 export function initRoutProvider(sequelize: Sequelize) {
     const RoutProvider = <RoutStatic>sequelize.define('rout', {
         id: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING(32),
             primaryKey: true,
             unique: true,
             allowNull: false,
+            defaultValue: generateUUId
         },
-        city1: {
+        cityId1: {
             type: DataTypes.SMALLINT,
             allowNull: false,
         },
-        city2: {
+        cityId2: {
           type: DataTypes.SMALLINT,
           allowNull: false,
         },
-        railwayCompany: {
+        railwayCompanyId: {
             type: DataTypes.TINYINT,
             allowNull: false,
         },

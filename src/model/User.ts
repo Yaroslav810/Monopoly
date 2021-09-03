@@ -13,7 +13,7 @@ type UserStatic = typeof Model & {
 export function initUserProvider(sequelize: Sequelize) {
     const userProvider = <UserStatic>sequelize.define('user', {
         id: {
-            type: DataTypes.STRING(36),
+            type: DataTypes.STRING(32),
             primaryKey: true,
             unique: true,
             allowNull: false,

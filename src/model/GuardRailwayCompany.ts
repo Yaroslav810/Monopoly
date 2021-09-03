@@ -1,11 +1,12 @@
 import {Sequelize, DataTypes, Model, BuildOptions} from "sequelize";
+import {generateUUId} from "../../core/utils/UUIDUtils";
 
 class GuardRailwayCompany extends Model {
     public id!: number;
     public addressVert!: number;
     public addressHoriz!: number;
     public quantity!: number;
-    public railwayCompany!: number;
+    public railwayCompanyId!: number;
 }
 
 type GuardRailwayCompanyStatic = typeof Model & {
@@ -15,10 +16,11 @@ type GuardRailwayCompanyStatic = typeof Model & {
 export function initGuardRailwayCompanyProvider(sequelize: Sequelize) {
     const GuardRailwayCompanyProvider = <GuardRailwayCompanyStatic>sequelize.define('guard_railway_company', {
         id: {
-            type: DataTypes.SMALLINT,
+            type: DataTypes.STRING(32),
             primaryKey: true,
             unique: true,
             allowNull: false,
+            defaultValue: generateUUId
         },
         addressVert: {
             type: DataTypes.SMALLINT,
@@ -32,7 +34,7 @@ export function initGuardRailwayCompanyProvider(sequelize: Sequelize) {
             type: DataTypes.TINYINT,
             allowNull: false,
         },
-        railwayCompany: {
+        railwayCompanyId: {
             type: DataTypes.TINYINT,
             allowNull: false,
         }

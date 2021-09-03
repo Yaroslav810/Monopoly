@@ -1,11 +1,12 @@
 import {Sequelize, DataTypes, Model, BuildOptions} from "sequelize";
+import {generateUUId} from "../../core/utils/UUIDUtils";
 
 class NativeAmerican extends Model {
     public id!: string;
     public addressVert!: number;
     public addressHoriz!: number;
     public activity!: number;
-    public clan!: number;
+    public clanId!: number;
 }
 
 type NativeAmericanStatic = typeof Model & {
@@ -15,10 +16,11 @@ type NativeAmericanStatic = typeof Model & {
 export function initNativeAmericanProvider(sequelize: Sequelize) {
     const NativeAmericanProvider = <NativeAmericanStatic>sequelize.define('native_american', {
         id: {
-            type: DataTypes.STRING(36),
+            type: DataTypes.STRING(32),
             primaryKey: true,
             unique: true,
             allowNull: false,
+            defaultValue: generateUUId
         },
         addressVert: {
             type: DataTypes.SMALLINT,
@@ -32,7 +34,7 @@ export function initNativeAmericanProvider(sequelize: Sequelize) {
             type: DataTypes.TINYINT,
             allowNull: false,
         },
-        clan: {
+        clanId: {
             type: DataTypes.TINYINT,
             allowNull: false,
         }

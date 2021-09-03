@@ -1,10 +1,11 @@
 import {Sequelize, DataTypes, Model, BuildOptions} from "sequelize";
+import {generateUUId} from "../../core/utils/UUIDUtils";
 
 class StaticObject extends Model {
     public id!: number;
     public addressVert!: number;
     public addressHoriz!: number;
-    public terrain!: number;
+    public terrainId!: number;
 }
 
 type StaticObjectType = typeof Model & {
@@ -14,10 +15,11 @@ type StaticObjectType = typeof Model & {
 export function initStaticObjectProvider(sequelize: Sequelize) {
     const StaticObjectProvider = <StaticObjectType>sequelize.define('static_object', {
         id: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING(32),
             primaryKey: true,
             unique: true,
             allowNull: false,
+            defaultValue: generateUUId
         },
         addressVert: {
             type: DataTypes.SMALLINT,
@@ -27,7 +29,7 @@ export function initStaticObjectProvider(sequelize: Sequelize) {
             type: DataTypes.SMALLINT,
             allowNull: false,
         },
-        terrain: {
+        terrainId: {
             type: DataTypes.TINYINT,
             allowNull: false,
         }

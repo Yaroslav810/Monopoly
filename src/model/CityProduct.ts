@@ -1,11 +1,12 @@
 import {Sequelize, DataTypes, Model, BuildOptions} from "sequelize";
+import {generateUUId} from "../../core/utils/UUIDUtils";
 
 class CityProduct extends Model {
     public id!: number;
-    public city!: number;
-    public product!: number;
+    public cityId!: number;
+    public productId!: number;
     public price!: number;
-    public tradeCompany!: number;
+    public tradeCompanyId!: number;
 }
 
 type CityProductStatic = typeof Model & {
@@ -15,16 +16,17 @@ type CityProductStatic = typeof Model & {
 export function initCityProductProvider(sequelize: Sequelize) {
     const CityProductProvider = <CityProductStatic>sequelize.define('city_product', {
         id: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING(32),
             primaryKey: true,
             unique: true,
             allowNull: false,
+            defaultValue: generateUUId
         },
-        city: {
+        cityId: {
             type: DataTypes.SMALLINT,
             allowNull: false,
         },
-        product: {
+        productId: {
             type: DataTypes.TINYINT,
             allowNull: false,
         },
@@ -32,7 +34,7 @@ export function initCityProductProvider(sequelize: Sequelize) {
             type: DataTypes.SMALLINT,
             allowNull: false,
         },
-        tradeCompany: {
+        tradeCompanyId: {
             type: DataTypes.SMALLINT,
             allowNull: false,
         }

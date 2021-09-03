@@ -1,9 +1,10 @@
 import {Sequelize, DataTypes, Model, BuildOptions} from "sequelize";
+import {generateUUId} from "../../core/utils/UUIDUtils";
 
 class CapitalState extends Model {
     public id!: number;
-    public city!: number;
-    public state!: number;
+    public cityId!: number;
+    public roleId!: number;
 }
 
 type CapitalStateStatic = typeof Model & {
@@ -13,16 +14,17 @@ type CapitalStateStatic = typeof Model & {
 export function initCapitalStateProvider(sequelize: Sequelize) {
     const CapitalStateProvider = <CapitalStateStatic>sequelize.define('capital_state', {
         id: {
-            type: DataTypes.TINYINT,
+            type: DataTypes.STRING(32),
             primaryKey: true,
             unique: true,
             allowNull: false,
+            defaultValue: generateUUId
         },
-        city: {
+        cityId: {
             type: DataTypes.SMALLINT,
             allowNull: false,
         },
-        state: {
+        roleId: {
             type: DataTypes.TINYINT,
             allowNull: false,
         }
