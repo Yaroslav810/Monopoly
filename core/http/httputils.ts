@@ -14,3 +14,11 @@ export function verifyParameter<T>(parametr: T|null, message: string): T {
 	}
 	return parametr
 }
+
+export function sendUnauthorized(message: string = 'Unauthorized') {
+	throw new HttpError(HttpStatus.UNAUTHORIZED, message)
+}
+
+export function sendForbidden(message: string) {
+	throw new HttpError(HttpStatus.FORBIDDEN, message);
+}

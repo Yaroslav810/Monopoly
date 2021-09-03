@@ -13,7 +13,7 @@ export class Router<DATA, SESSION_DATA> implements IRouter<DATA, SESSION_DATA> {
 		this._dataProvider = dataProvider;
 	}
 
-	addRout<PATH, REQUEST, RESPONSE>(rout: Route<DATA, SESSION_DATA , PATH, REQUEST, RESPONSE>): void {
+	addRout<PATH, REQUEST, RESPONSE>(rout: Route<DATA, SESSION_DATA, PATH, REQUEST, RESPONSE>): void {
 		this._server.listen(
 			rout.method,
 			rout.path,
@@ -48,6 +48,10 @@ export class Router<DATA, SESSION_DATA> implements IRouter<DATA, SESSION_DATA> {
 					return res.redirect(error.message);
 				case HttpStatus.BAD_REQUEST:
 					return res.resolveText(`Bad request: ${error.message}`);
+				case HttpStatus.UNAUTHORIZED:
+					return res.resolveText(`Unaithorized: ${error.message}`);
+				case HttpStatus.FORBIDDEN:
+					return res.resolveText(`Forbidden: ${error.message}`);
 				case HttpStatus.NOT_FOUND:
 					return res.resolveText(`Not found: ${error.message}`);
 			}
