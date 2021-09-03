@@ -74,6 +74,13 @@ export function initPlayerProvider(sequelize: Sequelize) {
                 }
             })
         },
+        getPlayersByGameId(gameId: string) {
+            return playerProvider.findAll({
+                where: {
+                    gameId: gameId
+                }
+            })
+        },
         updateTeamIdById(teamId: number, id: string) {
             return playerProvider.update({
                 teamId: teamId
