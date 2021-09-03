@@ -2,7 +2,6 @@ import { Sequelize } from "sequelize";
 import { initNativeAmericanProvider } from "./NativeAmerican";
 import { Logger } from "../../core/Logger";
 import { settings } from "../../core/Settings";
-import { initUserProvider } from "./User";
 import { initGameProvider } from "./Game";
 import { initStaticObjectProvider } from "./StaticObject"
 import { initCityProvider } from "./City";
@@ -13,6 +12,7 @@ import { initRailwayProvider } from "./Railway";
 import { initRiverProvider } from "./River";
 import { initWarehouseProvider } from "./Warehouse";
 import { initPlayerProvider } from "./Player";
+import { initArmyProvider } from "./Army";
 
 export class DataProvider {
     public async init() {
@@ -34,12 +34,10 @@ export class DataProvider {
             }
         })
 
-    readonly user = initUserProvider(this._sequelize)
     readonly game = initGameProvider(this._sequelize)
     readonly nativeAmerican = initNativeAmericanProvider(this._sequelize)
     readonly staticObject = initStaticObjectProvider(this._sequelize)
-    readonly army = initUserProvider(this._sequelize)
-    readonly state = initUserProvider(this._sequelize)
+    readonly army = initArmyProvider(this._sequelize)
     readonly city = initCityProvider(this._sequelize)
     readonly rout = initCityProvider(this._sequelize)
     readonly capitalState = initCapitalStateProvider(this._sequelize)
