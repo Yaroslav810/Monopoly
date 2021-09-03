@@ -5,6 +5,6 @@ export const createGame: Action<typeof CreateGame> = async ({dataProvider}) => {
     const game = await dataProvider.game.create()
     await game.save()
     return {
-        session: game.uuid
+        session: game.id
     }
 }

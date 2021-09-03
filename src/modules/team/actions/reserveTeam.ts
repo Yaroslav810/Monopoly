@@ -12,22 +12,21 @@ const verifyUserAccess = <T>(player: null|T): T => {
     return player as T
 }
 
-const isTeamExist = async (dataProvider: DataProvider, gameUuid: string, teamId: number) => {
-    const player = await dataProvider.player.getPlayerByGameUuidAndTeamId(gameUuid, teamId)
+const isTeamExist = async (dataProvider: DataProvider, gameId: string, teamId: number) => {
+    const player = await dataProvider.player.getPlayerByGameIdAndTeamId(gameId, teamId)
 
     return (player !== null) ? true : false
 }
 
 export const reserveTeam: Action<typeof ReserveTeam> = async ({dataProvider}, _, {playerToken, teamId}) => {
-    const player = verifyUserAccess(await dataProvider.player.getPlayerByUuid(playerToken))
-    verifyParameter(TeamId[teamId], 'If we are playing a sea battle, then you obviously did not get into the team')
+    const player = verifyUserAccess(await dataProvider.player.getPlayerById(playerToken))
     if (player.teamId) {
         sendForbidden('The user is already reserved for another team in the current game session')
     }
-    if (await isTeamExist(dataProvider, player.gameUuid, teamId)) {
+    if (await isTeamExist(dataProvider, player.gameId, teamId)) {
         sendForbidden('The current role in this game session is already reserved for another team')
     }
-    await dataProvider.player.updateTeamIdByUuid(teamId, player.uuid)
+    await dataProvider.player.updateTeamIdById(teamId, player.id)
 
     return empty
 }
