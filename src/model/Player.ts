@@ -12,8 +12,8 @@ type PlayerStatic = typeof Model & {
     new (values?: object, options?: BuildOptions): Player
 }
 
-export function initPlayerProvider(sequelize: Sequelize) {
-    const playerProvider = <PlayerStatic>sequelize.define('Player', {
+export const PlayerCreator = {
+    model: (sequelize: Sequelize) => <PlayerStatic>sequelize.define('Player', {
         id: {
             type: DataTypes.UUID,
             primaryKey: true,
@@ -38,21 +38,14 @@ export function initPlayerProvider(sequelize: Sequelize) {
             onDelete: "cascade",
             field: 'game_id'
         }
-    }, 
+    },
     {
         freezeTableName: true,
-        indexes: [
-            {
-                unique: true,
-                fields: ['team_id', 'game_id']
-            }
-        ],
         underscored: true
-    })
-
-    return {
+    }),
+    provider: (model: PlayerStatic) => ({
         create(player: {name: string, gameId: string, teamId: number | null}) {
-            return playerProvider.create({
+            return model.create({
                 id: generateUUId(),
                 name: player.name,
                 teamId: player.teamId,
@@ -60,14 +53,14 @@ export function initPlayerProvider(sequelize: Sequelize) {
             })
         },
         getPlayerById(id: string) {
-            return playerProvider.findOne({
+            return model.findOne({
                 where: {
                     id: id
                 }
             })
         },
         getPlayerByGameIdAndTeamId(gameId: string, teamId: number) {
-            return playerProvider.findOne({
+            return model.findOne({
                 where: {
                     gameId: gameId,
                     teamId: teamId
@@ -75,14 +68,14 @@ export function initPlayerProvider(sequelize: Sequelize) {
             })
         },
         getPlayersByGameId(gameId: string) {
-            return playerProvider.findAll({
+            return model.findAll({
                 where: {
                     gameId: gameId
                 }
             })
         },
         updateTeamIdById(teamId: number, id: string) {
-            return playerProvider.update({
+            return model.update({
                 teamId: teamId
             }, {
                 where: {
@@ -90,5 +83,5 @@ export function initPlayerProvider(sequelize: Sequelize) {
                 }
             })
         }
-    }
+    })
 }

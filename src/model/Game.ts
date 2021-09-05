@@ -1,40 +1,38 @@
-import { BuildOptions, DataTypes, Model, Sequelize } from "sequelize";
-import { generateUUId } from "../../core/utils/UUIDUtils";
+import {BuildOptions, DataTypes, Model, Sequelize} from "sequelize";
+import {generateUUId} from "../../core/utils/UUIDUtils";
 
 class Game extends Model {
     public id!: string;
 }
 
-type GameStatic = typeof Model & {
-    new (values?: object, options?: BuildOptions): Game
+type GameStatic = typeof Game & {
+    new(values?: object, options?: BuildOptions): Game
 }
 
-export function initGameProvider(sequelize: Sequelize) {
-    const gameProvider = <GameStatic>sequelize.define('Game', {
+export const GameCreator = {
+    model: (sequelize: Sequelize) => <GameStatic>sequelize.define('Game', {
         id: {
             type: DataTypes.UUID,
             primaryKey: true,
             unique: true,
             allowNull: false
         }
-    }, 
-    {
+    }, {
         freezeTableName: true,
         createdAt: 'creationDate'
-    })
-
-    return {
+    }),
+    provider: (model: GameStatic) => ({
         create() {
-            return gameProvider.create({
+            return model.create({
                 id: generateUUId()
             })
         },
         getGameById(id: string) {
-            return gameProvider.findOne({
+            return model.findOne({
                 where: {
                     id: id
                 }
             })
         }
-    }
+    })
 }

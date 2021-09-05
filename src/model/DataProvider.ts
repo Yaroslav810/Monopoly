@@ -1,25 +1,27 @@
-import {Sequelize} from "sequelize";
+import {settings} from "../Settings";
+import {initSequelizeDataProvider, SequelizeDataProvider} from "../../core/model/initSequelizeDataProvider";
 import {Logger} from "../../core/Logger";
-import {settings} from "../../core/Settings";
-import { initGameProvider } from "./Game";
-import { initPlayerProvider } from "./Player";
+import {GameCreator} from "./Game";
+import {PlayerCreator} from "./Player";
 
-export class DataProvider {
-    public async init() {
-        return this._sequelize.sync({ force: true })
-    }
+export type DataProvider = SequelizeDataProvider<typeof initDataProvider>
 
-    private _sequelize = new Sequelize(
-        settings.DB_NAME, 
-        settings.DB_USER, 
-        settings.DB_PASSWORD, 
-        {
+export function initDataProvider() {
+    return initSequelizeDataProvider({
+        name: settings.DB_NAME,
+        user: settings.DB_USER,
+        password: settings.DB_PASSWORD,
+        options: {
             dialect: 'mysql',
             host: settings.DB_HOST,
             port: settings.DB_PORT,
             logging: msg => Logger.log(msg)
-        })
-
-    readonly game = initGameProvider(this._sequelize)
-    readonly player = initPlayerProvider(this._sequelize)
+        }
+    }, {
+        game: GameCreator,
+        player: PlayerCreator,
+    }, ({game, player}) => {
+        game.hasMany(player)
+        player.belongsTo(game)
+    })
 }

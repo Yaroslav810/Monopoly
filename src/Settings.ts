@@ -1,5 +1,5 @@
 import * as dotenv from "dotenv";
-import { Logger } from "./Logger";
+import { Logger } from "../core/Logger";
 
 class Settings {
   readonly APP_PORT: number;
@@ -11,8 +11,8 @@ class Settings {
 
   constructor() {
     dotenv.config();
-    if (!process.env["APP_PORT"] || !process.env["DB_HOST"] 
-      || !process.env["DB_NAME"] || !process.env["DB_USER"] 
+    if (!process.env["APP_PORT"] || !process.env["DB_HOST"]
+      || !process.env["DB_NAME"] || !process.env["DB_USER"]
       || !process.env["DB_PASSWORD"] || !process.env["DB_PORT"]) {
         Logger.error('You need to fill in the .env file')
         throw new Error('No data in .env')
