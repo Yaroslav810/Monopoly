@@ -1,5 +1,5 @@
-import { BuildOptions, DataTypes, Model, Sequelize } from "sequelize";
-import { generateUUId } from "../../core/utils/UUIDUtils";
+import {BuildOptions, DataTypes, Model, Sequelize} from "sequelize";
+import {generateUUId} from "../../core/utils/UUIDUtils";
 
 class Player extends Model {
     public id!: string;

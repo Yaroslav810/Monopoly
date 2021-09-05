@@ -1,9 +1,21 @@
-import {Model, Options, Sequelize} from "sequelize";
+import {Model, ModelCtor, Options, Sequelize} from "sequelize";
 import {verify} from "../utils/typeutils";
 
 type ModelCreator<MODEL extends typeof Model, PROVIDER> = {
     readonly model: (s: Sequelize) => MODEL,
     readonly provider: (m: MODEL) => PROVIDER,
+}
+
+type Models<CREATORS extends {
+    [key: string]: ModelCreator<ModelCtor<Model>, any>
+}> = {
+    [key in keyof CREATORS]: ReturnType<CREATORS[key]['model']>
+}
+
+type Providers<CREATORS extends {
+    [key: string]: ModelCreator<ModelCtor<Model>, any>
+}> = {
+    [key in keyof CREATORS]: ReturnType<CREATORS[key]['provider']>
 }
 
 type DBSettings = {
@@ -14,33 +26,27 @@ type DBSettings = {
 }
 
 export function initSequelizeDataProvider<
-    MODELS extends {
-        [key in keyof MODELS]: typeof Model
-    },
-    PROVIDERS  extends {
-        [key in keyof MODELS]: any
+    CREATORS extends {
+        [key: string]: ModelCreator<any, any>
     }
-    >(
+>(
     dbSettings: DBSettings,
-    creators: {
-        [key in keyof MODELS]: ModelCreator<MODELS[key], PROVIDERS[key]>
-    },
-    bindRelationships: (m: MODELS) => void,
-) {
+    creators: CREATORS,
+    bindRelationships: (m: Models<CREATORS>) => void,
+): Promise<Providers<CREATORS>> {
     const sequelize = new Sequelize(
         dbSettings.name,
         dbSettings.user,
         dbSettings.password,
         dbSettings.options,
     )
-    const providers: PROVIDERS = {} as PROVIDERS;
-    const models: MODELS = {} as MODELS;
+    const providers: Providers<CREATORS> = {} as Providers<CREATORS>;
+    const models: Models<CREATORS> = {} as Models<CREATORS>;
     for (const key of Object.keys(creators)) {
-        const creator = verify(creators[key as keyof MODELS])
+        const creator = verify(creators[key as keyof CREATORS])
         const model = creator.model(sequelize)
-        const provider = creator.provider(model)
-        models[key as keyof MODELS] = model
-        providers[key as keyof MODELS] = provider
+        models[key as keyof CREATORS] = model
+        providers[key as keyof CREATORS] = creator.provider(model)
     }
     bindRelationships(models)
 
