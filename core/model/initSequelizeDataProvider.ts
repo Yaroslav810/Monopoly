@@ -25,11 +25,9 @@ type DBSettings = {
     options?: Options,
 }
 
-export function initSequelizeDataProvider<
-    CREATORS extends {
-        [key: string]: ModelCreator<any, any>
-    }
->(
+export function initSequelizeDataProvider<CREATORS extends {
+    [key: string]: ModelCreator<any, any>
+}>(
     dbSettings: DBSettings,
     creators: CREATORS,
     bindRelationships: (m: Models<CREATORS>) => void,
