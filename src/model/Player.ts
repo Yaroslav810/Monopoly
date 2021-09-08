@@ -13,9 +13,9 @@ type PlayerStatic = typeof Model & {
 }
 
 export function initPlayerProvider(sequelize: Sequelize) {
-    const playerProvider = <PlayerStatic>sequelize.define('Player', {
+    const playerProvider = <PlayerStatic>sequelize.define('player', {
         id: {
-            type: DataTypes.UUID,
+            type: DataTypes.STRING(32),
             primaryKey: true,
             unique: true,
             allowNull: false
@@ -25,14 +25,14 @@ export function initPlayerProvider(sequelize: Sequelize) {
             allowNull: false
         },
         teamId: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.TINYINT,
             field: 'team_id'
         },
         gameId: {
-            type: DataTypes.UUID,
+            type: DataTypes.STRING(32),
             allowNull: false,
             references: {
-                model: 'Game',
+                model: 'game',
                 key: 'Id'
             },
             onDelete: "cascade",
@@ -40,7 +40,6 @@ export function initPlayerProvider(sequelize: Sequelize) {
         }
     }, 
     {
-        freezeTableName: true,
         indexes: [
             {
                 unique: true,

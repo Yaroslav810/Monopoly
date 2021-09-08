@@ -21,8 +21,14 @@ export function initRailwayCompanyOfficeProvider(sequelize: Sequelize) {
             defaultValue: generateUUId
         },
         cityId: {
-            type: DataTypes.SMALLINT,
+            type: DataTypes.STRING(32),
             allowNull: false,
+            references: {
+                model: 'city',
+                key: 'city_id'
+            },
+            onDelete: 'NO ACTION',
+            onUpdate: 'NO ACTION'
         },
         railwayCompanyId: {
             type: DataTypes.TINYINT,

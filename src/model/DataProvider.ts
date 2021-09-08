@@ -5,7 +5,7 @@ import { settings } from "../../core/Settings";
 import { initGameProvider } from "./Game";
 import { initStaticObjectProvider } from "./StaticObject"
 import { initCityProvider } from "./City";
-import { initCapitalStateProvider } from "./CapitalTeam";
+import { initCapitalTeamProvider } from "./CapitalTeam";
 import { initCityProductProvider } from "./CityProduct";
 import { initGuardRailwayCompanyProvider } from "./GuardRailwayCompany";
 import { initRailwayProvider } from "./Railway";
@@ -16,7 +16,7 @@ import { initArmyProvider } from "./Army";
 
 export class DataProvider {
     public async init() {
-        return this._sequelize.sync({ force: true })
+        return this._sequelize.sync({ force: false })
     }
 
     private _sequelize = new Sequelize(
@@ -40,7 +40,7 @@ export class DataProvider {
     readonly army = initArmyProvider(this._sequelize)
     readonly city = initCityProvider(this._sequelize)
     readonly rout = initCityProvider(this._sequelize)
-    readonly capitalState = initCapitalStateProvider(this._sequelize)
+    readonly capitalState = initCapitalTeamProvider(this._sequelize)
     readonly guardRailwayCompany = initGuardRailwayCompanyProvider(this._sequelize)
     readonly railway = initRailwayProvider(this._sequelize)
     readonly warehouse = initWarehouseProvider(this._sequelize)

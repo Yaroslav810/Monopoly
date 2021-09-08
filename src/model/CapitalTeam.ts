@@ -11,7 +11,7 @@ type CapitalTeamStatic = typeof Model & {
     new (values?: object, options?: BuildOptions): CapitalTeam;
 }
 
-export function initCapitalStateProvider(sequelize: Sequelize) {
+export function initCapitalTeamProvider(sequelize: Sequelize) {
     const CapitalTeamProvider = <CapitalTeamStatic>sequelize.define('capital_team', {
         id: {
             type: DataTypes.STRING(32),
@@ -21,12 +21,24 @@ export function initCapitalStateProvider(sequelize: Sequelize) {
             defaultValue: generateUUId
         },
         cityId: {
-            type: DataTypes.SMALLINT,
+            type: DataTypes.STRING(32),
             allowNull: false,
+            references: {
+                model: 'city',
+                key: 'city_id'
+            },
+            onDelete: 'NO ACTION',
+            onUpdate: 'NO ACTION'
         },
-        roleId: {
+        teamId: {
             type: DataTypes.TINYINT,
             allowNull: false,
+            references: {
+                model: 'city',
+                key: 'team_id'
+            },
+            onDelete: 'NO ACTION',
+            onUpdate: 'NO ACTION'
         }
     });
     return {

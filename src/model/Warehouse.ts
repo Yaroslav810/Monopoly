@@ -26,8 +26,14 @@ export function initWarehouseProvider(sequelize: Sequelize) {
             allowNull: false,
         },
         cityId: {
-            type: DataTypes.SMALLINT,
+            type: DataTypes.STRING(32),
             allowNull: false,
+            references: {
+                model: 'city',
+                key: 'city_id'
+            },
+            onDelete: 'NO ACTION',
+            onUpdate: 'NO ACTION'
         },
         quantity: {
             type: DataTypes.SMALLINT,

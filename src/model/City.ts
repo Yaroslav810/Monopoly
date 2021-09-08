@@ -34,7 +34,7 @@ export function initCityProvider(sequelize: Sequelize) {
             type: DataTypes.SMALLINT,
             allowNull: false,
         },
-        roleId: {
+        teamId: {
             type: DataTypes.TINYINT,
             allowNull: true,
         }
