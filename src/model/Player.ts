@@ -27,16 +27,6 @@ export const PlayerCreator = {
         teamId: {
             type: DataTypes.INTEGER,
             field: 'team_id'
-        },
-        gameId: {
-            type: DataTypes.UUID,
-            allowNull: false,
-            references: {
-                model: 'Game',
-                key: 'Id'
-            },
-            onDelete: "cascade",
-            field: 'game_id'
         }
     },
     {
@@ -44,12 +34,11 @@ export const PlayerCreator = {
         underscored: true
     }),
     provider: (model: PlayerStatic) => ({
-        create(player: {name: string, gameId: string, teamId: number | null}) {
+        create(player: {name: string, teamId: number | null}) {
             return model.create({
                 id: generateUUId(),
                 name: player.name,
-                teamId: player.teamId,
-                gameId: player.gameId
+                teamId: player.teamId
             })
         },
         getPlayerById(id: string) {

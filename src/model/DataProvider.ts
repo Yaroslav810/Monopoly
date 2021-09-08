@@ -3,6 +3,7 @@ import {initSequelizeDataProvider, SequelizeDataProvider} from "../../core/model
 import {Logger} from "../../core/Logger";
 import {GameCreator} from "./Game";
 import {PlayerCreator} from "./Player";
+import {DataTypes} from "sequelize";
 
 export type DataProvider = SequelizeDataProvider<typeof initDataProvider>
 
@@ -22,6 +23,15 @@ export function initDataProvider() {
         player: PlayerCreator,
     }, ({game, player}) => {
         game.hasMany(player)
-        player.belongsTo(game)
+        player.belongsTo(game, {
+            keyType: DataTypes.UUID,
+            foreignKey: {
+                name: 'game_id',
+                allowNull: false,
+            },
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE',
+        })
+        return {game, player}
     })
 }

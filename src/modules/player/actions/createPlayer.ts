@@ -4,12 +4,11 @@ import {CreatePlayer} from "../schemes";
 
 export const createPlayer: Action<typeof CreatePlayer> = async ({dataProvider}, _, {name, gameToken}) => {
     const game = verifyExisting(await dataProvider.game.getGameById(gameToken))
-    const player = await dataProvider.player.create({
+    const player = await game.createPlayer({
         name: name,
-        gameId: game.id,
         teamId: null
     })
-    
+
     return {
         playerToken: player.id
     }
