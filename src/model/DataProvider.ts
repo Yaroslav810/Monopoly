@@ -17,7 +17,10 @@ export class DataProvider {
             dialect: 'mysql',
             host: settings.DB_HOST,
             port: settings.DB_PORT,
-            logging: msg => Logger.log(msg)
+            logging: msg => Logger.log(msg),
+            define: {
+                freezeTableName: true
+            }
         })
 
     readonly game = initGameProvider(this._sequelize)
