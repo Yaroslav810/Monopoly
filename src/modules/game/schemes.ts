@@ -30,3 +30,23 @@ export namespace CreateGame {
     gameTechnician: guid()
   })
 }
+
+export namespace OrdersStepStart {
+  export const PathVariables = empty
+  export const Request = () => object({
+    playerToken: guid()
+  })
+  export const Response = () => object({
+    remainingTimeInMs: number()
+  })
+}
+
+export namespace OrdersStepStatus {
+  export const PathVariables = empty
+  export const Request = () => object({
+    playerToken: guid()
+  })
+  export const Response = () => object({
+    remainingTimeInMs: number()
+  })
+}
