@@ -90,7 +90,7 @@ export function initPlayerProvider(sequelize: Sequelize) {
                 order: ['updatedAt']
             })
         },
-        updateTeamIdById(team: number, id: string) {
+        updateTeamIdById(team: number | null, id: string) {
             return playerProvider.update({
                 team: team
             }, {
