@@ -78,7 +78,8 @@ export function initPlayerProvider(sequelize: Sequelize) {
             return playerProvider.findAll({
                 where: {
                     gameId: gameId
-                }
+                },
+                order: ['updatedAt']
             })
         },
         updateTeamIdById(teamId: number, id: string) {
