@@ -5,7 +5,7 @@ import { Team } from "../constants/Team";
 class Player extends Model {
     public id!: string;
     public name!: string;
-    public teamId!: number;
+    public team!: number;
     public gameId!: string;
 }
 
@@ -25,7 +25,7 @@ export function initPlayerProvider(sequelize: Sequelize) {
             type: DataTypes.STRING,
             allowNull: false
         },
-        teamId: {
+        team: {
             type: DataTypes.INTEGER,
             field: 'team_id'
         },
@@ -51,11 +51,11 @@ export function initPlayerProvider(sequelize: Sequelize) {
     })
 
     return {
-        create(player: {name: string, gameId: string, teamId: number | null}) {
+        create(player: {name: string, gameId: string, team: number | null}) {
             return playerProvider.create({
                 id: generateUUId(),
                 name: player.name,
-                teamId: player.teamId,
+                team: player.team,
                 gameId: player.gameId
             })
         },
@@ -63,7 +63,7 @@ export function initPlayerProvider(sequelize: Sequelize) {
             return playerProvider.create({
                 id: generateUUId(),
                 name: 'Game Technician',
-                teamId: Team.GAME_TECHNICIAN,
+                team: Team.GAME_TECHNICIAN,
                 gameId: gameId
             })
         },
@@ -74,11 +74,11 @@ export function initPlayerProvider(sequelize: Sequelize) {
                 }
             })
         },
-        getPlayerByGameIdAndTeamId(gameId: string, teamId: number) {
+        getPlayerByGameIdAndTeamId(gameId: string, team: number) {
             return playerProvider.findOne({
                 where: {
                     gameId: gameId,
-                    teamId: teamId
+                    team: team
                 }
             })
         },
@@ -89,9 +89,9 @@ export function initPlayerProvider(sequelize: Sequelize) {
                 }
             })
         },
-        updateTeamIdById(teamId: number, id: string) {
+        updateTeamIdById(team: number, id: string) {
             return playerProvider.update({
-                teamId: teamId
+                team: team
             }, {
                 where: {
                     id: id

@@ -1,4 +1,4 @@
-import { sendUnauthorized } from "../../../core/http/httputils"
+import { sendForbidden, sendUnauthorized } from "../../../core/http/httputils"
 
 export const verifyUserAccess = <T>(player: null|T): T => {
     if (!player) {
@@ -7,6 +7,10 @@ export const verifyUserAccess = <T>(player: null|T): T => {
     return player as T
 }
 
-export const verifyTeam = (checkingTeam: number, availableTeamsList: Array<number>): boolean => {
-    return availableTeamsList.some(availableTeam => availableTeam === checkingTeam)
+export const verifyTeam = (checkingTeam: number, availableTeamsList: Array<number>) => {
+    const isTeamPresent = availableTeamsList.some(availableTeam => availableTeam === checkingTeam)
+    
+    if (!isTeamPresent) {
+        sendForbidden('The team is not allowed')
+    }
 }
