@@ -12,7 +12,7 @@ type GameStatic = typeof Model & {
 export function initGameProvider(sequelize: Sequelize) {
     const gameProvider = <GameStatic>sequelize.define('Game', {
         id: {
-            type: DataTypes.STRING(32),
+            type: DataTypes.UUID,
             primaryKey: true,
             unique: true,
             allowNull: false

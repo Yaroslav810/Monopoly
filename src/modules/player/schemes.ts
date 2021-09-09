@@ -1,7 +1,7 @@
 import {object} from "../../../core/scheme/object";
 import {guid, string} from "../../../core/scheme/string";
 import {empty, optional, } from "../../../core/scheme/raw";
-import { TeamId } from "../../constants/Team";
+import { Team } from "../../constants/Team";
 
 export namespace CreatePlayer {
     export const PathVariables = empty
@@ -20,18 +20,18 @@ export namespace GetTeamTokens {
         playerToken: guid()
     })
     export const Response = () => object({
-        [TeamId.SOUTH_EASTERN_RAILWAY]: optional(guid()),
-        [TeamId.PACIFIC_RAILWAY]: optional(guid()),
-        [TeamId.SOUTH_WESTERN_RAILWAY]: optional(guid()),
-        [TeamId.NORTHERN_RAILWAY]: optional(guid()),
-        [TeamId.NEW_YORK_RAILWAY]: optional(guid()),
-        [TeamId.TEXAS_RAILWAY]: optional(guid()),
-        [TeamId.FEDERATION]: optional(guid()),
-        [TeamId.CONFEDERATION]: optional(guid()),
-        [TeamId.REPUBLIC]: optional(guid()),
-        [TeamId.PRESCOTT]: optional(guid()),
-        [TeamId.WASHINGTON]: optional(guid()),
-        [TeamId.BISMARCK]: optional(guid()),
-        [TeamId.LITTLE_ROCK]: optional(guid())
+        [Team.SOUTH_EASTERN_RAILWAY]: optional(guid()),
+        [Team.PACIFIC_RAILWAY]: optional(guid()),
+        [Team.SOUTH_WESTERN_RAILWAY]: optional(guid()),
+        [Team.NORTHERN_RAILWAY]: optional(guid()),
+        [Team.NEW_YORK_RAILWAY]: optional(guid()),
+        [Team.TEXAS_RAILWAY]: optional(guid()),
+        [Team.FEDERATION]: optional(guid()),
+        [Team.CONFEDERATION]: optional(guid()),
+        [Team.REPUBLIC]: optional(guid()),
+        [Team.PRESCOTT]: optional(guid()),
+        [Team.WASHINGTON]: optional(guid()),
+        [Team.BISMARCK]: optional(guid()),
+        [Team.LITTLE_ROCK]: optional(guid())
     })
 }

@@ -1,6 +1,6 @@
 import { BuildOptions, DataTypes, Model, Sequelize } from "sequelize";
 import { generateUUId } from "../../core/utils/UUIDUtils";
-import { TeamId } from "../constants/Team";
+import { Team } from "../constants/Team";
 
 class Player extends Model {
     public id!: string;
@@ -16,7 +16,7 @@ type PlayerStatic = typeof Model & {
 export function initPlayerProvider(sequelize: Sequelize) {
     const playerProvider = <PlayerStatic>sequelize.define('Player', {
         id: {
-            type: DataTypes.STRING(32),
+            type: DataTypes.UUID,
             primaryKey: true,
             unique: true,
             allowNull: false
@@ -30,7 +30,7 @@ export function initPlayerProvider(sequelize: Sequelize) {
             field: 'team_id'
         },
         gameId: {
-            type: DataTypes.STRING(32),
+            type: DataTypes.UUID,
             allowNull: false,
             references: {
                 model: 'Game',
@@ -63,7 +63,7 @@ export function initPlayerProvider(sequelize: Sequelize) {
             return playerProvider.create({
                 id: generateUUId(),
                 name: 'Game Technician',
-                teamId: TeamId.GAME_TECHNICIAN,
+                teamId: Team.GAME_TECHNICIAN,
                 gameId: gameId
             })
         },
@@ -86,14 +86,6 @@ export function initPlayerProvider(sequelize: Sequelize) {
             return playerProvider.findAll({
                 where: {
                     gameId: gameId
-                }
-            })
-        },
-        getGameTechnicianById(playerId: string) {
-            return playerProvider.findOne({
-                where: {
-                    id: playerId,
-                    teamId: TeamId.GAME_TECHNICIAN
                 }
             })
         },

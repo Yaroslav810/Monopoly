@@ -1,17 +1,14 @@
-import { sendUnauthorized } from "../../../../core/http/httputils";
-import { TeamId } from "../../../constants/Team";
+import { sendForbidden } from "../../../../core/http/httputils";
+import { Team } from "../../../constants/Team";
 import { Action } from "../../_common/Action";
+import { verifyTeam, verifyUserAccess } from "../../_common/checks";
 import { GetTeamTokens } from "../schemes";
 
-const verifyUserAccess = <T>(technician: null|T): T => {
-    if (!technician) {
-        sendUnauthorized()
-    }
-    return technician as T
-}
-
 export const getTeamTokens: Action<typeof GetTeamTokens> = async ({dataProvider}, _, {playerToken}) => {
-    const technician = verifyUserAccess(await dataProvider.player.getGameTechnicianById(playerToken))
+    const technician = verifyUserAccess(await dataProvider.player.getPlayerById(playerToken))
+    if (!verifyTeam(technician.teamId, [ Team.GAME_TECHNICIAN ])) {
+        sendForbidden('The action is only available for game technicians')
+    }
     const players = await dataProvider.player.getPlayersByGameId(technician.gameId)
 
     const playersMap = new Map<number, string>()
@@ -20,18 +17,18 @@ export const getTeamTokens: Action<typeof GetTeamTokens> = async ({dataProvider}
     })
 
     return {
-        [TeamId.SOUTH_EASTERN_RAILWAY]: playersMap.get(TeamId.SOUTH_EASTERN_RAILWAY),
-        [TeamId.PACIFIC_RAILWAY]: playersMap.get(TeamId.PACIFIC_RAILWAY),
-        [TeamId.SOUTH_WESTERN_RAILWAY]: playersMap.get(TeamId.SOUTH_WESTERN_RAILWAY),
-        [TeamId.NORTHERN_RAILWAY]: playersMap.get(TeamId.NORTHERN_RAILWAY),
-        [TeamId.NEW_YORK_RAILWAY]: playersMap.get(TeamId.NEW_YORK_RAILWAY),
-        [TeamId.TEXAS_RAILWAY]: playersMap.get(TeamId.TEXAS_RAILWAY),
-        [TeamId.FEDERATION]: playersMap.get(TeamId.FEDERATION),
-        [TeamId.CONFEDERATION]: playersMap.get(TeamId.CONFEDERATION),
-        [TeamId.REPUBLIC]: playersMap.get(TeamId.REPUBLIC),
-        [TeamId.PRESCOTT]: playersMap.get(TeamId.PRESCOTT),
-        [TeamId.WASHINGTON]: playersMap.get(TeamId.WASHINGTON),
-        [TeamId.BISMARCK]: playersMap.get(TeamId.BISMARCK),
-        [TeamId.LITTLE_ROCK]: playersMap.get(TeamId.LITTLE_ROCK)
+        [Team.SOUTH_EASTERN_RAILWAY]: playersMap.get(Team.SOUTH_EASTERN_RAILWAY) ?? null,
+        [Team.PACIFIC_RAILWAY]: playersMap.get(Team.PACIFIC_RAILWAY) ?? null,
+        [Team.SOUTH_WESTERN_RAILWAY]: playersMap.get(Team.SOUTH_WESTERN_RAILWAY) ?? null,
+        [Team.NORTHERN_RAILWAY]: playersMap.get(Team.NORTHERN_RAILWAY) ?? null,
+        [Team.NEW_YORK_RAILWAY]: playersMap.get(Team.NEW_YORK_RAILWAY) ?? null,
+        [Team.TEXAS_RAILWAY]: playersMap.get(Team.TEXAS_RAILWAY) ?? null,
+        [Team.FEDERATION]: playersMap.get(Team.FEDERATION) ?? null,
+        [Team.CONFEDERATION]: playersMap.get(Team.CONFEDERATION) ?? null,
+        [Team.REPUBLIC]: playersMap.get(Team.REPUBLIC) ?? null,
+        [Team.PRESCOTT]: playersMap.get(Team.PRESCOTT) ?? null,
+        [Team.WASHINGTON]: playersMap.get(Team.WASHINGTON) ?? null,
+        [Team.BISMARCK]: playersMap.get(Team.BISMARCK) ?? null,
+        [Team.LITTLE_ROCK]: playersMap.get(Team.LITTLE_ROCK) ?? null
     }
 }

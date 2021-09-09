@@ -1,6 +1,7 @@
 import { verifyExisting } from "../../../../core/http/httputils";
-import { TeamId } from "../../../constants/Team";
+import { Team } from "../../../constants/Team";
 import { Action } from "../../_common/Action";
+import { verifyTeam } from "../../_common/checks";
 import { FreeTeam } from "../schemes";
 
 export const getFreeTeams: Action<typeof FreeTeam> = async ({dataProvider}, _, {gameToken}) => {
@@ -15,7 +16,10 @@ export const getFreeTeams: Action<typeof FreeTeam> = async ({dataProvider}, _, {
     })
 
     const result: Array<number> = []
-    for (const item in TeamId) {
+    for (const item in Team) {
+        if (verifyTeam(Number(item), [ Team.GAME_TECHNICIAN ])) {
+            continue
+        }
         if (!isNaN(Number(item)) && !~busyTeams.indexOf(Number(item))) {
             result.push(Number(item))
         }
