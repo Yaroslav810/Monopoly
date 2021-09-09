@@ -3,8 +3,9 @@ import { IRouter } from "../../../core/routing/IRouter";
 import { DataProvider } from "../../model/DataProvider";
 import { SessionStorage } from "../../model/SessionStorage";
 import { getFreeTeams } from "./actions/getFreeTeams";
+import { releasingTeam } from "./actions/releasingTeam";
 import { reserveTeam } from "./actions/reserveTeam";
-import { FreeTeam, ReserveTeam } from "./schemes";
+import { FreeTeam, ReleasingTeam, ReserveTeam } from "./schemes";
 
 export function teamRouts(router: IRouter<DataProvider, SessionStorage>) {
     router.addRout({
@@ -22,5 +23,13 @@ export function teamRouts(router: IRouter<DataProvider, SessionStorage>) {
         requestScheme: FreeTeam.Request(),
         responseScheme: FreeTeam.Response(),
         action: getFreeTeams
+    })
+    router.addRout({
+        path: '/team/releasing',
+        method: HttpMethod.POST,
+        pathVariables: ReleasingTeam.PathVariables(),
+        requestScheme: ReleasingTeam.Request(),
+        responseScheme: ReleasingTeam.Response(),
+        action: releasingTeam
     })
 }

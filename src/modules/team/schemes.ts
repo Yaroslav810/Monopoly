@@ -35,3 +35,11 @@ export namespace FreeTeam {
   })
   export const Response = () => array(number())
 }
+
+export namespace ReleasingTeam {
+  export const PathVariables = empty
+  export const Request = () => object({
+    playerToken: guid(),
+  })
+  export const Response = () => empty
+}

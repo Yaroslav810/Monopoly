@@ -81,7 +81,7 @@ export function initPlayerProvider(sequelize: Sequelize) {
                 }
             })
         },
-        updateTeamIdById(teamId: number, id: string) {
+        updateTeamIdById(teamId: number | null, id: string) {
             return playerProvider.update({
                 teamId: teamId
             }, {
