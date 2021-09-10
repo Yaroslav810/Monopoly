@@ -49,6 +49,6 @@ export function alternative<T, R, E, K>(validators: Array<Validator<T>|Validator
 	}
 }
 
-export function optional<T>(validator: Validator<T>): Validator<T|undefined> {
-	return alternative([validator, raw(undefined)]);
+export function optional<T>(validator: Validator<T>): Validator<T|null> {
+	return alternative([validator, raw(null)]);
 }

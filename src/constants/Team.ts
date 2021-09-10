@@ -1,4 +1,5 @@
-export enum TeamId {
+export enum Team {
+  GAME_TECHNICIAN = 0, 
   SOUTH_EASTERN_RAILWAY = 1,
   PACIFIC_RAILWAY = 2,
   SOUTH_WESTERN_RAILWAY = 3,

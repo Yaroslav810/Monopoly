@@ -19,7 +19,6 @@ export function initGameProvider(sequelize: Sequelize) {
         }
     }, 
     {
-        freezeTableName: true,
         createdAt: 'creationDate'
     })
 
