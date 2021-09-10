@@ -11,6 +11,6 @@ export const verifyTeam = (checkingTeam: number, availableTeamsList: Array<numbe
     const isTeamPresent = availableTeamsList.some(availableTeam => availableTeam === checkingTeam)
     
     if (!isTeamPresent) {
-        sendForbidden('The team is not allowed')
+        sendForbidden('The team does not have access to perform operations')
     }
 }
