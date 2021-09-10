@@ -1,9 +1,9 @@
 import { verifyExisting } from "../../../../core/http/httputils";
 import { Team } from "../../../constants/Team";
 import { Action } from "../../_common/Action";
-import { FreeTeam } from "../schemes";
+import { FreeTeams } from "../schemes";
 
-export const getFreeTeams: Action<typeof FreeTeam> = async ({dataProvider}, _, {gameToken}) => {
+export const getFreeTeams: Action<typeof FreeTeams> = async ({dataProvider}, _, {gameToken}) => {
     verifyExisting(await dataProvider.game.getGameById(gameToken))
     const players = await dataProvider.player.getPlayersByGameId(gameToken)
 
