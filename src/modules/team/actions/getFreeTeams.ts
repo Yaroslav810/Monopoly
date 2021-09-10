@@ -1,5 +1,5 @@
 import { verifyExisting } from "../../../../core/http/httputils";
-import { TeamId } from "../../../constants/Team";
+import { Team } from "../../../constants/Team";
 import { Action } from "../../_common/Action";
 import { FreeTeam } from "../schemes";
 
@@ -9,17 +9,11 @@ export const getFreeTeams: Action<typeof FreeTeam> = async ({dataProvider}, _, {
 
     const busyTeams: Array<number> = []
     players.forEach(player => {
-        if (player.teamId) {
-            busyTeams.push(player.teamId)
+        if (player.team || player.team === Team.GAME_TECHNICIAN) {
+            busyTeams.push(player.team)
         }
     })
 
-    const result: Array<number> = []
-    for (const item in TeamId) {
-        if (!isNaN(Number(item)) && !~busyTeams.indexOf(Number(item))) {
-            result.push(Number(item))
-        }
-    }
-
-    return result
+    return dataProvider.team.getTeamsList()
+        .filter(team => !~busyTeams.indexOf(team))
 }
