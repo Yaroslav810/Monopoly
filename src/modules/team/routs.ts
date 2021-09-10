@@ -4,9 +4,9 @@ import { DataProvider } from "../../model/DataProvider";
 import { SessionStorage } from "../../model/SessionStorage";
 import { getFreeTeams } from "./actions/getFreeTeams";
 import { getOccupiedTeams } from "./actions/getOccupiedTeams";
+import { releasingTeam } from "./actions/releasingTeam";
 import { reserveTeam } from "./actions/reserveTeam";
 import { FreeTeams, OccupiedTeams, ReleasingTeam, ReserveTeam } from "./schemes";
-import { releasingTeam } from "./actions/releasingTeam";
 
 export function teamRouts(router: IRouter<DataProvider, SessionStorage>) {
     router.addRout({
