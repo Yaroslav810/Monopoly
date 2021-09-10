@@ -2,7 +2,7 @@ import { array } from "../../../core/scheme/array";
 import { number } from "../../../core/scheme/number";
 import { object } from "../../../core/scheme/object";
 import { empty, enumerate } from "../../../core/scheme/raw";
-import { guid } from "../../../core/scheme/string";
+import { guid, string } from "../../../core/scheme/string";
 import { Team } from "../../constants/Team";
 
 export namespace ReserveTeam {
@@ -47,4 +47,12 @@ export namespace OccupiedTeams {
   })
   export const Request = empty
   export const Response = () => array(occupiedTeams())
+}
+
+export namespace ReleasingTeam {
+  export const PathVariables = empty
+  export const Request = () => object({
+    playerToken: guid(),
+  })
+  export const Response = () => empty
 }

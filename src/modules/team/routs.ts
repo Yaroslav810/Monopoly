@@ -4,8 +4,9 @@ import { DataProvider } from "../../model/DataProvider";
 import { SessionStorage } from "../../model/SessionStorage";
 import { getFreeTeams } from "./actions/getFreeTeams";
 import { getOccupiedTeams } from "./actions/getOccupiedTeams";
+import { releasingTeam } from "./actions/releasingTeam";
 import { reserveTeam } from "./actions/reserveTeam";
-import { FreeTeams, OccupiedTeams, ReserveTeam } from "./schemes";
+import { FreeTeams, OccupiedTeams, ReleasingTeam, ReserveTeam } from "./schemes";
 
 export function teamRouts(router: IRouter<DataProvider, SessionStorage>) {
     router.addRout({
@@ -31,5 +32,13 @@ export function teamRouts(router: IRouter<DataProvider, SessionStorage>) {
         requestScheme: OccupiedTeams.Request(),
         responseScheme: OccupiedTeams.Response(),
         action: getOccupiedTeams
+    })
+    router.addRout({
+        path: '/team/releasing',
+        method: HttpMethod.POST,
+        pathVariables: ReleasingTeam.PathVariables(),
+        requestScheme: ReleasingTeam.Request(),
+        responseScheme: ReleasingTeam.Response(),
+        action: releasingTeam
     })
 }
