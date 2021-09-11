@@ -27,8 +27,8 @@ export function initCityProvider(sequelize: Sequelize) {
             allowNull: false,
         },
         addressVert: {
-          type: DataTypes.SMALLINT,
-          allowNull: false,
+            type: DataTypes.SMALLINT,
+            allowNull: false,
         },
         addressHoriz: {
             type: DataTypes.SMALLINT,
