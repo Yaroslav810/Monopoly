@@ -44,7 +44,7 @@ export function initRoutProvider(sequelize: Sequelize) {
         },
         teamId: {
             type: DataTypes.TINYINT,
-            allowNull: true,
+            allowNull: false,
         },
         cost: {
             type: DataTypes.BIGINT,
