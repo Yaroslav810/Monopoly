@@ -23,7 +23,7 @@ export function initRoutProvider(sequelize: Sequelize) {
             defaultValue: generateUUId
         },
         cityId1: {
-            type: DataTypes.STRING(32),
+            type: DataTypes.UUID,
             allowNull: false,
             references: {
                 model: 'city',
@@ -33,7 +33,7 @@ export function initRoutProvider(sequelize: Sequelize) {
             onUpdate: 'NO ACTION'
         },
         cityId2: {
-          type: DataTypes.STRING(32),
+          type: DataTypes.UUID,
           allowNull: false,
           references: {
                 model: 'city',

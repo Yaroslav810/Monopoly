@@ -5,7 +5,7 @@ import { Team } from "../constants/Team";
 class Player extends Model {
     public id!: string;
     public name!: string;
-    public team!: number;
+    public teamId!: number;
     public gameId!: string;
 }
 
@@ -25,15 +25,15 @@ export function initPlayerProvider(sequelize: Sequelize) {
             type: DataTypes.STRING,
             allowNull: false
         },
-        team: {
-            type: DataTypes.INTEGER,
+        teamId: {
+            type: DataTypes.TINYINT,
             field: 'team_id'
         },
         gameId: {
             type: DataTypes.STRING(32),
             allowNull: false,
             references: {
-                model: 'Game',
+                model: 'game',
                 key: 'id'
             },
             onDelete: "cascade",
