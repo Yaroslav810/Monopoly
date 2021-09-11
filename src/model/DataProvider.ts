@@ -14,7 +14,6 @@ import { initGuardRailwayCompanyProvider } from "./GuardRailwayCompany";
 import { initRailwayProvider } from "./Railway";
 import { initRiverProvider } from "./River";
 import { initWarehouseProvider } from "./Warehouse";
-import { initPlayerProvider } from "./Player";
 import { initArmyProvider } from "./Army";
 
 export class DataProvider {
