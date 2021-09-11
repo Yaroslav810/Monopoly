@@ -4,7 +4,7 @@ import {generateUUId} from "../../core/utils/UUIDUtils";
 class CapitalTeam extends Model {
     public id!: number;
     public cityId!: number;
-    public roleId!: number;
+    public teamId!: number;
 }
 
 type CapitalTeamStatic = typeof Model & {

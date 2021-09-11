@@ -5,7 +5,7 @@ class Rout extends Model {
     public id!: number;
     public cityId1!: number;
     public cityId2!: number;
-    public railwayCompanyId!: number;
+    public teamId!: number;
     public cost!: number;
 }
 
@@ -42,7 +42,7 @@ export function initRoutProvider(sequelize: Sequelize) {
             onDelete: 'NO ACTION',
             onUpdate: 'NO ACTION'
         },
-        railwayCompanyId: {
+        teamId: {
             type: DataTypes.TINYINT,
             allowNull: false,
         },

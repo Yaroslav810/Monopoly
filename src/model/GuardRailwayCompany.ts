@@ -6,7 +6,7 @@ class GuardRailwayCompany extends Model {
     public addressVert!: number;
     public addressHoriz!: number;
     public quantity!: number;
-    public railwayCompanyId!: number;
+    public teamId!: number;
 }
 
 type GuardRailwayCompanyStatic = typeof Model & {
@@ -34,7 +34,7 @@ export function initGuardRailwayCompanyProvider(sequelize: Sequelize) {
             type: DataTypes.TINYINT,
             allowNull: false,
         },
-        railwayCompanyId: {
+        teamId: {
             type: DataTypes.TINYINT,
             allowNull: false,
         }

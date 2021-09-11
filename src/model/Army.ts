@@ -6,7 +6,7 @@ class Army extends Model {
     public addressVert!: number;
     public addressHoriz!: number;
     public quantity!: number;
-    public roleId!: number;
+    public teamId!: number;
 }
 
 type ArmyStatic = typeof Model & {
@@ -34,7 +34,7 @@ export function initArmyProvider(sequelize: Sequelize) {
           type: DataTypes.TINYINT,
           allowNull: false,
         },
-        roleId: {
+        teamId: {
             type: DataTypes.TINYINT,
             allowNull: false,
         }

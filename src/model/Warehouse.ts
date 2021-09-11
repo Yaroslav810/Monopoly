@@ -3,7 +3,7 @@ import {generateUUId} from "../../core/utils/UUIDUtils";
 
 class Warehouse extends Model {
     public id!: number;
-    public tradeCompanyId!: number;
+    public teamId!: number;
     public cityId!: number;
     public quantity!: number;
 }
@@ -21,7 +21,7 @@ export function initWarehouseProvider(sequelize: Sequelize) {
             allowNull: false,
             defaultValue: generateUUId
         },
-        tradeCompanyId: {
+        teamId: {
             type: DataTypes.TINYINT,
             allowNull: false,
         },

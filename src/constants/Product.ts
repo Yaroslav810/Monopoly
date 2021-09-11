@@ -1,4 +1,4 @@
-export enum ProductId {
+export enum Product {
     SEED = 1,
     CATTLE = 2,
     WOOD = 3,
