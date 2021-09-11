@@ -7,7 +7,7 @@ export const createPlayer: Action<typeof CreatePlayer> = async ({dataProvider}, 
     const player = await dataProvider.player.create({
         name: name,
         gameId: game.id,
-        team: null
+        teamId: null
     })
     
     return {

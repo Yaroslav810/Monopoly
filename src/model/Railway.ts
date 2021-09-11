@@ -31,7 +31,7 @@ export function initRailwayProvider(sequelize: Sequelize) {
             allowNull: false,
         },
         nextId: {
-            type: DataTypes.SMALLINT,
+            type: DataTypes.UUID,
             allowNull: false,
         },
         teamId: {

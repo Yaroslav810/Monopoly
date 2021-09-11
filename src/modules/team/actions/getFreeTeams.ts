@@ -9,11 +9,11 @@ export const getFreeTeams: Action<typeof FreeTeams> = async ({dataProvider}, _, 
 
     const busyTeams: Array<number> = []
     players.forEach(player => {
-        if (player.team || player.team === Team.GAME_TECHNICIAN) {
-            busyTeams.push(player.team)
+        if (player.teamId || player.teamId === Team.GAME_TECHNICIAN) {
+            busyTeams.push(player.teamId)
         }
     })
 
     return dataProvider.team.getTeamsList()
-        .filter(team => !~busyTeams.indexOf(team))
+        .filter(teamId => !~busyTeams.indexOf(teamId))
 }

@@ -6,7 +6,7 @@ import { OrdersStepStatus } from "../schemes"
 
 export const getOrderStepStatus: Action<typeof OrdersStepStatus> = async ({dataProvider}, _, {playerToken}) => {
     const technicion = verifyUserAccess(await dataProvider.player.getPlayerById(playerToken))
-    verifyTeam(technicion.team, [ Team.GAME_TECHNICIAN ])
+    verifyTeam(technicion.teamId, [ Team.GAME_TECHNICIAN ])
 
     const orders = verifyExisting(dataProvider.orders.getOrders(technicion.gameId))
     

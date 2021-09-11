@@ -42,8 +42,8 @@ export function initCapitalTeamProvider(sequelize: Sequelize) {
         }
     });
     return {
-        get(CapitalTeamID: string) {
-            return CapitalTeamProvider.findByPk(CapitalTeamID)
+        get(Capitalteam: string) {
+            return CapitalTeamProvider.findByPk(Capitalteam)
         }
     }
 }

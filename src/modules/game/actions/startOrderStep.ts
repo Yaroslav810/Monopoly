@@ -6,7 +6,7 @@ import { OrdersStepStart } from "../schemes"
 
 export const startOrderStep: Action<typeof OrdersStepStart> = async ({dataProvider}, _, {playerToken}) => {
     const technicion = verifyUserAccess(await dataProvider.player.getPlayerById(playerToken))
-    verifyTeam(technicion.team, [ Team.GAME_TECHNICIAN ])
+    verifyTeam(technicion.teamId, [ Team.GAME_TECHNICIAN ])
     if (dataProvider.orders.getOrders(technicion.gameId)) {
         sendForbidden('The step of orders is already in the active state')
     }

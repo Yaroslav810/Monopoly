@@ -38,7 +38,7 @@ export namespace FreeTeams {
 
 export namespace OccupiedTeams {
   const occupiedTeams = () => object({
-    team: number(),
+    teamId: number(),
     name: string()
   })
 

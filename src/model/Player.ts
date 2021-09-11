@@ -16,7 +16,7 @@ type PlayerStatic = typeof Model & {
 export function initPlayerProvider(sequelize: Sequelize) {
     const playerProvider = <PlayerStatic>sequelize.define('player', {
         id: {
-            type: DataTypes.STRING(32),
+            type: DataTypes.UUID,
             primaryKey: true,
             unique: true,
             allowNull: false
@@ -30,7 +30,7 @@ export function initPlayerProvider(sequelize: Sequelize) {
             field: 'team_id'
         },
         gameId: {
-            type: DataTypes.STRING(32),
+            type: DataTypes.UUID,
             allowNull: false,
             references: {
                 model: 'game',
@@ -51,11 +51,11 @@ export function initPlayerProvider(sequelize: Sequelize) {
     })
 
     return {
-        create(player: {name: string, gameId: string, team: number | null}) {
+        create(player: {name: string, gameId: string, teamId: number | null}) {
             return playerProvider.create({
                 id: generateUUId(),
                 name: player.name,
-                team: player.team,
+                teamId: player.teamId,
                 gameId: player.gameId
             })
         },
@@ -63,7 +63,7 @@ export function initPlayerProvider(sequelize: Sequelize) {
             return playerProvider.create({
                 id: generateUUId(),
                 name: 'Game Technician',
-                team: Team.GAME_TECHNICIAN,
+                teamId: Team.GAME_TECHNICIAN,
                 gameId: gameId
             })
         },
@@ -74,11 +74,11 @@ export function initPlayerProvider(sequelize: Sequelize) {
                 }
             })
         },
-        getPlayerByGameIdAndTeamId(gameId: string, team: number) {
+        getPlayerByGameIdAndteam(gameId: string, teamId: number) {
             return playerProvider.findOne({
                 where: {
                     gameId: gameId,
-                    team: team
+                    teamId: teamId
                 }
             })
         },
@@ -90,9 +90,9 @@ export function initPlayerProvider(sequelize: Sequelize) {
                 order: ['updatedAt']
             })
         },
-        updateTeamIdById(team: number | null, id: string) {
+        updateTeamById(teamId: number | null, id: string) {
             return playerProvider.update({
-                team: team
+                teamId: teamId
             }, {
                 where: {
                     id: id
