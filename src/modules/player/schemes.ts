@@ -1,7 +1,7 @@
-import {object} from "../../../core/scheme/object";
-import {guid, string} from "../../../core/scheme/string";
-import {empty, optional, } from "../../../core/scheme/raw";
-import { Team } from "../../constants/Team";
+import {object} from "../../../core/scheme/object"
+import {guid, string} from "../../../core/scheme/string"
+import {empty, optional} from "../../../core/scheme/raw"
+import {Team} from "../../constants/Team"
 
 export namespace CreatePlayer {
     export const PathVariables = empty
@@ -10,7 +10,7 @@ export namespace CreatePlayer {
         gameToken: guid()
     })
     export const Response = () => object({
-        playerToken: guid(),
+        playerToken: guid()
     })
 }
 

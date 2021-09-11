@@ -1,8 +1,8 @@
-import {BaseAction} from "../../../core/routing/IRouter";
-import {Validator} from "../../../core/scheme/_common";
-import {DataProvider} from "../../model/DataProvider";
-import {SessionStorage} from "../../model/SessionStorage";
-import {empty} from "../../../core/scheme/raw";
+import {BaseAction} from "../../../core/routing/IRouter"
+import {Validator} from "../../../core/scheme/_common"
+import {DataProvider} from "../../model/DataProvider"
+import {SessionStorage} from "../../model/SessionStorage"
+import {empty} from "../../../core/scheme/raw"
 
 export type SchemeType<SCHEME extends () => Validator<unknown>> = SCHEME extends () => Validator<infer T> ? T : never;
 
@@ -21,7 +21,7 @@ export type EmptyScheme = typeof empty
 export type Action<SCHEMES extends ActionSchemes> = BaseAction<
     DataProvider,
     SessionStorage,
-    SchemeType<SCHEMES['PathVariables']>,
-    SchemeType<SCHEMES['Request']>,
-    SchemeType<SCHEMES['Response']>
+    SchemeType<SCHEMES["PathVariables"]>,
+    SchemeType<SCHEMES["Request"]>,
+    SchemeType<SCHEMES["Response"]>
 >

@@ -1,6 +1,6 @@
 export class SessionStorage {
     constructor(loggedUserId: string) {
-        this.loggedUserId = loggedUserId;
+        this.loggedUserId = loggedUserId
     }
 
     readonly loggedUserId: string

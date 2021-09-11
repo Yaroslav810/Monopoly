@@ -1,6 +1,6 @@
-import { BuildOptions, DataTypes, Model, Sequelize } from "sequelize";
-import { generateUUId } from "../../core/utils/UUIDUtils";
-import { Team } from "../constants/Team";
+import {BuildOptions, DataTypes, Model, Sequelize} from "sequelize"
+import {generateUUId} from "../../core/utils/UUIDUtils"
+import {Team} from "../constants/Team"
 
 class Player extends Model {
     public id!: string;
@@ -10,11 +10,11 @@ class Player extends Model {
 }
 
 type PlayerStatic = typeof Model & {
-    new (values?: object, options?: BuildOptions): Player
+    new (values?: Record<string, unknown>, options?: BuildOptions): Player
 }
 
 export function initPlayerProvider(sequelize: Sequelize) {
-    const playerProvider = <PlayerStatic>sequelize.define('Player', {
+    const playerProvider = <PlayerStatic>sequelize.define("Player", {
         id: {
             type: DataTypes.UUID,
             primaryKey: true,
@@ -27,24 +27,24 @@ export function initPlayerProvider(sequelize: Sequelize) {
         },
         team: {
             type: DataTypes.INTEGER,
-            field: 'team_id'
+            field: "team_id"
         },
         gameId: {
             type: DataTypes.UUID,
             allowNull: false,
             references: {
-                model: 'Game',
-                key: 'id'
+                model: "Game",
+                key: "id"
             },
             onDelete: "cascade",
-            field: 'game_id'
+            field: "game_id"
         }
     }, 
     {
         indexes: [
             {
                 unique: true,
-                fields: ['team_id', 'game_id']
+                fields: ["team_id", "game_id"]
             }
         ],
         underscored: true
@@ -62,7 +62,7 @@ export function initPlayerProvider(sequelize: Sequelize) {
         createGameTechnician(gameId: string) {
             return playerProvider.create({
                 id: generateUUId(),
-                name: 'Game Technician',
+                name: "Game Technician",
                 team: Team.GAME_TECHNICIAN,
                 gameId: gameId
             })
@@ -87,7 +87,7 @@ export function initPlayerProvider(sequelize: Sequelize) {
                 where: {
                     gameId: gameId
                 },
-                order: ['updatedAt']
+                order: ["updatedAt"]
             })
         },
         updateTeamIdById(team: number | null, id: string) {

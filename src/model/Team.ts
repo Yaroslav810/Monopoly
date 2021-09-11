@@ -1,5 +1,5 @@
-import { Team } from "../constants/Team"
-import { DataProvider } from "./DataProvider"
+import {Team} from "../constants/Team"
+import {DataProvider} from "./DataProvider"
 
 export function initTeamProvider(dataProvider: DataProvider) {
     
