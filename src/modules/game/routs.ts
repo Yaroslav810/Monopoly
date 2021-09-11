@@ -18,7 +18,7 @@ export function gameRouts(router: IRouter<DataProvider, SessionStorage>) {
         action: createGame
     }),
     router.addRout({
-        path: "/game/get-rating",
+        path: "/game/get-rating/:gameId",
         method: HttpMethod.GET,
         pathVariables: Rating.PathVariables(),
         requestScheme: Rating.Request(),

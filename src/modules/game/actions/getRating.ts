@@ -1,8 +1,9 @@
+import {Role} from "../../../constants/Role"
 import {Team} from "../../../constants/Team"
 
 export const getRating = async () => {
     return {
-        railways: [
+        [Role.RAILWAYS]: [
             {
                 team_id: Team.SOUTH_EASTERN_RAILWAY,
                 ratingChange1: 8,
@@ -46,7 +47,7 @@ export const getRating = async () => {
                 rating: 124
             }
         ],
-        policies: [
+        [Role.POLICIES]: [
             {
                 team_id: Team.FEDERATION,
                 ratingChange1: 2,
@@ -69,7 +70,7 @@ export const getRating = async () => {
                 rating: 5
             }
         ],
-        tradingCompanies: [
+        [Role.TRADING_COMPANIES]: [
             {
                 team_id: Team.PRESCOTT,
                 ratingChange1: 55,
