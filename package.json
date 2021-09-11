@@ -7,7 +7,8 @@
     "build": "tsc",
     "start": "node build/src/main.js",
     "start-dev": "ts-node src/main.ts",
-    "run-eslint": "eslint \"**/*.ts\" --ignore-pattern node_modules/"
+    "run-eslint": "eslint \"**/*.ts\" --ignore-pattern node_modules/",
+    "run-eslint-fix": "eslint \"**/*.ts\" --ignore-pattern node_modules/ --fix"
   },
   "author": "",
   "dependencies": {
