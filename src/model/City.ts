@@ -6,7 +6,7 @@ class City extends Model {
     public name!: string;
     public addressVert!: number;
     public addressHoriz!: number;
-    public roleId!: number;
+    public teamId!: number;
 }
 
 type CityStatic = typeof Model & {
@@ -16,7 +16,7 @@ type CityStatic = typeof Model & {
 export function initCityProvider(sequelize: Sequelize) {
     const CityProvider = <CityStatic>sequelize.define('city', {
         id: {
-            type: DataTypes.STRING(32),
+            type: DataTypes.UUID,
             primaryKey: true,
             unique: true,
             allowNull: false,
@@ -27,8 +27,8 @@ export function initCityProvider(sequelize: Sequelize) {
             allowNull: false,
         },
         addressVert: {
-          type: DataTypes.SMALLINT,
-          allowNull: false,
+            type: DataTypes.SMALLINT,
+            allowNull: false,
         },
         addressHoriz: {
             type: DataTypes.SMALLINT,
@@ -36,7 +36,7 @@ export function initCityProvider(sequelize: Sequelize) {
         },
         teamId: {
             type: DataTypes.TINYINT,
-            allowNull: true,
+            allowNull: false,
         }
     });
     return {

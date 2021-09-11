@@ -16,7 +16,7 @@ type RiverStatic = typeof Model & {
 export function initRiverProvider(sequelize: Sequelize) {
     const RiverProvider = <RiverStatic>sequelize.define('river', {
         id: {
-            type: DataTypes.STRING(32),
+            type: DataTypes.UUID,
             primaryKey: true,
             unique: true,
             allowNull: false,

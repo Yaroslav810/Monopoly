@@ -15,7 +15,7 @@ type StaticObjectType = typeof Model & {
 export function initStaticObjectProvider(sequelize: Sequelize) {
     const StaticObjectProvider = <StaticObjectType>sequelize.define('static_object', {
         id: {
-            type: DataTypes.STRING(32),
+            type: DataTypes.UUID,
             primaryKey: true,
             unique: true,
             allowNull: false,

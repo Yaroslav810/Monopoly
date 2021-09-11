@@ -3,8 +3,10 @@ import { CreateGame } from "../schemes"
 
 export const createGame: Action<typeof CreateGame> = async ({dataProvider}) => {
     const game = await dataProvider.game.create()
-    await game.save()
+    const technician = await dataProvider.player.createGameTechnician(game.id)
+    
     return {
-        session: game.id
+        gameToken: game.id,
+        gameTechnician: technician.id
     }
 }

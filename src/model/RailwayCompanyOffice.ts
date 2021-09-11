@@ -4,7 +4,7 @@ import {generateUUId} from "../../core/utils/UUIDUtils";
 class RailwayCompanyOffice extends Model {
     public id!: number;
     public cityId!: number;
-    public railwayCompanyId!: number;
+    public teamId!: number;
 }
 
   type RailwayCompanyOfficeStatic = typeof Model & {
@@ -14,7 +14,7 @@ class RailwayCompanyOffice extends Model {
 export function initRailwayCompanyOfficeProvider(sequelize: Sequelize) {
     const RailwayCompanyOfficeProvider = <RailwayCompanyOfficeStatic>sequelize.define('railway_company_office', {
         id: {
-            type: DataTypes.STRING(32),
+            type: DataTypes.UUID,
             primaryKey: true,
             unique: true,
             allowNull: false,
@@ -30,7 +30,7 @@ export function initRailwayCompanyOfficeProvider(sequelize: Sequelize) {
             onDelete: 'NO ACTION',
             onUpdate: 'NO ACTION'
         },
-        railwayCompanyId: {
+        teamId: {
             type: DataTypes.TINYINT,
             allowNull: false,
         }
