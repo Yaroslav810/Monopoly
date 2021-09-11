@@ -15,7 +15,7 @@ type WarehouseStatic = typeof Model & {
 export function initWarehouseProvider(sequelize: Sequelize) {
     const WarehouseProvider = <WarehouseStatic>sequelize.define('warehouse', {
         id: {
-            type: DataTypes.STRING(32),
+            type: DataTypes.UUID,
             primaryKey: true,
             unique: true,
             allowNull: false,

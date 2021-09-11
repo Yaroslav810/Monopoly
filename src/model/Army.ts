@@ -16,7 +16,7 @@ type ArmyStatic = typeof Model & {
 export function initArmyProvider(sequelize: Sequelize) {
     const ArmyProvider = <ArmyStatic>sequelize.define('army', {
         id: {
-            type: DataTypes.STRING(32),
+            type: DataTypes.UUID,
             primaryKey: true,
             unique: true,
             allowNull: false,

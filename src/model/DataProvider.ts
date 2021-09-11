@@ -43,7 +43,7 @@ export class DataProvider {
     readonly army = initArmyProvider(this._sequelize)
     readonly city = initCityProvider(this._sequelize)
     readonly rout = initCityProvider(this._sequelize)
-    readonly capitalState = initCapitalTeamProvider(this._sequelize)
+    readonly capitalTeam = initCapitalTeamProvider(this._sequelize)
     readonly guardRailwayCompany = initGuardRailwayCompanyProvider(this._sequelize)
     readonly railway = initRailwayProvider(this._sequelize)
     readonly warehouse = initWarehouseProvider(this._sequelize)

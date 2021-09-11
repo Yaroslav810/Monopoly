@@ -16,7 +16,7 @@ type NativeAmericanStatic = typeof Model & {
 export function initNativeAmericanProvider(sequelize: Sequelize) {
     const NativeAmericanProvider = <NativeAmericanStatic>sequelize.define('native_american', {
         id: {
-            type: DataTypes.STRING(32),
+            type: DataTypes.UUID,
             primaryKey: true,
             unique: true,
             allowNull: false,

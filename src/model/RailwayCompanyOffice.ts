@@ -14,7 +14,7 @@ class RailwayCompanyOffice extends Model {
 export function initRailwayCompanyOfficeProvider(sequelize: Sequelize) {
     const RailwayCompanyOfficeProvider = <RailwayCompanyOfficeStatic>sequelize.define('railway_company_office', {
         id: {
-            type: DataTypes.STRING(32),
+            type: DataTypes.UUID,
             primaryKey: true,
             unique: true,
             allowNull: false,

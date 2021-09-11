@@ -16,7 +16,7 @@ type CityStatic = typeof Model & {
 export function initCityProvider(sequelize: Sequelize) {
     const CityProvider = <CityStatic>sequelize.define('city', {
         id: {
-            type: DataTypes.STRING(32),
+            type: DataTypes.UUID,
             primaryKey: true,
             unique: true,
             allowNull: false,

@@ -16,7 +16,7 @@ type GuardRailwayCompanyStatic = typeof Model & {
 export function initGuardRailwayCompanyProvider(sequelize: Sequelize) {
     const GuardRailwayCompanyProvider = <GuardRailwayCompanyStatic>sequelize.define('guard_railway_company', {
         id: {
-            type: DataTypes.STRING(32),
+            type: DataTypes.UUID,
             primaryKey: true,
             unique: true,
             allowNull: false,

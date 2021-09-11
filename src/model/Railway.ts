@@ -16,7 +16,7 @@ type RailwayStatic = typeof Model & {
 export function initRailwayProvider(sequelize: Sequelize) {
     const RailwayProvider = <RailwayStatic>sequelize.define('railway', {
         id: {
-            type: DataTypes.STRING(32),
+            type: DataTypes.UUID,
             primaryKey: true,
             unique: true,
             allowNull: false,

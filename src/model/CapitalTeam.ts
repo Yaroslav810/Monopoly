@@ -14,7 +14,7 @@ type CapitalTeamStatic = typeof Model & {
 export function initCapitalTeamProvider(sequelize: Sequelize) {
     const CapitalTeamProvider = <CapitalTeamStatic>sequelize.define('capital_team', {
         id: {
-            type: DataTypes.STRING(32),
+            type: DataTypes.UUID,
             primaryKey: true,
             unique: true,
             allowNull: false,
