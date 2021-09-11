@@ -5,7 +5,7 @@ import { Team } from "../constants/Team";
 class Player extends Model {
     public id!: string;
     public name!: string;
-    public team!: number;
+    public teamId!: number;
     public gameId!: string;
 }
 
@@ -14,7 +14,7 @@ type PlayerStatic = typeof Model & {
 }
 
 export function initPlayerProvider(sequelize: Sequelize) {
-    const playerProvider = <PlayerStatic>sequelize.define('Player', {
+    const playerProvider = <PlayerStatic>sequelize.define('player', {
         id: {
             type: DataTypes.UUID,
             primaryKey: true,
@@ -25,15 +25,15 @@ export function initPlayerProvider(sequelize: Sequelize) {
             type: DataTypes.STRING,
             allowNull: false
         },
-        team: {
-            type: DataTypes.INTEGER,
+        teamId: {
+            type: DataTypes.TINYINT,
             field: 'team_id'
         },
         gameId: {
             type: DataTypes.UUID,
             allowNull: false,
             references: {
-                model: 'Game',
+                model: 'game',
                 key: 'id'
             },
             onDelete: "cascade",

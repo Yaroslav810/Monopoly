@@ -6,7 +6,7 @@ class CityProduct extends Model {
     public cityId!: number;
     public productId!: number;
     public price!: number;
-    public tradeCompanyId!: number;
+    public teamId!: number;
 }
 
 type CityProductStatic = typeof Model & {
@@ -23,7 +23,7 @@ export function initCityProductProvider(sequelize: Sequelize) {
             defaultValue: generateUUId
         },
         cityId: {
-            type: DataTypes.STRING(32),
+            type: DataTypes.UUID,
             allowNull: false,
             references: {
                 model: 'city',
@@ -40,8 +40,8 @@ export function initCityProductProvider(sequelize: Sequelize) {
             type: DataTypes.SMALLINT,
             allowNull: false,
         },
-        tradeCompanyId: {
-            type: DataTypes.SMALLINT,
+        teamId: {
+            type: DataTypes.UUID,
             allowNull: false,
         }
     });

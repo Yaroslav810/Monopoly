@@ -26,7 +26,7 @@ export function initWarehouseProvider(sequelize: Sequelize) {
             allowNull: false,
         },
         cityId: {
-            type: DataTypes.STRING(32),
+            type: DataTypes.UUID,
             allowNull: false,
             references: {
                 model: 'city',
