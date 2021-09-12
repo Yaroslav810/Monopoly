@@ -1,5 +1,5 @@
-import { HttpMethod } from "../http/HttpMethod";
-import { HttpStatus } from "../http/HttpStatuses";
+import {HttpMethod} from "../http/HttpMethod"
+import {HttpStatus} from "../http/HttpStatuses"
 
 export interface IServer {
     listen(method: HttpMethod, path: string, heandler: (request: Request, response: Response) => void): void
@@ -7,9 +7,9 @@ export interface IServer {
 
 export interface Request {
     //deserialized parameters in key=value view
-    url: Object,
-    queryString: Object,
-    body: Object,
+    url: Record<string, unknown>,
+    queryString: Record<string, unknown>,
+    body: Record<string, unknown>,
 }
 
 export interface Response {

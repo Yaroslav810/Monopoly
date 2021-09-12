@@ -1,6 +1,6 @@
-import {HttpMethod} from "../http/HttpMethod";
-import {Validator} from "../scheme/_common";
-import {ISessionManager} from "../session/ISessionManager";
+import {HttpMethod} from "../http/HttpMethod"
+import {Validator} from "../scheme/_common"
+import {ISessionManager} from "../session/ISessionManager"
 
 export type Context<DATA_PROVIDER, SESSION_STORAGE> = {dataProvider: DATA_PROVIDER, sessionsManager: ISessionManager<SESSION_STORAGE>}
 

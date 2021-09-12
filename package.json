@@ -6,7 +6,9 @@
   "scripts": {
     "build": "tsc",
     "start": "node build/src/main.js",
-    "start-dev": "ts-node src/main.ts"
+    "start-dev": "ts-node src/main.ts",
+    "run-eslint": "eslint \"**/*.ts\" --ignore-pattern node_modules/",
+    "run-eslint-fix": "eslint \"**/*.ts\" --ignore-pattern node_modules/ --fix"
   },
   "author": "",
   "dependencies": {
@@ -23,6 +25,9 @@
     "@types/node": "^16.4.2",
     "@types/uuid": "^8.3.1",
     "@types/validator": "^13.6.3",
+    "@typescript-eslint/eslint-plugin": "^4.31.0",
+    "@typescript-eslint/parser": "^4.31.0",
+    "eslint": "^7.32.0",
     "mysql2": "^2.2.5",
     "ts-node": "^10.1.0"
   }

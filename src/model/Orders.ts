@@ -4,13 +4,13 @@ class Orders {
 
     constructor(gameId: string) {
         this.gameId = gameId
-        this.creationDate = new Date();
+        this.creationDate = new Date()
     }
 }
 
 export function initOrdersProvider() {
     const TIMER_TIME = 1000 * 60 * 15
-    const storage = new Map<string, Orders>();
+    const storage = new Map<string, Orders>()
 
     const _start = (gameId: string): Orders => {
         const orders = new Orders(gameId)
