@@ -1,4 +1,4 @@
 export enum HttpMethod {
-	POST = 'post',
-	GET = 'get',
+	POST = "post",
+	GET = "get",
 }

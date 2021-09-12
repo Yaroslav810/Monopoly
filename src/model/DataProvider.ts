@@ -26,7 +26,7 @@ export class DataProvider {
         settings.DB_USER, 
         settings.DB_PASSWORD, 
         {
-            dialect: 'mysql',
+            dialect: "mysql",
             host: settings.DB_HOST,
             port: settings.DB_PORT,
             logging: msg => Logger.log(msg),

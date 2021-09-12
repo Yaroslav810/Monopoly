@@ -1,16 +1,16 @@
-import {IRouter} from "../../../core/routing/IRouter";
-import {HttpMethod} from "../../../core/http/HttpMethod";
-import {SessionStorage} from "../../model/SessionStorage";
-import {DataProvider} from "../../model/DataProvider";
-import { CreateGame, OrdersStepStart, OrdersStepStatus, Rating } from "./schemes";
-import { createGame } from "./actions/createGame";
-import { getRating } from "./actions/getRating";
-import { startOrderStep } from "./actions/startOrderStep";
-import { getOrderStepStatus } from "./actions/getOrderStepStatus";
+import {IRouter} from "../../../core/routing/IRouter"
+import {HttpMethod} from "../../../core/http/HttpMethod"
+import {SessionStorage} from "../../model/SessionStorage"
+import {DataProvider} from "../../model/DataProvider"
+import {CreateGame, OrdersStepStart, OrdersStepStatus, Rating} from "./schemes"
+import {createGame} from "./actions/createGame"
+import {getRating} from "./actions/getRating"
+import {startOrderStep} from "./actions/startOrderStep"
+import {getOrderStepStatus} from "./actions/getOrderStepStatus"
 
 export function gameRouts(router: IRouter<DataProvider, SessionStorage>) {
     router.addRout({
-        path: '/game/create',
+        path: "/game/create",
         method: HttpMethod.POST,
         pathVariables: CreateGame.PathVariables(),
         requestScheme: CreateGame.Request(),
@@ -18,7 +18,7 @@ export function gameRouts(router: IRouter<DataProvider, SessionStorage>) {
         action: createGame
     }),
     router.addRout({
-        path: '/game/get-rating',
+        path: "/game/get-rating/:gameId",
         method: HttpMethod.GET,
         pathVariables: Rating.PathVariables(),
         requestScheme: Rating.Request(),
@@ -26,7 +26,7 @@ export function gameRouts(router: IRouter<DataProvider, SessionStorage>) {
         action: getRating
     })
     router.addRout({
-        path: '/game/orders_step/start',
+        path: "/game/orders_step/start",
         method: HttpMethod.POST,
         pathVariables: OrdersStepStart.PathVariables(),
         requestScheme: OrdersStepStart.Request(),
@@ -34,7 +34,7 @@ export function gameRouts(router: IRouter<DataProvider, SessionStorage>) {
         action: startOrderStep
     })
     router.addRout({
-        path: '/game/orders_step/status',
+        path: "/game/orders_step/status",
         method: HttpMethod.POST,
         pathVariables: OrdersStepStatus.PathVariables(),
         requestScheme: OrdersStepStatus.Request(),

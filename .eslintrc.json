@@ -1,0 +1,45 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaVersion": 12,
+        "sourceType": "module"
+    },
+    "plugins": [
+        "@typescript-eslint"
+    ],
+    "rules": {
+        "@typescript-eslint/no-namespace": "off",
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/explicit-module-boundary-types": "off",
+        "indent": ["error", 4], // Отступы в 4 пробела
+        "quotes": "error", // Двойные кавычки
+        "semi": ["error", "never"], // Отсутствие точек с запятой
+        "no-multiple-empty-lines": "error", // Зпрет на создание более одной пустой строки
+        "space-before-blocks": "error", // Пробелы перед блоком
+        "space-before-function-paren": ["error", {
+            "anonymous": "never",
+            "named": "never"
+        }], // Пробелы перед параметрами функции
+        "arrow-spacing": "error", // Пробелы до и после стрелочной фнкциии
+        "no-multi-spaces": "error", // Запрет множетвенных пробелов
+        "block-spacing": "error", // Запрещает пробелы при открытии и закрытии блока кода на одной строке
+        "comma-dangle": "error", // Конечные запятые
+        "func-call-spacing": "error", // Запрещает пробелы между именем функции и открывающей скобкой
+        "space-in-parens": "error", // Интервал внутри скобок ()
+        "keyword-spacing": "error",
+        "comma-spacing": "error", // Пробелы после запятой
+        "computed-property-spacing": "error", // Запрещает пробелы межжду скобками и значениями внутри них
+        "eol-last": "error", // Пустая строка в конце файлов
+        "newline-per-chained-call": "error", // Цепочка методов с новой строчки (допускается цепочку с 2мя вызовами)
+        "brace-style": "error", // Правила для стиля фигурных скобок
+        "object-curly-spacing": "error" // Зпрет пробелов внутри фигурных скобок литеральных объектов
+    }
+}

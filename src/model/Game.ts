@@ -1,16 +1,16 @@
-import { BuildOptions, DataTypes, Model, Sequelize } from "sequelize";
-import { generateUUId } from "../../core/utils/UUIDUtils";
+import {BuildOptions, DataTypes, Model, Sequelize} from "sequelize"
+import {generateUUId} from "../../core/utils/UUIDUtils"
 
 class Game extends Model {
     public id!: string;
 }
 
 type GameStatic = typeof Model & {
-    new (values?: object, options?: BuildOptions): Game
+    new (values?: Record<string, unknown>, options?: BuildOptions): Game
 }
 
 export function initGameProvider(sequelize: Sequelize) {
-    const gameProvider = <GameStatic>sequelize.define('game', {
+    const gameProvider = <GameStatic>sequelize.define("Game", {
         id: {
             type: DataTypes.UUID,
             primaryKey: true,
@@ -19,7 +19,7 @@ export function initGameProvider(sequelize: Sequelize) {
         }
     }, 
     {
-        createdAt: 'creationDate'
+        createdAt: "creationDate"
     })
 
     return {
