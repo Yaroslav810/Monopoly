@@ -1,8 +1,8 @@
 import {verifyExisting} from "../../../../core/http/httputils"
 import {Action} from "../../_common/Action"
-import {OccupiedTeams} from "../schemes"
+import {GetOccupiedTeams} from "../schemes"
 
-export const getOccupiedTeams: Action<typeof OccupiedTeams> = async ({dataProvider}, {gameId}) => {
+export const getOccupiedTeams: Action<typeof GetOccupiedTeams> = async ({dataProvider}, {gameId}) => {
     verifyExisting(await dataProvider.game.getGameById(gameId))
 
     const players = await dataProvider.player.getPlayersByGameId(gameId)

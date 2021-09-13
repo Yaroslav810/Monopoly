@@ -5,15 +5,24 @@ import {empty} from "../../../core/scheme/raw"
 import {guid} from "../../../core/scheme/string"
 import {Role} from "../../constants/Role"
 
-const RatingItem = () => object({
-    team_id: number(),
-    ratingChange1: number(),
-    ratingChange2: number(),
-    ratingChange3: number(),
-    rating: number()
-})
+export namespace CreateGame {
+    export const PathVariables = empty
+    export const Request = empty
+    export const Response = () => object({
+        gameToken: guid(),
+        gameTechnician: guid()
+    })
+}
 
-export namespace Rating {
+export namespace GetRating {
+    const RatingItem = () => object({
+        team_id: number(),
+        ratingChange1: number(),
+        ratingChange2: number(),
+        ratingChange3: number(),
+        rating: number()
+    })
+
     export const PathVariables = () => object({
         gameId: guid()
     })
@@ -25,16 +34,7 @@ export namespace Rating {
     })
 }
 
-export namespace CreateGame {
-    export const PathVariables = empty
-    export const Request = empty
-    export const Response = () => object({
-        gameToken: guid(),
-        gameTechnician: guid()
-    })
-}
-
-export namespace OrdersStepStart {
+export namespace StartOrderStep {
     export const PathVariables = empty
     export const Request = () => object({
         playerToken: guid()
@@ -44,7 +44,7 @@ export namespace OrdersStepStart {
     })
 }
 
-export namespace OrdersStepStatus {
+export namespace GetStatusOrderStep {
     export const PathVariables = empty
     export const Request = () => object({
         playerToken: guid()
