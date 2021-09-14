@@ -2,9 +2,9 @@ import {sendForbidden} from "../../../../core/http/httputils"
 import {Team} from "../../../constants/Team"
 import {Action} from "../../_common/Action"
 import {verifyTeam, verifyUserAccess} from "../../_common/checks"
-import {OrdersStepStart} from "../schemes"
+import {StartOrderStep} from "../schemes"
 
-export const startOrderStep: Action<typeof OrdersStepStart> = async ({dataProvider}, _, {playerToken}) => {
+export const startOrderStep: Action<typeof StartOrderStep> = async ({dataProvider}, _, {playerToken}) => {
     const technicion = verifyUserAccess(await dataProvider.player.getPlayerById(playerToken))
     verifyTeam(technicion.team, [ Team.GAME_TECHNICIAN ])
     if (dataProvider.orders.getOrders(technicion.gameId)) {
