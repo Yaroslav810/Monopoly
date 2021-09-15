@@ -28,7 +28,7 @@ export namespace ReserveTeam {
     export const Response = () => empty
 }
 
-export namespace FreeTeams {
+export namespace GetFreeTeams {
     export const PathVariables = empty
     export const Request = () => object({
         gameToken: guid()
@@ -36,7 +36,7 @@ export namespace FreeTeams {
     export const Response = () => array(number())
 }
 
-export namespace OccupiedTeams {
+export namespace GetOccupiedTeams {
     const occupiedTeams = () => object({
         team: enumerate([
             Team.SOUTH_EASTERN_RAILWAY,
