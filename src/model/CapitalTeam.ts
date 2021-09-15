@@ -4,7 +4,7 @@ import {generateUUId} from "../../core/utils/UUIDUtils";
 class CapitalTeam extends Model {
     public id!: number;
     public cityId!: number;
-    public teamId!: number;
+    public team!: number;
 }
 
 type CapitalTeamStatic = typeof Model & {
@@ -30,7 +30,7 @@ export function initCapitalTeamProvider(sequelize: Sequelize) {
             onDelete: 'NO ACTION',
             onUpdate: 'NO ACTION'
         },
-        teamId: {
+        team: {
             type: DataTypes.TINYINT,
             allowNull: false,
             references: {

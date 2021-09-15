@@ -6,7 +6,7 @@ class CityProduct extends Model {
     public cityId!: number;
     public productId!: number;
     public price!: number;
-    public teamId!: number;
+    public team!: number;
 }
 
 type CityProductStatic = typeof Model & {
@@ -40,7 +40,7 @@ export function initCityProductProvider(sequelize: Sequelize) {
             type: DataTypes.SMALLINT,
             allowNull: false,
         },
-        teamId: {
+        team: {
             type: DataTypes.UUID,
             allowNull: false,
         }

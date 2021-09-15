@@ -5,13 +5,13 @@ import {GetTeamTokens} from "../schemes"
 
 export const getTeamTokens: Action<typeof GetTeamTokens> = async ({dataProvider}, _, {playerToken}) => {
     const technician = verifyUserAccess(await dataProvider.player.getPlayerById(playerToken))
-    verifyTeam(technician.teamId, [ Team.GAME_TECHNICIAN ])
+    verifyTeam(technician.team, [ Team.GAME_TECHNICIAN ])
 
     const players = await dataProvider.player.getPlayersByGameId(technician.gameId)
 
     const playersMap = new Map<number, string>()
     players.forEach(player => {
-        playersMap.set(player.teamId, player.id)
+        playersMap.set(player.team, player.id)
     })
 
     return {

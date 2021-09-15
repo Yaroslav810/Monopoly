@@ -51,11 +51,11 @@ export function initPlayerProvider(sequelize: Sequelize) {
     })
 
     return {
-        create(player: {name: string, gameId: string, teamId: number | null}) {
+        create(player: {name: string, gameId: string, team: number | null}) {
             return playerProvider.create({
                 id: generateUUId(),
                 name: player.name,
-                teamId: player.teamId,
+                team: player.team,
                 gameId: player.gameId
             })
         },
@@ -74,11 +74,11 @@ export function initPlayerProvider(sequelize: Sequelize) {
                 }
             })
         },
-        getPlayerByGameIdAndteam(gameId: string, teamId: number) {
+        getPlayerByGameIdAndteam(gameId: string, team: number) {
             return playerProvider.findOne({
                 where: {
                     gameId: gameId,
-                    teamId: teamId
+                    team: team
                 }
             })
         },
@@ -90,9 +90,9 @@ export function initPlayerProvider(sequelize: Sequelize) {
                 order: ["updatedAt"]
             })
         },
-        updateTeamById(teamId: number | null, id: string) {
+        updateTeamById(team: number | null, id: string) {
             return playerProvider.update({
-                teamId: teamId
+                team: team
             }, {
                 where: {
                     id: id

@@ -9,7 +9,7 @@ export namespace ReserveTeam {
     export const PathVariables = empty
     export const Request = () => object({
         playerToken: guid(),
-        teamId: enumerate([
+        team: enumerate([
             Team.SOUTH_EASTERN_RAILWAY,
             Team.PACIFIC_RAILWAY,
             Team.SOUTH_WESTERN_RAILWAY,

@@ -6,7 +6,7 @@ class Railway extends Model {
     public addressVert!: number;
     public addressHoriz!: number;
     public nextId!: number;
-    public teamId!: number;
+    public team!: number;
 }
 
 type RailwayStatic = typeof Model & {
@@ -34,7 +34,7 @@ export function initRailwayProvider(sequelize: Sequelize) {
             type: DataTypes.UUID,
             allowNull: false,
         },
-        teamId: {
+        team: {
             type: DataTypes.TINYINT,
             allowNull: false,
         }

@@ -6,10 +6,10 @@ export const getOccupiedTeams: Action<typeof OccupiedTeams> = async ({dataProvid
     verifyExisting(await dataProvider.game.getGameById(gameId))
 
     const players = await dataProvider.player.getPlayersByGameId(gameId)
-    const occupiedTeams: Array<{teamId: number, name: string}> = []
-    players.filter(player => player.teamId).forEach(player => {
+    const occupiedTeams: Array<{team: number, name: string}> = []
+    players.filter(player => player.team).forEach(player => {
         occupiedTeams.push({
-            teamId: player.teamId,
+            team: player.team,
             name: player.name
         })
     })

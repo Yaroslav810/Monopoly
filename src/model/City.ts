@@ -6,7 +6,7 @@ class City extends Model {
     public name!: string;
     public addressVert!: number;
     public addressHoriz!: number;
-    public teamId!: number;
+    public team!: number;
 }
 
 type CityStatic = typeof Model & {
@@ -34,7 +34,7 @@ export function initCityProvider(sequelize: Sequelize) {
             type: DataTypes.SMALLINT,
             allowNull: false,
         },
-        teamId: {
+        team: {
             type: DataTypes.TINYINT,
             allowNull: false,
         }
