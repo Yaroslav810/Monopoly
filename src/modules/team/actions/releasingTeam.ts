@@ -10,7 +10,7 @@ export const releasingTeam: Action<typeof ReleasingTeam> = async ({dataProvider}
     if (player.team === Team.GAME_TECHNICIAN) {
         sendForbidden("The role of the game technician cannot be changed")
     }
-    await dataProvider.player.updateTeamIdById(null, player.id)
+    await dataProvider.player.updateTeamById(null, player.id)
 
     return empty
 }

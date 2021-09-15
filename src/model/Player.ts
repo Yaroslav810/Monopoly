@@ -74,7 +74,7 @@ export function initPlayerProvider(sequelize: Sequelize) {
                 }
             })
         },
-        getPlayerByGameIdAndTeamId(gameId: string, team: number) {
+        getPlayerByGameIdAndteam(gameId: string, team: number) {
             return playerProvider.findOne({
                 where: {
                     gameId: gameId,
@@ -90,7 +90,7 @@ export function initPlayerProvider(sequelize: Sequelize) {
                 order: ["updatedAt"]
             })
         },
-        updateTeamIdById(team: number | null, id: string) {
+        updateTeamById(team: number | null, id: string) {
             return playerProvider.update({
                 team: team
             }, {
