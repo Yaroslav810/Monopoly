@@ -26,7 +26,7 @@ export function initPlayerProvider(sequelize: Sequelize) {
             allowNull: false
         },
         team: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.TINYINT,
             field: "team_id"
         },
         gameId: {
@@ -68,13 +68,9 @@ export function initPlayerProvider(sequelize: Sequelize) {
             })
         },
         getPlayerById(id: string) {
-            return playerProvider.findOne({
-                where: {
-                    id: id
-                }
-            })
+            return playerProvider.findByPk(id)
         },
-        getPlayerByGameIdAndteam(gameId: string, team: number) {
+        getPlayerByGameIdAndTeam(gameId: string, team: number) {
             return playerProvider.findOne({
                 where: {
                     gameId: gameId,

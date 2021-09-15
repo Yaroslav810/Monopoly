@@ -1,5 +1,5 @@
-import {Sequelize, DataTypes, Model, BuildOptions} from "sequelize";
-import {generateUUId} from "../../core/utils/UUIDUtils";
+import {Sequelize, DataTypes, Model, BuildOptions} from "sequelize"
+import {generateUUId} from "../../core/utils/UUIDUtils"
 
 class River extends Model {
     public id!: number;
@@ -10,11 +10,11 @@ class River extends Model {
 }
 
 type RiverStatic = typeof Model & {
-    new (values?: object, options?: BuildOptions): River;
+    new (values?: Record<string, unknown>, options?: BuildOptions): River;
 }
 
 export function initRiverProvider(sequelize: Sequelize) {
-    const RiverProvider = <RiverStatic>sequelize.define('river', {
+    const riverProvider = <RiverStatic>sequelize.define("river", {
         id: {
             type: DataTypes.UUID,
             primaryKey: true,
@@ -24,24 +24,24 @@ export function initRiverProvider(sequelize: Sequelize) {
         },
         addressVert1: {
             type: DataTypes.SMALLINT,
-            allowNull: false,
+            allowNull: false
         },
         addressHoriz1: {
             type: DataTypes.SMALLINT,
-            allowNull: false,
+            allowNull: false
         },
         addressVert2: {
             type: DataTypes.SMALLINT,
-            allowNull: false,
+            allowNull: false
         },
         addressHoriz2: {
             type: DataTypes.SMALLINT,
-            allowNull: false,
+            allowNull: false
         }
-    });
+    })
     return {
-        get(RiverID: string) {
-            return RiverProvider.findByPk(RiverID)
+        get(riverId: string) {
+            return riverProvider.findByPk(riverId)
         }
     }
 }

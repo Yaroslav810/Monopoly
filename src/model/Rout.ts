@@ -1,5 +1,5 @@
-import {Sequelize, DataTypes, Model, BuildOptions} from "sequelize";
-import {generateUUId} from "../../core/utils/UUIDUtils";
+import {Sequelize, DataTypes, Model, BuildOptions} from "sequelize"
+import {generateUUId} from "../../core/utils/UUIDUtils"
 
 class Rout extends Model {
     public id!: number;
@@ -10,11 +10,11 @@ class Rout extends Model {
 }
 
 type RoutStatic = typeof Model & {
-    new (values?: object, options?: BuildOptions): Rout;
+    new (values?: Record<string, unknown>, options?: BuildOptions): Rout;
 }
 
 export function initRoutProvider(sequelize: Sequelize) {
-    const RoutProvider = <RoutStatic>sequelize.define('rout', {
+    const routProvider = <RoutStatic>sequelize.define("rout", {
         id: {
             type: DataTypes.UUID,
             primaryKey: true,
@@ -26,34 +26,34 @@ export function initRoutProvider(sequelize: Sequelize) {
             type: DataTypes.UUID,
             allowNull: false,
             references: {
-                model: 'city',
-                key: 'city_id'
+                model: "city",
+                key: "city_id"
             },
-            onDelete: 'NO ACTION',
-            onUpdate: 'NO ACTION'
+            onDelete: "NO ACTION",
+            onUpdate: "NO ACTION"
         },
         cityId2: {
-          type: DataTypes.UUID,
-          allowNull: false,
-          references: {
-                model: 'city',
-                key: 'city_id'
+            type: DataTypes.UUID,
+            allowNull: false,
+            references: {
+                model: "city",
+                key: "city_id"
             },
-            onDelete: 'NO ACTION',
-            onUpdate: 'NO ACTION'
+            onDelete: "NO ACTION",
+            onUpdate: "NO ACTION"
         },
         team: {
             type: DataTypes.TINYINT,
-            allowNull: false,
+            allowNull: false
         },
         cost: {
             type: DataTypes.BIGINT,
-            allowNull: false,
+            allowNull: false
         }
-    });
+    })
     return {
-        get(RoutID: string) {
-            return RoutProvider.findByPk(RoutID)
+        get(routId: string) {
+            return routProvider.findByPk(routId)
         }
     }
 }

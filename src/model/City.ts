@@ -1,5 +1,5 @@
-import {Sequelize, DataTypes, Model, BuildOptions} from "sequelize";
-import {generateUUId} from "../../core/utils/UUIDUtils";
+import {Sequelize, DataTypes, Model, BuildOptions} from "sequelize"
+import {generateUUId} from "../../core/utils/UUIDUtils"
 
 class City extends Model {
     public id!: number;
@@ -10,11 +10,11 @@ class City extends Model {
 }
 
 type CityStatic = typeof Model & {
-    new (values?: object, options?: BuildOptions): City;
+    new (values?: Record<string, unknown>, options?: BuildOptions): City;
 }
 
 export function initCityProvider(sequelize: Sequelize) {
-    const CityProvider = <CityStatic>sequelize.define('city', {
+    const cityProvider = <CityStatic>sequelize.define("city", {
         id: {
             type: DataTypes.UUID,
             primaryKey: true,
@@ -24,24 +24,24 @@ export function initCityProvider(sequelize: Sequelize) {
         },
         name: {
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: false
         },
         addressVert: {
             type: DataTypes.SMALLINT,
-            allowNull: false,
+            allowNull: false
         },
         addressHoriz: {
             type: DataTypes.SMALLINT,
-            allowNull: false,
+            allowNull: false
         },
         team: {
             type: DataTypes.TINYINT,
-            allowNull: false,
+            allowNull: false
         }
-    });
+    })
     return {
-        get(CityID: string) {
-            return CityProvider.findByPk(CityID)
+        get(cityId: string) {
+            return cityProvider.findByPk(cityId)
         }
     }
 }

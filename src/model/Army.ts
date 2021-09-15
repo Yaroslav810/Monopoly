@@ -1,5 +1,5 @@
-import {Sequelize, DataTypes, Model, BuildOptions} from "sequelize";
-import {generateUUId} from "../../core/utils/UUIDUtils";
+import {Sequelize, DataTypes, Model, BuildOptions} from "sequelize"
+import {generateUUId} from "../../core/utils/UUIDUtils"
 
 class Army extends Model {
     public id!: number;
@@ -10,11 +10,11 @@ class Army extends Model {
 }
 
 type ArmyStatic = typeof Model & {
-    new (values?: object, options?: BuildOptions): Army;
+    new (values?: Record<string, unknown>, options?: BuildOptions): Army;
 }
 
 export function initArmyProvider(sequelize: Sequelize) {
-    const ArmyProvider = <ArmyStatic>sequelize.define('army', {
+    const armyProvider = <ArmyStatic>sequelize.define("army", {
         id: {
             type: DataTypes.UUID,
             primaryKey: true,
@@ -24,24 +24,24 @@ export function initArmyProvider(sequelize: Sequelize) {
         },
         addressVert: {
             type: DataTypes.SMALLINT,
-            allowNull: false,
+            allowNull: false
         },
         addressHoriz: {
             type: DataTypes.SMALLINT,
-            allowNull: false,
+            allowNull: false
         },
         quantity: {
-          type: DataTypes.TINYINT,
-          allowNull: false,
+            type: DataTypes.TINYINT,
+            allowNull: false
         },
         team: {
             type: DataTypes.TINYINT,
-            allowNull: false,
+            allowNull: false
         }
-    });
+    })
     return {
-        get(ArmyID: string) {
-            return ArmyProvider.findByPk(ArmyID)
+        get(armyId: string) {
+            return armyProvider.findByPk(armyId)
         }
     }
 }

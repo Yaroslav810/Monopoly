@@ -1,5 +1,5 @@
-import {Sequelize, DataTypes, Model, BuildOptions} from "sequelize";
-import {generateUUId} from "../../core/utils/UUIDUtils";
+import {Sequelize, DataTypes, Model, BuildOptions} from "sequelize"
+import {generateUUId} from "../../core/utils/UUIDUtils"
 
 class NativeAmerican extends Model {
     public id!: string;
@@ -10,11 +10,11 @@ class NativeAmerican extends Model {
 }
 
 type NativeAmericanStatic = typeof Model & {
-    new (values?: object, options?: BuildOptions): NativeAmerican;
+    new (values?: Record<string, unknown>, options?: BuildOptions): NativeAmerican;
 }
 
 export function initNativeAmericanProvider(sequelize: Sequelize) {
-    const NativeAmericanProvider = <NativeAmericanStatic>sequelize.define('native_american', {
+    const nativeAmericanProvider = <NativeAmericanStatic>sequelize.define("native_american", {
         id: {
             type: DataTypes.UUID,
             primaryKey: true,
@@ -24,24 +24,24 @@ export function initNativeAmericanProvider(sequelize: Sequelize) {
         },
         addressVert: {
             type: DataTypes.SMALLINT,
-            allowNull: false,
+            allowNull: false
         },
         addressHoriz: {
             type: DataTypes.SMALLINT,
-            allowNull: false,
+            allowNull: false
         },
         activity: {
             type: DataTypes.TINYINT,
-            allowNull: false,
+            allowNull: false
         },
         clanId: {
             type: DataTypes.TINYINT,
-            allowNull: false,
+            allowNull: false
         }
-    });
+    })
     return {
-        get(NativeAmericanID: string) {
-            return NativeAmericanProvider.findByPk(NativeAmericanID)
+        get(nativeAmericanId: string) {
+            return nativeAmericanProvider.findByPk(nativeAmericanId)
         }
     }
 }

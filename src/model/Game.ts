@@ -29,11 +29,7 @@ export function initGameProvider(sequelize: Sequelize) {
             })
         },
         getGameById(id: string) {
-            return gameProvider.findOne({
-                where: {
-                    id: id
-                }
-            })
+            return gameProvider.findByPk(id)
         }
     }
 }

@@ -1,10 +1,10 @@
 import {DataProvider} from "./model/DataProvider"
 import {SessionStorage} from "./model/SessionStorage"
-import {initApp} from "../core/initApp"
 import {settings} from "../core/Settings"
-import {playerRouts} from "./modules/player/routs"
-import {gameRouts} from "./modules/game/routs"
-import {teamRouts} from "./modules/team/routs"
+import {initApp} from "../core/initApp"
+import {playerRouts} from "./modules/player/routes"
+import {gameRouts} from "./modules/game/routes"
+import {teamRouts} from "./modules/team/routes"
 
 const config = {
     port: settings.APP_PORT

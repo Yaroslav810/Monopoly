@@ -1,5 +1,5 @@
-import {Sequelize, DataTypes, Model, BuildOptions} from "sequelize";
-import {generateUUId} from "../../core/utils/UUIDUtils";
+import {Sequelize, DataTypes, Model, BuildOptions} from "sequelize"
+import {generateUUId} from "../../core/utils/UUIDUtils"
 
 class CityProduct extends Model {
     public id!: number;
@@ -10,11 +10,11 @@ class CityProduct extends Model {
 }
 
 type CityProductStatic = typeof Model & {
-    new (values?: object, options?: BuildOptions): CityProduct;
+    new (values?: Record<string, unknown>, options?: BuildOptions): CityProduct;
 }
 
 export function initCityProductProvider(sequelize: Sequelize) {
-    const CityProductProvider = <CityProductStatic>sequelize.define('city_product', {
+    const cityProductProvider = <CityProductStatic>sequelize.define("city_product", {
         id: {
             type: DataTypes.UUID,
             primaryKey: true,
@@ -26,28 +26,29 @@ export function initCityProductProvider(sequelize: Sequelize) {
             type: DataTypes.UUID,
             allowNull: false,
             references: {
-                model: 'city',
-                key: 'city_id'
+                model: "city",
+                key: "id"
             },
-            onDelete: 'NO ACTION',
-            onUpdate: 'NO ACTION'
+            onDelete: "NO ACTION",
+            onUpdate: "NO ACTION",
+            field: "city_id"
         },
         productId: {
             type: DataTypes.TINYINT,
-            allowNull: false,
+            allowNull: false
         },
         price: {
             type: DataTypes.SMALLINT,
-            allowNull: false,
+            allowNull: false
         },
         team: {
             type: DataTypes.UUID,
-            allowNull: false,
+            allowNull: false
         }
-    });
+    })
     return {
-        get(CityProductID: string) {
-            return CityProductProvider.findByPk(CityProductID)
+        get(cityProductId: string) {
+            return cityProductProvider.findByPk(cityProductId)
         }
     }
 }

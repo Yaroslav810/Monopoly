@@ -1,6 +1,5 @@
-import {v4} from "uuid";
-import {Buffer} from "buffer";
+import {v4} from "uuid"
 
 export function generateUUId(): string {
-	return Buffer.from(v4().replace(/-/g, ''), 'hex').toString();
+    return v4().replace(/-/g, "").toString()
 }
