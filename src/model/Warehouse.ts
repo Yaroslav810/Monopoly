@@ -1,5 +1,5 @@
-import {Sequelize, DataTypes, Model, BuildOptions} from "sequelize";
-import {generateUUId} from "../../core/utils/UUIDUtils";
+import {Sequelize, DataTypes, Model, BuildOptions} from "sequelize"
+import {generateUUId} from "../../core/utils/UUIDUtils"
 
 class Warehouse extends Model {
     public id!: number;
@@ -9,11 +9,11 @@ class Warehouse extends Model {
 }
 
 type WarehouseStatic = typeof Model & {
-    new (values?: object, options?: BuildOptions): Warehouse;
+    new (values?: Record<string, unknown>, options?: BuildOptions): Warehouse;
 }
 
 export function initWarehouseProvider(sequelize: Sequelize) {
-    const WarehouseProvider = <WarehouseStatic>sequelize.define('warehouse', {
+    const warehouseProvider = <WarehouseStatic>sequelize.define("warehouse", {
         id: {
             type: DataTypes.UUID,
             primaryKey: true,
@@ -23,26 +23,27 @@ export function initWarehouseProvider(sequelize: Sequelize) {
         },
         team: {
             type: DataTypes.TINYINT,
-            allowNull: false,
+            allowNull: false
         },
         cityId: {
             type: DataTypes.UUID,
             allowNull: false,
             references: {
-                model: 'city',
-                key: 'city_id'
+                model: "city",
+                key: "id"
             },
-            onDelete: 'NO ACTION',
-            onUpdate: 'NO ACTION'
+            onDelete: "NO ACTION",
+            onUpdate: "NO ACTION",
+            field: "city_id"
         },
         quantity: {
             type: DataTypes.SMALLINT,
-            allowNull: false,
+            allowNull: false
         }
-    });
+    })
     return {
-        get(WarehouseID: string) {
-            return WarehouseProvider.findByPk(WarehouseID)
+        get(warehouseId: string) {
+            return warehouseProvider.findByPk(warehouseId)
         }
     }
 }

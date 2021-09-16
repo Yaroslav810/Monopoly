@@ -1,5 +1,5 @@
-import {Sequelize, DataTypes, Model, BuildOptions} from "sequelize";
-import {generateUUId} from "../../core/utils/UUIDUtils";
+import {Sequelize, DataTypes, Model, BuildOptions} from "sequelize"
+import {generateUUId} from "../../core/utils/UUIDUtils"
 
 class RailwayCompanyOffice extends Model {
     public id!: number;
@@ -8,11 +8,11 @@ class RailwayCompanyOffice extends Model {
 }
 
   type RailwayCompanyOfficeStatic = typeof Model & {
-    new (values?: object, options?: BuildOptions): RailwayCompanyOffice;
+    new (values?: Record<string, unknown>, options?: BuildOptions): RailwayCompanyOffice;
 }
 
 export function initRailwayCompanyOfficeProvider(sequelize: Sequelize) {
-    const RailwayCompanyOfficeProvider = <RailwayCompanyOfficeStatic>sequelize.define('railway_company_office', {
+    const railwayCompanyOfficeProvider = <RailwayCompanyOfficeStatic>sequelize.define("railway_company_office", {
         id: {
             type: DataTypes.UUID,
             primaryKey: true,
@@ -24,20 +24,20 @@ export function initRailwayCompanyOfficeProvider(sequelize: Sequelize) {
             type: DataTypes.UUID,
             allowNull: false,
             references: {
-                model: 'city',
-                key: 'city_id'
+                model: "city",
+                key: "city_id"
             },
-            onDelete: 'NO ACTION',
-            onUpdate: 'NO ACTION'
+            onDelete: "NO ACTION",
+            onUpdate: "NO ACTION"
         },
         team: {
             type: DataTypes.TINYINT,
-            allowNull: false,
+            allowNull: false
         }
-    });
+    })
     return {
-        get(RailwayCompanyOfficeID: string) {
-            return RailwayCompanyOfficeProvider.findByPk(RailwayCompanyOfficeID)
+        get(railwayCompanyOfficeId: string) {
+            return railwayCompanyOfficeProvider.findByPk(railwayCompanyOfficeId)
         }
     }
 }

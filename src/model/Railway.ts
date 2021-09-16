@@ -1,5 +1,5 @@
-import {Sequelize, DataTypes, Model, BuildOptions} from "sequelize";
-import {generateUUId} from "../../core/utils/UUIDUtils";
+import {Sequelize, DataTypes, Model, BuildOptions} from "sequelize"
+import {generateUUId} from "../../core/utils/UUIDUtils"
 
 class Railway extends Model {
     public id!: number;
@@ -10,11 +10,11 @@ class Railway extends Model {
 }
 
 type RailwayStatic = typeof Model & {
-    new (values?: object, options?: BuildOptions): Railway;
+    new (values?: Record<string, unknown>, options?: BuildOptions): Railway;
 }
 
 export function initRailwayProvider(sequelize: Sequelize) {
-    const RailwayProvider = <RailwayStatic>sequelize.define('railway', {
+    const railwayProvider = <RailwayStatic>sequelize.define("railway", {
         id: {
             type: DataTypes.UUID,
             primaryKey: true,
@@ -24,24 +24,24 @@ export function initRailwayProvider(sequelize: Sequelize) {
         },
         addressVert: {
             type: DataTypes.SMALLINT,
-            allowNull: false,
+            allowNull: false
         },
         addressHoriz: {
             type: DataTypes.SMALLINT,
-            allowNull: false,
+            allowNull: false
         },
         nextId: {
             type: DataTypes.UUID,
-            allowNull: false,
+            allowNull: false
         },
         team: {
             type: DataTypes.TINYINT,
-            allowNull: false,
+            allowNull: false
         }
-    });
+    })
     return {
-        get(RailwayID: string) {
-            return RailwayProvider.findByPk(RailwayID)
+        get(railwayId: string) {
+            return railwayProvider.findByPk(railwayId)
         }
     }
 }

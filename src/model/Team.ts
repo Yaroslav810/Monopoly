@@ -5,9 +5,9 @@ export function initTeamProvider(dataProvider: DataProvider) {
     
     return {
         async isTeamReserved(gameId: string, team: number) {
-            const player = await dataProvider.player.getPlayerByGameIdAndteam(gameId, team)
+            const player = await dataProvider.player.getPlayerByGameIdAndTeam(gameId, team)
         
-            return (player !== null) ? true : false
+            return (player !== null)
         },
         getTeamsList() {
             return Object.keys(Team)

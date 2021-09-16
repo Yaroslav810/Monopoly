@@ -1,5 +1,5 @@
-import {Sequelize, DataTypes, Model, BuildOptions} from "sequelize";
-import {generateUUId} from "../../core/utils/UUIDUtils";
+import {Sequelize, DataTypes, Model, BuildOptions} from "sequelize"
+import {generateUUId} from "../../core/utils/UUIDUtils"
 
 class StaticObject extends Model {
     public id!: number;
@@ -9,11 +9,11 @@ class StaticObject extends Model {
 }
 
 type StaticObjectType = typeof Model & {
-    new (values?: object, options?: BuildOptions): StaticObject;
+    new (values?: Record<string, unknown>, options?: BuildOptions): StaticObject;
 }
 
 export function initStaticObjectProvider(sequelize: Sequelize) {
-    const StaticObjectProvider = <StaticObjectType>sequelize.define('static_object', {
+    const staticObjectProvider = <StaticObjectType>sequelize.define("static_object", {
         id: {
             type: DataTypes.UUID,
             primaryKey: true,
@@ -23,20 +23,20 @@ export function initStaticObjectProvider(sequelize: Sequelize) {
         },
         addressVert: {
             type: DataTypes.SMALLINT,
-            allowNull: false,
+            allowNull: false
         },
         addressHoriz: {
             type: DataTypes.SMALLINT,
-            allowNull: false,
+            allowNull: false
         },
         terrainId: {
             type: DataTypes.TINYINT,
-            allowNull: false,
+            allowNull: false
         }
-    });
+    })
     return {
-        get(StaticObjectID: string) {
-            return StaticObjectProvider.findByPk(StaticObjectID)
+        get(staticObjectId: string) {
+            return staticObjectProvider.findByPk(staticObjectId)
         }
     }
 }
