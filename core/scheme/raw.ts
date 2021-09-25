@@ -1,4 +1,4 @@
-import {ValidationError, Validator} from "./_common"
+import {checkType, ValidationError, Validator} from "./_common"
 
 export function raw<T>(value: T): Validator<T> {
     return val => {
@@ -45,4 +45,8 @@ export function alternative<T, R, E, K>(validators: Array<Validator<T>|Validator
 
 export function optional<T>(validator: Validator<T>): Validator<T|null> {
     return alternative([validator, raw(null)])
+}
+
+export function boolean(): Validator<boolean> {
+    return (val) => checkType<boolean>(val, "boolean")
 }

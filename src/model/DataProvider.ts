@@ -14,6 +14,9 @@ import {initRailwayProvider} from "./Railway"
 import {initRiverProvider} from "./River"
 import {initWarehouseProvider} from "./Warehouse"
 import {initArmyProvider} from "./Army"
+import {initPoliticianProvider} from "./Politician"
+import {initPlayersStateProvider} from "./PlayersState"
+import {initTimerProvider} from "./Timer"
 
 export class DataProvider {
     public async init() {
@@ -46,6 +49,9 @@ export class DataProvider {
     readonly CityProduct = initCityProductProvider(this._sequelize)
     readonly River = initRiverProvider(this._sequelize)
     readonly player = initPlayerProvider(this._sequelize)
+    readonly politician = initPoliticianProvider(this._sequelize)
     readonly team = initTeamProvider(this)
     readonly orders = initOrdersProvider()
+    readonly playersState = initPlayersStateProvider()
+    readonly timer = initTimerProvider()
 }

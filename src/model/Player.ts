@@ -1,6 +1,9 @@
 import {BuildOptions, DataTypes, Model, Sequelize} from "sequelize"
 import {generateUUId} from "../../core/utils/UUIDUtils"
 import {Team} from "../constants/Team"
+import {Politician} from "./Politician"
+
+export type PlayerType = Politician
 
 class Player extends Model {
     public id!: string;
@@ -27,7 +30,7 @@ export function initPlayerProvider(sequelize: Sequelize) {
         },
         team: {
             type: DataTypes.TINYINT,
-            field: "team_id"
+            field: "team"
         },
         gameId: {
             type: DataTypes.UUID,
@@ -44,7 +47,7 @@ export function initPlayerProvider(sequelize: Sequelize) {
         indexes: [
             {
                 unique: true,
-                fields: ["team_id", "game_id"]
+                fields: ["team", "game_id"]
             }
         ],
         underscored: true

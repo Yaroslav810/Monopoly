@@ -16,7 +16,7 @@ export function gameRouts(router: IRouter<DataProvider, SessionStorage>) {
         requestScheme: CreateGame.Request(),
         responseScheme: CreateGame.Response(),
         action: createGame
-    }),
+    })
     router.addRout({
         path: "/game/get-rating/:gameId",
         method: HttpMethod.GET,
@@ -26,7 +26,7 @@ export function gameRouts(router: IRouter<DataProvider, SessionStorage>) {
         action: getRating
     })
     router.addRout({
-        path: "/game/orders_step/start",
+        path: "/game/orders-step/start",
         method: HttpMethod.POST,
         pathVariables: StartOrderStep.PathVariables(),
         requestScheme: StartOrderStep.Request(),
@@ -34,7 +34,7 @@ export function gameRouts(router: IRouter<DataProvider, SessionStorage>) {
         action: startOrderStep
     })
     router.addRout({
-        path: "/game/orders_step/status",
+        path: "/game/orders-step/status",
         method: HttpMethod.POST,
         pathVariables: GetStatusOrderStep.PathVariables(),
         requestScheme: GetStatusOrderStep.Request(),

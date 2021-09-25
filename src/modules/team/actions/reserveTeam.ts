@@ -2,7 +2,7 @@ import {sendForbidden} from "../../../../core/http/httputils"
 import {empty} from "../../../../core/scheme/raw"
 import {Team} from "../../../constants/Team"
 import {Action} from "../../_common/Action"
-import {verifyUserAccess} from "../../_common/checks"
+import {isPolitician, verifyUserAccess} from "../../_common/checks"
 import {ReserveTeam} from "../schemes"
 
 export const reserveTeam: Action<typeof ReserveTeam> = async ({dataProvider}, _, {playerToken, team}) => {
@@ -14,6 +14,10 @@ export const reserveTeam: Action<typeof ReserveTeam> = async ({dataProvider}, _,
         sendForbidden("The current role in this game session is already reserved for another team")
     }
     await dataProvider.player.updateTeamById(team, player.id)
+
+    if (isPolitician(team)) {
+        await dataProvider.politician.create(player.id)
+    }
 
     return empty
 }
