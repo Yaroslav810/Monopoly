@@ -1,11 +1,11 @@
-import {PlayerType} from "./Player"
+import {PlayerType} from "../Player"
 
 class State {
     players = new Map<string, PlayerType>()
 
     constructor(players: PlayerType[]) {
         players.forEach(player => {
-            this.players.set(player.playerId, player)
+            this.players.set(player.getPlayerId(), player)
         })
     }
 
@@ -42,7 +42,8 @@ export function initPlayersStateProvider() {
                 return null
             }
 
-            return players.find(player => player.playerId === playerId) ?? null
+            return players
+                .find(player => player.getPlayerId() === playerId) ?? null
         },
         getStateByGameId(gameId: string): PlayerType[] | null {
             const state = storage.get(gameId)

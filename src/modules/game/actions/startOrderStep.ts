@@ -4,13 +4,7 @@ import {Action} from "../../_common/Action"
 import {verifyTeam, verifyUserAccess} from "../../_common/checks"
 import {StartOrderStep} from "../schemes"
 import {PlayerType} from "../../../model/Player"
-import {Politician} from "../../../model/Politician"
 import {DataProvider} from "../../../model/DataProvider"
-
-const preparePoliticianToOrdersStep = (politician: Politician) => {
-    politician.numberMovementArmyBlanks = 1
-    politician.numberNewBlanks = 1
-}
 
 const getDetailsAllPlayers = async (dataProvider: DataProvider, gameId: string): Promise<Array<PlayerType>> => {
     const players = await dataProvider.player.getPlayersByGameId(gameId)
@@ -18,22 +12,18 @@ const getDetailsAllPlayers = async (dataProvider: DataProvider, gameId: string):
     const detailInfoPlayers: Array<PlayerType> = []
     for (const player of players) {
         switch (player.team) {
-        case Team.FEDERATION:
-        case Team.CONFEDERATION:
-        case Team.REPUBLIC: {
-            const politician = verifyUserAccess(await dataProvider.politician.getByPlayerId(player.id))
-            preparePoliticianToOrdersStep(politician)
-            detailInfoPlayers.push(politician)
-            break
-        }
+            case Team.FEDERATION:
+            case Team.CONFEDERATION:
+            case Team.REPUBLIC: {
+                const politician = verifyUserAccess(await dataProvider.politician.getByPlayerId(player.id))
+                politician.prepareToOrdersStep()
+                detailInfoPlayers.push(politician)
+                break
+            }
         }
     }
 
     return detailInfoPlayers
-}
-
-const isPolitician = (player: PlayerType): player is Politician => {
-    return player && player.budgetUnits !== undefined
 }
 
 export const startOrderStep: Action<typeof StartOrderStep> = async ({dataProvider}, _, {playerToken}) => {
@@ -52,10 +42,9 @@ export const startOrderStep: Action<typeof StartOrderStep> = async ({dataProvide
             dataProvider.orders.executeOrders(technician.gameId)
 
             const players = verifyExisting(dataProvider.playersState.getStateByGameId(technician.gameId))
-            players.forEach(player => {
-                if (isPolitician(player)) {
-                    player.budgetUnits += 15
-                    dataProvider.playersState.updatePlayerState(technician.gameId, player.playerId, player)
+            players.forEach(async player => {
+                if (dataProvider.politician.isPolitician(player)) {
+                    await dataProvider.politician.finishToOrderStep(player.getId())
                 }
             })
         })

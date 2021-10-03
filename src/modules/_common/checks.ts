@@ -22,6 +22,6 @@ export const verifyTimer = (time: number) => {
     }
 }
 
-export const isPolitician = (team: number) => {
+export const isPolitician = (team: Team) => {
     return ~[Team.FEDERATION, Team.CONFEDERATION, Team.REPUBLIC].indexOf(team)
 }

@@ -1,9 +1,10 @@
 import {object} from "../../../core/scheme/object"
-import {boolean, empty, enumerate} from "../../../core/scheme/raw"
+import {empty, enumerate} from "../../../core/scheme/pseudo"
 import {guid, string} from "../../../core/scheme/string"
 import {array} from "../../../core/scheme/array"
 import {number} from "../../../core/scheme/number"
-import {ResponseStatus} from "../../constants/ResponseStatus"
+import {boolean} from "../../../core/scheme/boolean"
+import {OrderResponseStatus} from "../../constants/OrderResponseStatus"
 import {Team} from "../../constants/Team"
 
 export namespace CreateOrderToMovementArmy {
@@ -21,8 +22,8 @@ export namespace CreateOrderToMovementArmy {
     })
     export const Response = () => object({
         status: enumerate([
-            ResponseStatus.OK,
-            ResponseStatus.NOT_ENOUGH_RESOURCES
+            OrderResponseStatus.OK,
+            OrderResponseStatus.NOT_ENOUGH_RESOURCES
         ])
     })
 }
@@ -40,8 +41,8 @@ export namespace CreateOrderToPrCampaign {
     })
     export const Response = () => object({
         status: enumerate([
-            ResponseStatus.OK,
-            ResponseStatus.NOT_ENOUGH_RESOURCES
+            OrderResponseStatus.OK,
+            OrderResponseStatus.NOT_ENOUGH_RESOURCES
         ])
     })
 }
@@ -68,8 +69,8 @@ export namespace CreateOrderToConstructionRailway {
     })
     export const Response = () => object({
         status: enumerate([
-            ResponseStatus.OK,
-            ResponseStatus.NOT_ENOUGH_RESOURCES
+            OrderResponseStatus.OK,
+            OrderResponseStatus.NOT_ENOUGH_RESOURCES
         ])
     })
 }
@@ -92,8 +93,8 @@ export namespace CreateOrderToConstructionWarehouse {
     })
     export const Response = () => object({
         status: enumerate([
-            ResponseStatus.OK,
-            ResponseStatus.NOT_ENOUGH_RESOURCES
+            OrderResponseStatus.OK,
+            OrderResponseStatus.NOT_ENOUGH_RESOURCES
         ])
     })
 }
@@ -113,8 +114,8 @@ export namespace CreateOrderToNegotiationsWithIndians {
     })
     export const Response = () => object({
         status: enumerate([
-            ResponseStatus.OK,
-            ResponseStatus.NOT_ENOUGH_RESOURCES
+            OrderResponseStatus.OK,
+            OrderResponseStatus.NOT_ENOUGH_RESOURCES
         ])
     })
 }
@@ -134,8 +135,8 @@ export namespace CreateOrderToBuyingOrders {
     })
     export const Response = () => object({
         status: enumerate([
-            ResponseStatus.OK,
-            ResponseStatus.NOT_ENOUGH_RESOURCES
+            OrderResponseStatus.OK,
+            OrderResponseStatus.NOT_ENOUGH_RESOURCES
         ])
     })
 }

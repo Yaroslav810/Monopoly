@@ -1,5 +1,5 @@
 import {sendForbidden} from "../../../../core/http/httputils"
-import {empty} from "../../../../core/scheme/raw"
+import {empty} from "../../../../core/scheme/pseudo"
 import {Team} from "../../../constants/Team"
 import {Action} from "../../_common/Action"
 import {isPolitician, verifyUserAccess} from "../../_common/checks"
