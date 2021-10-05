@@ -1,12 +1,12 @@
 import {Action} from "../../../_common/Action"
 import {CreateOrderToBuyingOrders} from "../../schemes"
 import {OrderResponseStatus} from "../../../../constants/OrderResponseStatus"
-import {verifyTeam, verifyTimer, verifyUserAccess} from "../../../_common/checks"
+import {verifyTeam, verifyTimer, verifyAuthorized} from "../../../_common/checks"
 import {Team} from "../../../../constants/Team"
 import {verifyExisting} from "../../../../../core/http/httputils"
 
 export const createOrderToBuyingOrders: Action<typeof CreateOrderToBuyingOrders> = async ({dataProvider}, _, {playerToken, order}) => {
-    const politician = verifyUserAccess(await dataProvider.player.getPlayerById(playerToken))
+    const politician = verifyAuthorized(await dataProvider.player.getPlayerById(playerToken))
     verifyTeam(politician.team, [ Team.FEDERATION, Team.CONFEDERATION, Team.REPUBLIC ])
 
     verifyTimer(dataProvider.timer.getRemainingTimeInMs(politician.gameId))

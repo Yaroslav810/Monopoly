@@ -1,6 +1,6 @@
 import {BuildOptions, DataTypes, Model, Sequelize} from "sequelize"
 import {generateUUId} from "../../core/utils/UUIDUtils"
-import {PlayerType} from "./Player"
+import {PlayerRole} from "./Player"
 
 class PoliticianModel extends Model {
     public id!: string
@@ -198,6 +198,21 @@ export function initPoliticianProvider(sequelize: Sequelize) {
                 }
             })
         },
+        update(politician: Politician) {
+            return politicianProvider.update({
+                budgetUnits: politician.getBudgetUnits(),
+                numberMovementArmyBlanks: politician.getNumberMovementArmyBlanks(),
+                numberPrBlanks: politician.getNumberPrBlanks(),
+                numberRailwayConstructionBlanks: politician.getNumberRailwayConstructionBlanks(),
+                numberWarehouseConstructionBlanks: politician.getNumberWarehouseConstructionBlanks(),
+                numberNegotiationsWithIndiansBlanks: politician.getNumberNegotiationsWithIndiansBlanks(),
+                numberNewBlanks: politician.getNumberNewBlanks()
+            }, {
+                where: {
+                    playerId: politician.getPlayerId()
+                }
+            })
+        },
         async getByPlayerId(playerId: string) {
             const politician = await politicianProvider.findOne({
                 where: {
@@ -217,7 +232,7 @@ export function initPoliticianProvider(sequelize: Sequelize) {
 
             return politician.increment('budgetUnits', {by: 15})
         },
-        isPolitician(player: PlayerType): player is Politician {
+        isPolitician(player: PlayerRole): player is Politician {
             return player && player instanceof Politician
         }
     }

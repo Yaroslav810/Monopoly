@@ -1,7 +1,7 @@
 import {PoliticianOrder} from "./politicianOrder"
-import {Logger} from "../../../../../core/Logger"
 import {OrderType} from "../../../../constants/OrderType"
 import {Politician} from "../../../Politician"
+import {Logger} from "../../../../../core/Logger"
 
 export interface WarehouseConstruction {
     tradingCompany: number

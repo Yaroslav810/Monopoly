@@ -1,7 +1,6 @@
 import {sendForbidden, sendUnauthorized} from "../../../core/http/httputils"
-import {Team} from "../../constants/Team"
 
-export const verifyUserAccess = <T>(player: null|T): T => {
+export const verifyAuthorized = <T>(player: null | T): T => {
     if (!player) {
         sendUnauthorized()
     }
@@ -20,8 +19,4 @@ export const verifyTimer = (time: number) => {
     if (!time) {
         sendForbidden("The orders step is not active")
     }
-}
-
-export const isPolitician = (team: Team) => {
-    return ~[Team.FEDERATION, Team.CONFEDERATION, Team.REPUBLIC].indexOf(team)
 }

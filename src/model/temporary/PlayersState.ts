@@ -1,16 +1,16 @@
-import {PlayerType} from "../Player"
+import {PlayerRole} from "../Player"
 
 class State {
-    players = new Map<string, PlayerType>()
+    players = new Map<string, PlayerRole>()
 
-    constructor(players: PlayerType[]) {
+    constructor(players: PlayerRole[]) {
         players.forEach(player => {
             this.players.set(player.getPlayerId(), player)
         })
     }
 
-    getPlayers(): PlayerType[] {
-        const players: Array<PlayerType> = []
+    getPlayers(): PlayerRole[] {
+        const players: Array<PlayerRole> = []
         this.players.forEach(player => {
             players.push(player)
         })
@@ -18,10 +18,10 @@ class State {
         return players
     }
 
-    updatePlayer(playerId: string, data: PlayerType): PlayerType {
+    updatePlayer(playerId: string, data: PlayerRole): PlayerRole {
         this.players.set(playerId, data)
 
-        return this.players.get(playerId) as PlayerType
+        return this.players.get(playerId) as PlayerRole
     }
 }
 
@@ -29,14 +29,14 @@ export function initPlayersStateProvider() {
     const storage = new Map<string, State>()
 
     return {
-        initPlayersStateStorage(gameId: string, players: PlayerType[]): State {
+        initPlayersStateStorage(gameId: string, players: PlayerRole[]): State {
             this.clearState(gameId)
             const state = new State(players)
             storage.set(gameId, state)
 
             return state
         },
-        getPlayerByGameIdAndPlayerId(gameId: string, playerId: string): PlayerType | null {
+        getPlayerByGameIdAndPlayerId(gameId: string, playerId: string): PlayerRole | null {
             const players = this.getStateByGameId(gameId)
             if (!players) {
                 return null
@@ -45,7 +45,7 @@ export function initPlayersStateProvider() {
             return players
                 .find(player => player.getPlayerId() === playerId) ?? null
         },
-        getStateByGameId(gameId: string): PlayerType[] | null {
+        getStateByGameId(gameId: string): PlayerRole[] | null {
             const state = storage.get(gameId)
             if (!state) {
                 return null
@@ -53,7 +53,7 @@ export function initPlayersStateProvider() {
 
             return state.getPlayers()
         },
-        updatePlayerState(gameId: string, playerId: string, data: PlayerType): PlayerType | null {
+        updatePlayerState(gameId: string, playerId: string, data: PlayerRole): PlayerRole | null {
             const state = storage.get(gameId)
             if (!state) {
                 return null

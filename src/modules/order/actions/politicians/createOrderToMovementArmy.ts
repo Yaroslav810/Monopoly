@@ -1,12 +1,12 @@
 import {Action} from "../../../_common/Action"
 import {CreateOrderToMovementArmy} from "../../schemes"
-import {verifyTeam, verifyTimer, verifyUserAccess} from "../../../_common/checks"
+import {verifyTeam, verifyTimer, verifyAuthorized} from "../../../_common/checks"
 import {Team} from "../../../../constants/Team"
 import {sendForbidden, verifyExisting} from "../../../../../core/http/httputils"
 import {OrderResponseStatus} from "../../../../constants/OrderResponseStatus"
 
 export const createOrderToMovementArmy: Action<typeof CreateOrderToMovementArmy> = async ({dataProvider}, _, {playerToken, order}) => {
-    const politician = verifyUserAccess(await dataProvider.player.getPlayerById(playerToken))
+    const politician = verifyAuthorized(await dataProvider.player.getPlayerById(playerToken))
     verifyTeam(politician.team, [ Team.FEDERATION, Team.CONFEDERATION, Team.REPUBLIC ])
 
     if (order.some(item => item.movementFrom === item.movementTo)) {

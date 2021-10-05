@@ -2,19 +2,16 @@ import {sendForbidden} from "../../../../core/http/httputils"
 import {empty} from "../../../../core/scheme/pseudo"
 import {Team} from "../../../constants/Team"
 import {Action} from "../../_common/Action"
-import {isPolitician, verifyUserAccess} from "../../_common/checks"
+import {verifyAuthorized} from "../../_common/checks"
 import {ReleasingTeam} from "../schemes"
 
 export const releasingTeam: Action<typeof ReleasingTeam> = async ({dataProvider}, _, {playerToken}) => {
-    const player = verifyUserAccess(await dataProvider.player.getPlayerById(playerToken))
+    const player = verifyAuthorized(await dataProvider.player.getPlayerById(playerToken))
     if (player.team === Team.GAME_TECHNICIAN) {
         sendForbidden("The role of the game technician cannot be changed")
     }
-    await dataProvider.player.updateTeamById(null, player.id)
 
-    if (isPolitician(player.team)) {
-        await dataProvider.politician.delete(player.id)
-    }
+    await dataProvider.player.releaseTeam(player.id)
 
     return empty
 }

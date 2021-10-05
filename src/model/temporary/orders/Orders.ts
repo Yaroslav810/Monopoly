@@ -1,9 +1,9 @@
-import {Squad, initOrderToMovingArmyProvider} from "./politicianOrders/movingArmy"
-import {PrCampaign, initOrderToPrCampaignProvider} from "./politicianOrders/prCampaign"
-import {RailwayConstruction, initOrderToRailwayConstructionProvider} from "./politicianOrders/railwayConstruction"
-import {WarehouseConstruction, initOrderToWarehouseConstructionProvider} from "./politicianOrders/warehouseConstruction"
-import {BuyingOrders, initOrderToBuyingOrdersProvider} from "./politicianOrders/buyingOrders"
-import {Negotiations, initOrderToNegotiationsWithIndiansProvider} from "./politicianOrders/negotiationsWithIndians"
+import {Squad, initOrderToMovingArmyProvider} from "./politician/movingArmy"
+import {PrCampaign, initOrderToPrCampaignProvider} from "./politician/prCampaign"
+import {RailwayConstruction, initOrderToRailwayConstructionProvider} from "./politician/railwayConstruction"
+import {WarehouseConstruction, initOrderToWarehouseConstructionProvider} from "./politician/warehouseConstruction"
+import {BuyingOrders, initOrderToBuyingOrdersProvider} from "./politician/buyingOrders"
+import {Negotiations, initOrderToNegotiationsWithIndiansProvider} from "./politician/negotiationsWithIndians"
 import {Order} from "./Order"
 import {OrderType} from "../../../constants/OrderType";
 import {Politician} from "../../Politician";
@@ -86,7 +86,8 @@ export function initOrdersProvider() {
             OrderType.PURCHASE_OF_NEW_ORDERS
         ]
 
-        orders.sort((a, b) => {
+        const result = orders.slice()
+        result.sort((a, b) => {
             const indexA = priority.indexOf(a.type)
             const indexB = priority.indexOf(b.type)
 
@@ -95,7 +96,7 @@ export function initOrdersProvider() {
                 : indexA - indexB
         })
 
-        return orders
+        return result
     }
 
     return {

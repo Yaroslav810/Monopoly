@@ -14,7 +14,6 @@ import {initRailwayProvider} from "./Railway"
 import {initRiverProvider} from "./River"
 import {initWarehouseProvider} from "./Warehouse"
 import {initArmyProvider} from "./Army"
-import {initPoliticianProvider} from "./Politician"
 import {initPlayersStateProvider} from "./temporary/PlayersState"
 import {initTimerProvider} from "./temporary/Timer"
 
@@ -46,10 +45,9 @@ export class DataProvider {
     readonly guardRailwayCompany = initGuardRailwayCompanyProvider(this._sequelize)
     readonly railway = initRailwayProvider(this._sequelize)
     readonly warehouse = initWarehouseProvider(this._sequelize)
-    readonly CityProduct = initCityProductProvider(this._sequelize)
-    readonly River = initRiverProvider(this._sequelize)
+    readonly cityProduct = initCityProductProvider(this._sequelize)
+    readonly river = initRiverProvider(this._sequelize)
     readonly player = initPlayerProvider(this._sequelize)
-    readonly politician = initPoliticianProvider(this._sequelize)
     readonly team = initTeamProvider(this)
     readonly orders = initOrdersProvider()
     readonly playersState = initPlayersStateProvider()

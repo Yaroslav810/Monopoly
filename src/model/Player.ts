@@ -1,9 +1,15 @@
 import {BuildOptions, DataTypes, Model, Sequelize} from "sequelize"
 import {generateUUId} from "../../core/utils/UUIDUtils"
 import {Team} from "../constants/Team"
-import {Politician} from "./Politician"
+import {initPoliticianProvider, Politician} from "./Politician"
+import {Role} from "../constants/Role"
 
-export type PlayerType = Politician
+export type PlayerRole = Politician
+
+type TeamInfo = null | {
+    type: Role
+    data: PlayerRole
+}
 
 class Player extends Model {
     public id!: string;
@@ -53,6 +59,48 @@ export function initPlayerProvider(sequelize: Sequelize) {
         underscored: true
     })
 
+
+
+    const createTeam = (player: Player) => {
+        switch (player.team) {
+            case Team.FEDERATION:
+            case Team.CONFEDERATION:
+            case Team.REPUBLIC: {
+                return politician.create(player.id)
+            }
+            default: {
+                return null
+            }
+        }
+    }
+
+    const deleteTeam = (player: Player) => {
+        switch (player.team) {
+            case Team.FEDERATION:
+            case Team.CONFEDERATION:
+            case Team.REPUBLIC: {
+                return politician.delete(player.id)
+            }
+            default: {
+                return null
+            }
+        }
+    }
+
+    const updateTeamById = async (team: number | null, id: string) => {
+        await playerProvider.update({
+            team: team
+        }, {
+            where: {
+                id: id
+            }
+        })
+
+        return playerProvider.findByPk(id)
+    }
+
+    const politician = initPoliticianProvider(sequelize)
+
     return {
         create(player: {name: string, gameId: string, team: number | null}) {
             return playerProvider.create({
@@ -89,12 +137,74 @@ export function initPlayerProvider(sequelize: Sequelize) {
                 order: ["updatedAt"]
             })
         },
-        updateTeamById(team: number | null, id: string) {
-            return playerProvider.update({
-                team: team
-            }, {
-                where: {
-                    id: id
+        async getTeamInfo(playerId: string): Promise<TeamInfo> {
+            const player = await playerProvider.findByPk(playerId)
+            if (!player || !player.team) {
+                return null
+            }
+            switch (player.team) {
+                case Team.FEDERATION:
+                case Team.CONFEDERATION:
+                case Team.REPUBLIC: {
+                    const politicianPlayer = await politician.getByPlayerId(player.id)
+                    if (!politicianPlayer) {
+                        return null
+                    }
+                    return {
+                        type: Role.POLICIES,
+                        data: politicianPlayer as Politician
+                    }
+                }
+            }
+
+            return null
+        },
+        async reserveTeam(team: number | null, playerId: string) {
+            let player = await playerProvider.findByPk(playerId)
+            if (!player) {
+                return
+            }
+            if (player.team) {
+                await deleteTeam(player)
+            }
+            player = await updateTeamById(team, player.id) as Player
+            await createTeam(player)
+        },
+        async releaseTeam(playerId: string) {
+            const player = await playerProvider.findByPk(playerId)
+            if (!player) {
+                return
+            }
+            if (player.team) {
+                await deleteTeam(player)
+            }
+            await updateTeamById(null, playerId)
+        },
+        async getInfoAllPlayers(gameId: string) {
+            const players = await this.getPlayersByGameId(gameId)
+
+            const detailInfoPlayers: Array<PlayerRole> = []
+            for (const player of players) {
+                const teamInfo = await this.getTeamInfo(player.id)
+                if (!teamInfo) {
+                    continue
+                }
+                teamInfo.data.prepareToOrdersStep()
+                detailInfoPlayers.push(teamInfo.data)
+            }
+
+            return detailInfoPlayers
+        },
+        completionOrdersStep(players: PlayerRole[]) {
+            players.forEach(async player => {
+                const teamInfo = await this.getTeamInfo(player.getId())
+                if (!teamInfo) {
+                    return
+                }
+                switch (teamInfo.type) {
+                    case Role.POLICIES: {
+                        await Promise.all([politician.update(player), politician.finishToOrderStep(player.getId())])
+                    }
                 }
             })
         }
