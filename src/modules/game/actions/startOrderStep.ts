@@ -19,11 +19,12 @@ export const startOrderStep: Action<typeof StartOrderStep> = async ({dataProvide
     dataProvider.playersState.initPlayersStateStorage(technician.gameId, detailInfoPlayers)
     dataProvider.orders.initOrdersStorage(technician.gameId)
     dataProvider.timer.start(technician.gameId)
-        .then(() => {
+        .then(async () => {
             dataProvider.orders.executeOrders(technician.gameId)
 
             const players = verifyExisting(dataProvider.playersState.getStateByGameId(technician.gameId))
-            dataProvider.player.completionOrdersStep(players)
+            await dataProvider.player.commitState(players)
+            await dataProvider.player.addRevenueToPlayers(technician.gameId)
         })
 
     return {

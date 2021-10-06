@@ -11,7 +11,7 @@ export const releasingTeam: Action<typeof ReleasingTeam> = async ({dataProvider}
         sendForbidden("The role of the game technician cannot be changed")
     }
 
-    await dataProvider.player.releaseTeam(player.id)
+    await dataProvider.player.deleteTeam(player.id)
 
     return empty
 }

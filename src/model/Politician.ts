@@ -1,6 +1,6 @@
 import {BuildOptions, DataTypes, Model, Sequelize} from "sequelize"
 import {generateUUId} from "../../core/utils/UUIDUtils"
-import {PlayerRole} from "./Player"
+import {RoleStateHolder} from "./Player"
 
 class PoliticianModel extends Model {
     public id!: string
@@ -224,15 +224,15 @@ export function initPoliticianProvider(sequelize: Sequelize) {
                 ? new Politician(politician)
                 : null
         },
-        async finishToOrderStep(politicianId: string) {
+        async addBudgetUnits(politicianId: string, quantity: number) {
             const politician = await politicianProvider.findByPk(politicianId)
             if (!politician) {
                 return null
             }
 
-            return politician.increment('budgetUnits', {by: 15})
+            return politician.increment('budgetUnits', {by: quantity})
         },
-        isPolitician(player: PlayerRole): player is Politician {
+        isPolitician(player: RoleStateHolder): player is Politician {
             return player && player instanceof Politician
         }
     }

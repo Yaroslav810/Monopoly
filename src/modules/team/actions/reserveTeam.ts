@@ -14,7 +14,7 @@ export const reserveTeam: Action<typeof ReserveTeam> = async ({dataProvider}, _,
         sendForbidden("The current role in this game session is already reserved for another team")
     }
 
-    await dataProvider.player.reserveTeam(team, player.id)
+    await dataProvider.player.setTeam(team, player.id)
 
     return empty
 }
