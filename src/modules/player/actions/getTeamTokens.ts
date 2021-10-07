@@ -1,10 +1,10 @@
 import {Team} from "../../../constants/Team"
 import {Action} from "../../_common/Action"
-import {verifyTeam, verifyUserAccess} from "../../_common/checks"
+import {verifyTeam, verifyAuthorized} from "../../_common/checks"
 import {GetTeamTokens} from "../schemes"
 
 export const getTeamTokens: Action<typeof GetTeamTokens> = async ({dataProvider}, _, {playerToken}) => {
-    const technician = verifyUserAccess(await dataProvider.player.getPlayerById(playerToken))
+    const technician = verifyAuthorized(await dataProvider.player.getPlayerById(playerToken))
     verifyTeam(technician.team, [ Team.GAME_TECHNICIAN ])
 
     const players = await dataProvider.player.getPlayersByGameId(technician.gameId)

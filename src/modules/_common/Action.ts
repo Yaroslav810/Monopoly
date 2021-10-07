@@ -2,7 +2,7 @@ import {BaseAction} from "../../../core/routing/IRouter"
 import {Validator} from "../../../core/scheme/_common"
 import {DataProvider} from "../../model/DataProvider"
 import {SessionStorage} from "../../model/SessionStorage"
-import {empty} from "../../../core/scheme/raw"
+import {empty} from "../../../core/scheme/pseudo"
 
 export type SchemeType<SCHEME extends () => Validator<unknown>> = SCHEME extends () => Validator<infer T> ? T : never;
 

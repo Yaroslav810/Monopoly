@@ -3,7 +3,7 @@ import {Logger} from "../../core/Logger"
 import {settings} from "../../core/Settings"
 import {initNativeAmericanProvider} from "./NativeAmerican"
 import {initGameProvider} from "./Game"
-import {initOrdersProvider} from "./Orders"
+import {initOrdersProvider} from "./temporary/orders/Orders"
 import {initPlayerProvider} from "./Player"
 import {initTeamProvider} from "./Team"
 import {initStaticObjectProvider} from "./StaticObject"
@@ -14,6 +14,8 @@ import {initRailwayProvider} from "./Railway"
 import {initRiverProvider} from "./River"
 import {initWarehouseProvider} from "./Warehouse"
 import {initArmyProvider} from "./Army"
+import {initPlayersStateProvider} from "./temporary/PlayersState"
+import {initTimerProvider} from "./temporary/Timer"
 
 export class DataProvider {
     public async init() {
@@ -43,9 +45,11 @@ export class DataProvider {
     readonly guardRailwayCompany = initGuardRailwayCompanyProvider(this._sequelize)
     readonly railway = initRailwayProvider(this._sequelize)
     readonly warehouse = initWarehouseProvider(this._sequelize)
-    readonly CityProduct = initCityProductProvider(this._sequelize)
-    readonly River = initRiverProvider(this._sequelize)
+    readonly cityProduct = initCityProductProvider(this._sequelize)
+    readonly river = initRiverProvider(this._sequelize)
     readonly player = initPlayerProvider(this._sequelize)
     readonly team = initTeamProvider(this)
     readonly orders = initOrdersProvider()
+    readonly playersState = initPlayersStateProvider()
+    readonly timer = initTimerProvider()
 }

@@ -1,6 +1,6 @@
 import {object} from "../../../core/scheme/object"
 import {guid, string} from "../../../core/scheme/string"
-import {empty, optional} from "../../../core/scheme/raw"
+import {empty, optional} from "../../../core/scheme/pseudo"
 import {Team} from "../../constants/Team"
 
 export namespace CreatePlayer {

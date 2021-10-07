@@ -1,7 +1,7 @@
 import {array} from "../../../core/scheme/array"
 import {number} from "../../../core/scheme/number"
 import {object} from "../../../core/scheme/object"
-import {empty} from "../../../core/scheme/raw"
+import {empty} from "../../../core/scheme/pseudo"
 import {guid} from "../../../core/scheme/string"
 import {Role} from "../../constants/Role"
 

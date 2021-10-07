@@ -1,6 +1,6 @@
 import {ValidationError, Validator} from "./_common"
 
-export function raw<T>(value: T): Validator<T> {
+export function pseudo<T>(value: T): Validator<T> {
     return val => {
         if (val !== value) {
             throw new ValidationError(`${val} is not ${value}`)
@@ -44,5 +44,5 @@ export function alternative<T, R, E, K>(validators: Array<Validator<T>|Validator
 }
 
 export function optional<T>(validator: Validator<T>): Validator<T|null> {
-    return alternative([validator, raw(null)])
+    return alternative([validator, pseudo(null)])
 }

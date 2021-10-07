@@ -1,6 +1,6 @@
 import {sendForbidden, sendUnauthorized} from "../../../core/http/httputils"
 
-export const verifyUserAccess = <T>(player: null|T): T => {
+export const verifyAuthorized = <T>(player: null | T): T => {
     if (!player) {
         sendUnauthorized()
     }
@@ -12,5 +12,11 @@ export const verifyTeam = (checkingTeam: number, availableTeamsList: Array<numbe
     
     if (!isTeamPresent) {
         sendForbidden("The team does not have access to perform operations")
+    }
+}
+
+export const verifyTimer = (time: number) => {
+    if (!time) {
+        sendForbidden("The orders step is not active")
     }
 }

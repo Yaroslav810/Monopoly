@@ -18,6 +18,14 @@ export function teamRouts(router: IRouter<DataProvider, SessionStorage>) {
         action: reserveTeam
     })
     router.addRout({
+        path: "/team/releasing",
+        method: HttpMethod.POST,
+        pathVariables: ReleasingTeam.PathVariables(),
+        requestScheme: ReleasingTeam.Request(),
+        responseScheme: ReleasingTeam.Response(),
+        action: releasingTeam
+    })
+    router.addRout({
         path: "/team/free/list",
         method: HttpMethod.POST,
         pathVariables: GetFreeTeams.PathVariables(),
@@ -32,13 +40,5 @@ export function teamRouts(router: IRouter<DataProvider, SessionStorage>) {
         requestScheme: GetOccupiedTeams.Request(),
         responseScheme: GetOccupiedTeams.Response(),
         action: getOccupiedTeams
-    })
-    router.addRout({
-        path: "/team/releasing",
-        method: HttpMethod.POST,
-        pathVariables: ReleasingTeam.PathVariables(),
-        requestScheme: ReleasingTeam.Request(),
-        responseScheme: ReleasingTeam.Response(),
-        action: releasingTeam
     })
 }

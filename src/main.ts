@@ -5,6 +5,7 @@ import {initApp} from "../core/initApp"
 import {playerRouts} from "./modules/player/routes"
 import {gameRouts} from "./modules/game/routes"
 import {teamRouts} from "./modules/team/routes"
+import {orderRouts} from "./modules/order/routes"
 
 const config = {
     port: settings.APP_PORT
@@ -12,7 +13,8 @@ const config = {
 const routs = [
     playerRouts,
     gameRouts,
-    teamRouts
+    teamRouts,
+    orderRouts
 ]
 const dataProvider = new DataProvider()
 
