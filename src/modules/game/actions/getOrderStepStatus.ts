@@ -3,12 +3,13 @@ import {Action} from "../../_common/Action"
 import {verifyTeam, verifyAuthorized} from "../../_common/checks"
 import {GetStatusOrderStep} from "../schemes"
 import {Logger} from "../../../../core/Logger"
+import {verifyExisting} from "../../../../core/http/httputils"
 
 export const getStatusOrderStep: Action<typeof GetStatusOrderStep> = async ({dataProvider}, _, {playerToken}) => {
     const technician = verifyAuthorized(await dataProvider.player.getPlayerById(playerToken))
     verifyTeam(technician.team, [ Team.GAME_TECHNICIAN ])
 
-    const players = dataProvider.playersState.getStateByGameId(technician.gameId)
+    const players = verifyExisting(dataProvider.playersState.getStateByGameId(technician.gameId))
     players!.forEach(player => {
         Logger.log(player.getId())
         Logger.log(String(player.getBudgetUnits()))

@@ -112,7 +112,7 @@ export class Politician {
         return this.numberNewBlanks
     }
 
-    public prepareToOrdersStep() {
+    public prepareData() {
         this.setNumberMovementArmyBlanks(1)
         this.setNumberNewBlanks(1)
     }

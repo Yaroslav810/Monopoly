@@ -15,6 +15,7 @@ export const startOrderStep: Action<typeof StartOrderStep> = async ({dataProvide
     if (detailInfoPlayers.length === 0) {
         sendForbidden("A game without players is not interesting, probably")
     }
+    dataProvider.player.prepareData(detailInfoPlayers)
 
     dataProvider.playersState.initPlayersStateStorage(technician.gameId, detailInfoPlayers)
     dataProvider.orders.initOrdersStorage(technician.gameId)

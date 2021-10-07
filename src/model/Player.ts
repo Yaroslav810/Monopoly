@@ -3,7 +3,7 @@ import {generateUUId} from "../../core/utils/UUIDUtils"
 import {Team} from "../constants/Team"
 import {initPoliticianProvider, Politician} from "./Politician"
 import {Role} from "../constants/Role"
-import {Logger} from "../../core/Logger";
+import {notEmpty} from "../../core/utils/typeutils"
 
 export type RoleStateHolder = Politician
 
@@ -55,7 +55,7 @@ export function initPlayerProvider(sequelize: Sequelize) {
             onDelete: "cascade",
             field: "game_id"
         }
-    }, 
+    },
     {
         indexes: [
             {
@@ -118,7 +118,7 @@ export function initPlayerProvider(sequelize: Sequelize) {
         }
     }
 
-    const _getTeamInfo = async (playerId: string) => {
+    const _getTeamInfo = async (playerId: string): Promise<TeamInfo> => {
         const player = await playerProvider.findByPk(playerId)
         if (!player || !player.team) {
             return null
@@ -141,15 +141,15 @@ export function initPlayerProvider(sequelize: Sequelize) {
         return null
     }
 
-    const _commitStatePlayer = async (player: RoleStateHolder) => {
-        const teamInfo = await _getTeamInfo(player.getPlayerId())
-        if (!teamInfo) {
-            Logger.error(`There is no alias for the temporary state for ${player.getPlayerId()}`)
-            return
-        }
-        switch (teamInfo.type) {
-            case Role.POLICIES: {
-                await politician.update(player)
+    const _getTeam = async (player: Player) => {
+        switch (player.team) {
+            case Team.FEDERATION:
+            case Team.CONFEDERATION:
+            case Team.REPUBLIC: {
+                return politician.getByPlayerId(player.id)
+            }
+            default: {
+                return null
             }
         }
     }
@@ -192,9 +192,6 @@ export function initPlayerProvider(sequelize: Sequelize) {
                 order: ["updatedAt"]
             })
         },
-        getTeamInfo(playerId: string): Promise<TeamInfo> {
-            return _getTeamInfo(playerId)
-        },
         async setTeam(team: number | null, playerId: string) {
             let player = await playerProvider.findByPk(playerId)
             if (!player) {
@@ -216,25 +213,27 @@ export function initPlayerProvider(sequelize: Sequelize) {
             }
             await updateTeamById(null, playerId)
         },
-        async getInfoAllPlayers(gameId: string) {
+        async getInfoAllPlayers(gameId: string): Promise<RoleStateHolder[]> {
             const players = await this.getPlayersByGameId(gameId)
 
-            const detailInfoPlayers: Array<RoleStateHolder> = []
+            const teamsInfo = []
             for (const player of players) {
-                const teamInfo = await this.getTeamInfo(player.id)
-                if (!teamInfo) {
-                    continue
-                }
-                teamInfo.data.prepareToOrdersStep()
-                detailInfoPlayers.push(teamInfo.data)
+                teamsInfo.push(_getTeam(player))
             }
 
-            return detailInfoPlayers
+            return (await Promise.all(teamsInfo)).filter(notEmpty)
+        },
+        prepareData(players: RoleStateHolder[]) {
+            players.forEach(player => {
+                player.prepareData()
+            })
         },
         async commitState(players: RoleStateHolder[]) {
             const updatePlayers = []
             for (const player of players) {
-                updatePlayers.push(_commitStatePlayer(player))
+                if (politician.isPolitician(player)) {
+                    updatePlayers.push(politician.update(player))
+                }
             }
             await Promise.all(updatePlayers)
         },
