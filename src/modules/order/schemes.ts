@@ -4,7 +4,7 @@ import {guid, string} from "../../../core/scheme/string"
 import {array} from "../../../core/scheme/array"
 import {number} from "../../../core/scheme/number"
 import {boolean} from "../../../core/scheme/boolean"
-import {OrderResponseStatus} from "../../constants/OrderResponseStatus"
+import {OrderResponseStatus} from "../../constants/ResponseStatuses/OrderResponseStatus"
 import {Team} from "../../constants/Team"
 
 export namespace CreateOrderToMovementArmy {

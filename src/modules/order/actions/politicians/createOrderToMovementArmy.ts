@@ -3,7 +3,7 @@ import {CreateOrderToMovementArmy} from "../../schemes"
 import {verifyTeam, verifyTimer, verifyAuthorized} from "../../../_common/checks"
 import {Team} from "../../../../constants/Team"
 import {sendForbidden, verifyExisting} from "../../../../../core/http/httputils"
-import {OrderResponseStatus} from "../../../../constants/OrderResponseStatus"
+import {OrderResponseStatus} from "../../../../constants/ResponseStatuses/OrderResponseStatus"
 
 export const createOrderToMovementArmy: Action<typeof CreateOrderToMovementArmy> = async ({dataProvider}, _, {playerToken, order}) => {
     const politician = verifyAuthorized(await dataProvider.player.getPlayerById(playerToken))

@@ -67,30 +67,29 @@ export function initPlayerProvider(sequelize: Sequelize) {
     })
 
 
-
     const createTeam = (player: Player) => {
         switch (player.team) {
-            case Team.FEDERATION:
-            case Team.CONFEDERATION:
-            case Team.REPUBLIC: {
-                return politician.create(player.id)
-            }
-            default: {
-                return null
-            }
+        case Team.FEDERATION:
+        case Team.CONFEDERATION:
+        case Team.REPUBLIC: {
+            return politician.create(player.id)
+        }
+        default: {
+            return null
+        }
         }
     }
 
     const deleteTeam = (player: Player) => {
         switch (player.team) {
-            case Team.FEDERATION:
-            case Team.CONFEDERATION:
-            case Team.REPUBLIC: {
-                return politician.delete(player.id)
-            }
-            default: {
-                return null
-            }
+        case Team.FEDERATION:
+        case Team.CONFEDERATION:
+        case Team.REPUBLIC: {
+            return politician.delete(player.id)
+        }
+        default: {
+            return null
+        }
         }
     }
 
@@ -112,9 +111,9 @@ export function initPlayerProvider(sequelize: Sequelize) {
             return
         }
         switch (teamInfo.type) {
-            case Role.POLICIES: {
-                await politician.addBudgetUnits(teamInfo.data.getId(), 15)
-            }
+        case Role.POLICIES: {
+            await politician.addBudgetUnits(teamInfo.data.getId(), 15)
+        }
         }
     }
 
@@ -124,18 +123,18 @@ export function initPlayerProvider(sequelize: Sequelize) {
             return null
         }
         switch (player.team) {
-            case Team.FEDERATION:
-            case Team.CONFEDERATION:
-            case Team.REPUBLIC: {
-                const politicianPlayer = await politician.getByPlayerId(player.id)
-                if (!politicianPlayer) {
-                    return null
-                }
-                return {
-                    type: Role.POLICIES,
-                    data: politicianPlayer as Politician
-                }
+        case Team.FEDERATION:
+        case Team.CONFEDERATION:
+        case Team.REPUBLIC: {
+            const politicianPlayer = await politician.getByPlayerId(player.id)
+            if (!politicianPlayer) {
+                return null
             }
+            return {
+                type: Role.POLICIES,
+                data: politicianPlayer as Politician
+            }
+        }
         }
 
         return null
@@ -143,14 +142,14 @@ export function initPlayerProvider(sequelize: Sequelize) {
 
     const _getTeam = async (player: Player) => {
         switch (player.team) {
-            case Team.FEDERATION:
-            case Team.CONFEDERATION:
-            case Team.REPUBLIC: {
-                return politician.getByPlayerId(player.id)
-            }
-            default: {
-                return null
-            }
+        case Team.FEDERATION:
+        case Team.CONFEDERATION:
+        case Team.REPUBLIC: {
+            return politician.getByPlayerId(player.id)
+        }
+        default: {
+            return null
+        }
         }
     }
 
