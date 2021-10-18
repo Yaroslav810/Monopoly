@@ -43,16 +43,16 @@ export class Router<DATA, SESSION_DATA> implements IRouter<DATA, SESSION_DATA> {
         if (error instanceof HttpError) {
             res.setStatus(error.status)
             switch (error.status) {
-            case HttpStatus.REDIRECT:
-                return res.redirect(error.message)
-            case HttpStatus.BAD_REQUEST:
-                return res.resolveText(`Bad request: ${error.message}`)
-            case HttpStatus.UNAUTHORIZED:
-                return res.resolveText(`Unaithorized: ${error.message}`)
-            case HttpStatus.FORBIDDEN:
-                return res.resolveText(`Forbidden: ${error.message}`)
-            case HttpStatus.NOT_FOUND:
-                return res.resolveText(`Not found: ${error.message}`)
+                case HttpStatus.REDIRECT:
+                    return res.redirect(error.message)
+                case HttpStatus.BAD_REQUEST:
+                    return res.resolveText(`Bad request: ${error.message}`)
+                case HttpStatus.UNAUTHORIZED:
+                    return res.resolveText(`Unaithorized: ${error.message}`)
+                case HttpStatus.FORBIDDEN:
+                    return res.resolveText(`Forbidden: ${error.message}`)
+                case HttpStatus.NOT_FOUND:
+                    return res.resolveText(`Not found: ${error.message}`)
             }
         }
         Router._resolve500(error, res)

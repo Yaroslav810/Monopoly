@@ -17,12 +17,12 @@ export class ExpressServer implements IServer {
             ExpressServer._mapResponse(res)
         )
         switch (method) {
-        case HttpMethod.GET:
-            this._app.get(path, listener)
-            break
-        case HttpMethod.POST:
-            this._app.post(path, listener)
-            break
+            case HttpMethod.GET:
+                this._app.get(path, listener)
+                break
+            case HttpMethod.POST:
+                this._app.post(path, listener)
+                break
         }
     }
 
