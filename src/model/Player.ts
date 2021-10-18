@@ -67,7 +67,6 @@ export function initPlayerProvider(sequelize: Sequelize) {
     })
 
 
-
     const createTeam = (player: Player) => {
         switch (player.team) {
             case Team.FEDERATION:

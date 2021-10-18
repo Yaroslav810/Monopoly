@@ -1,6 +1,6 @@
 import {Action} from "../../../_common/Action"
 import {CreateOrderToBuyingOrders} from "../../schemes"
-import {OrderResponseStatus} from "../../../../constants/OrderResponseStatus"
+import {OrderResponseStatus} from "../../../../constants/ResponseStatuses/OrderResponseStatus"
 import {verifyTeam, verifyTimer, verifyAuthorized} from "../../../_common/checks"
 import {Team} from "../../../../constants/Team"
 import {verifyExisting} from "../../../../../core/http/httputils"

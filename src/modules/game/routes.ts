@@ -2,11 +2,13 @@ import {IRouter} from "../../../core/routing/IRouter"
 import {HttpMethod} from "../../../core/http/HttpMethod"
 import {SessionStorage} from "../../model/SessionStorage"
 import {DataProvider} from "../../model/DataProvider"
-import {CreateGame, StartOrderStep, GetStatusOrderStep, GetRating} from "./schemes"
+import {CreateGame, StartOrderStep, GetStatusOrderStep, GetRating, GetGame, GetStatus} from "./schemes"
 import {createGame} from "./actions/createGame"
 import {getRating} from "./actions/getRating"
 import {startOrderStep} from "./actions/startOrderStep"
 import {getStatusOrderStep} from "./actions/getOrderStepStatus"
+import {getGame} from "./actions/getGame"
+import {getStatus} from "./actions/getStatus"
 
 export function gameRouts(router: IRouter<DataProvider, SessionStorage>) {
     router.addRout({
@@ -24,6 +26,22 @@ export function gameRouts(router: IRouter<DataProvider, SessionStorage>) {
         requestScheme: GetRating.Request(),
         responseScheme: GetRating.Response(),
         action: getRating
+    })
+    router.addRout({
+        path: "/game/get-game",
+        method: HttpMethod.POST,
+        pathVariables: GetGame.PathVariables(),
+        requestScheme: GetGame.Request(),
+        responseScheme: GetGame.Response(),
+        action: getGame
+    })
+    router.addRout({
+        path: "/game/get-status",
+        method: HttpMethod.POST,
+        pathVariables: GetStatus.PathVariables(),
+        requestScheme: GetStatus.Request(),
+        responseScheme: GetStatus.Response(),
+        action: getStatus
     })
     router.addRout({
         path: "/game/orders-step/start",

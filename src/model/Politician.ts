@@ -230,7 +230,7 @@ export function initPoliticianProvider(sequelize: Sequelize) {
                 return null
             }
 
-            return politician.increment('budgetUnits', {by: quantity})
+            return politician.increment("budgetUnits", {by: quantity})
         },
         isPolitician(player: RoleStateHolder): player is Politician {
             return player && player instanceof Politician

@@ -1,7 +1,7 @@
-import {PoliticianOrder} from "./politicianOrder";
-import {Logger} from "../../../../../core/Logger";
-import {OrderType} from "../../../../constants/OrderType";
-import {Politician} from "../../../Politician";
+import {PoliticianOrder} from "./politicianOrder"
+import {Logger} from "../../../../../core/Logger"
+import {OrderType} from "../../../../constants/OrderType"
+import {Politician} from "../../../Politician"
 
 export interface BuyingOrders {
     numberPrBlanks: number
@@ -22,7 +22,7 @@ class BuyingOrdersPoliticalOrder implements PoliticianOrder {
     }
 
     execute() {
-        Logger.log(`Покупаю бланки приказов. Дорого!`)
+        Logger.log("Покупаю бланки приказов. Дорого!")
     }
 }
 

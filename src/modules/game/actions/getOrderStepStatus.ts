@@ -10,7 +10,7 @@ export const getStatusOrderStep: Action<typeof GetStatusOrderStep> = async ({dat
     verifyTeam(technician.team, [ Team.GAME_TECHNICIAN ])
 
     const players = verifyExisting(dataProvider.playersState.getStateByGameId(technician.gameId))
-    players!.forEach(player => {
+    players.forEach(player => {
         Logger.log(player.getId())
         Logger.log(String(player.getBudgetUnits()))
         Logger.log(String(player.getNumberMovementArmyBlanks()))

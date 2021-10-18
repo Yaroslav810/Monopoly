@@ -1,3 +1,3 @@
-import {Order} from "../Order";
+import {Order} from "../Order"
 
-export interface PoliticianOrder extends Order {}
+export type PoliticianOrder = Order

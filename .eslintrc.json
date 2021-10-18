@@ -19,7 +19,7 @@
         "@typescript-eslint/no-namespace": "off",
         "@typescript-eslint/no-explicit-any": "off",
         "@typescript-eslint/explicit-module-boundary-types": "off",
-        "indent": ["error", 4], // Отступы в 4 пробела
+        "indent": ["error", 4, { "SwitchCase": 1 }], // Отступы в 4 пробела
         "quotes": "error", // Двойные кавычки
         "semi": ["error", "never"], // Отсутствие точек с запятой
         "no-multiple-empty-lines": "error", // Зпрет на создание более одной пустой строки

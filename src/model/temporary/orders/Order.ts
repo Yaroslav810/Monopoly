@@ -1,4 +1,4 @@
-import {OrderType} from "../../../constants/OrderType";
+import {OrderType} from "../../../constants/OrderType"
 
 export interface Order {
     type: OrderType

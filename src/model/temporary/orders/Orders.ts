@@ -5,8 +5,8 @@ import {WarehouseConstruction, initOrderToWarehouseConstructionProvider} from ".
 import {BuyingOrders, initOrderToBuyingOrdersProvider} from "./politician/buyingOrders"
 import {Negotiations, initOrderToNegotiationsWithIndiansProvider} from "./politician/negotiationsWithIndians"
 import {Order} from "./Order"
-import {OrderType} from "../../../constants/OrderType";
-import {Politician} from "../../Politician";
+import {OrderType} from "../../../constants/OrderType"
+import {Politician} from "../../Politician"
 
 class Orders {
     storage: Order[]
