@@ -1,8 +1,12 @@
-import {BuildOptions, DataTypes, Model, Sequelize} from "sequelize"
-import {generateUUId} from "../../core/utils/UUIDUtils"
 import {Team} from "../constants/Team"
-import {initPoliticianProvider, Politician} from "./Politician"
 import {Role} from "../constants/Role"
+import {Player} from "./entities/Player"
+import {Politician} from "./entities/Politician"
+import {PlayerRepository} from "../infrastructure/repositories/playerRepository"
+import {TempPlayerRepository} from "../infrastructure/repositories/tempPlayerRepository"
+import {GameRepository} from "../infrastructure/repositories/gameRepository"
+import {TimerRepository} from "../infrastructure/repositories/timerRepository"
+import {initPoliticianProvider} from "./Politician"
 import {notEmpty} from "../../core/utils/typeutils"
 
 export type RoleStateHolder = Politician
@@ -18,61 +22,18 @@ type TeamInfo = null | {
     data: Politician
 }
 
-class Player extends Model {
-    public id!: string;
-    public name!: string;
-    public team!: number;
-    public gameId!: string;
-}
-
-type PlayerStatic = typeof Model & {
-    new (values?: Record<string, unknown>, options?: BuildOptions): Player
-}
-
-export function initPlayerProvider(sequelize: Sequelize) {
-    const playerProvider = <PlayerStatic>sequelize.define("Player", {
-        id: {
-            type: DataTypes.UUID,
-            primaryKey: true,
-            unique: true,
-            allowNull: false
-        },
-        name: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        team: {
-            type: DataTypes.TINYINT,
-            field: "team"
-        },
-        gameId: {
-            type: DataTypes.UUID,
-            allowNull: false,
-            references: {
-                model: "Game",
-                key: "id"
-            },
-            onDelete: "cascade",
-            field: "game_id"
-        }
-    },
-    {
-        indexes: [
-            {
-                unique: true,
-                fields: ["team", "game_id"]
-            }
-        ],
-        underscored: true
-    })
-
-
+export function initPlayerProvider(
+    playerRepository: PlayerRepository,
+    _: TempPlayerRepository,
+    __: GameRepository,
+    ___: TimerRepository
+) {
     const createTeam = (player: Player) => {
-        switch (player.team) {
+        switch (player.getTeam()) {
             case Team.FEDERATION:
             case Team.CONFEDERATION:
             case Team.REPUBLIC: {
-                return politician.create(player.id)
+                return politician.create(player.getId())
             }
             default: {
                 return null
@@ -81,11 +42,11 @@ export function initPlayerProvider(sequelize: Sequelize) {
     }
 
     const deleteTeam = (player: Player) => {
-        switch (player.team) {
+        switch (player.getTeam()) {
             case Team.FEDERATION:
             case Team.CONFEDERATION:
             case Team.REPUBLIC: {
-                return politician.delete(player.id)
+                return politician.delete(player.getId())
             }
             default: {
                 return null
@@ -93,20 +54,21 @@ export function initPlayerProvider(sequelize: Sequelize) {
         }
     }
 
-    const updateTeamById = async (team: number | null, id: string) => {
-        await playerProvider.update({
-            team: team
-        }, {
-            where: {
-                id: id
+    const getTeam = async (player: Player) => {
+        switch (player.getTeam()) {
+            case Team.FEDERATION:
+            case Team.CONFEDERATION:
+            case Team.REPUBLIC: {
+                return politician.getByPlayerId(player.getId())
             }
-        })
-
-        return playerProvider.findByPk(id)
+            default: {
+                return null
+            }
+        }
     }
 
-    const _addRevenueToPlayer = async (player: Player) => {
-        const teamInfo = await _getTeamInfo(player.id)
+    const addRevenueToPlayer = async (player: Player) => {
+        const teamInfo = await getTeamInfo(player.getId())
         if (!teamInfo) {
             return
         }
@@ -117,16 +79,16 @@ export function initPlayerProvider(sequelize: Sequelize) {
         }
     }
 
-    const _getTeamInfo = async (playerId: string): Promise<TeamInfo> => {
-        const player = await playerProvider.findByPk(playerId)
-        if (!player || !player.team) {
+    const getTeamInfo = async (playerId: string): Promise<TeamInfo> => {
+        const player = await playerRepository.getPlayerById(playerId)
+        if (!player || !player.getTeam()) {
             return null
         }
-        switch (player.team) {
+        switch (player.getTeam()) {
             case Team.FEDERATION:
             case Team.CONFEDERATION:
             case Team.REPUBLIC: {
-                const politicianPlayer = await politician.getByPlayerId(player.id)
+                const politicianPlayer = await politician.getByPlayerId(player.getId())
                 if (!politicianPlayer) {
                     return null
                 }
@@ -140,93 +102,79 @@ export function initPlayerProvider(sequelize: Sequelize) {
         return null
     }
 
-    const _getTeam = async (player: Player) => {
-        switch (player.team) {
-            case Team.FEDERATION:
-            case Team.CONFEDERATION:
-            case Team.REPUBLIC: {
-                return politician.getByPlayerId(player.id)
-            }
-            default: {
-                return null
-            }
-        }
-    }
-
-    const politician = initPoliticianProvider(sequelize)
+    const politician = initPoliticianProvider(playerRepository)
 
     return {
-        create(player: {name: string, gameId: string, team: number | null}) {
-            return playerProvider.create({
-                id: generateUUId(),
-                name: player.name,
-                team: player.team,
-                gameId: player.gameId
-            })
+        create(player: {name: string, gameId: string, team: number | null}): Promise<Player> {
+            return playerRepository.createPlayer(player)
         },
-        createGameTechnician(gameId: string) {
-            return playerProvider.create({
-                id: generateUUId(),
+
+        createGameTechnician(gameId: string): Promise<Player> {
+            return playerRepository.createPlayer({
                 name: "Game Technician",
-                team: Team.GAME_TECHNICIAN,
-                gameId: gameId
+                gameId: gameId,
+                team: Team.GAME_TECHNICIAN
             })
         },
-        getPlayerById(id: string) {
-            return playerProvider.findByPk(id)
+
+        getPlayerById(playerId: string): Promise<Player | null> {
+            return playerRepository.getPlayerById(playerId)
         },
-        getPlayerByGameIdAndTeam(gameId: string, team: number) {
-            return playerProvider.findOne({
-                where: {
-                    gameId: gameId,
-                    team: team
-                }
-            })
+
+        getPlayerByGameIdAndTeam(gameId: string, team: Team): Promise<Player | null> {
+            return playerRepository.getPlayerByGameIdAndTeam(gameId, team)
         },
-        getPlayersByGameId(gameId: string) {
-            return playerProvider.findAll({
-                where: {
-                    gameId: gameId
-                },
-                order: ["updatedAt"]
-            })
+
+        getPlayersByGameId(gameId: string): Promise<Player[]> {
+            return playerRepository.getPlayersByGameId(gameId)
         },
-        async setTeam(team: number | null, playerId: string) {
-            let player = await playerProvider.findByPk(playerId)
+
+        async setTeam(team: Team, playerId: string): Promise<void> {
+            const player = await playerRepository.getPlayerById(playerId)
             if (!player) {
                 return
             }
-            if (player.team) {
+
+            if (player.getTeam() !== null) {
                 await deleteTeam(player)
             }
-            player = await updateTeamById(team, player.id) as Player
-            await createTeam(player)
+
+            player.setTeam(team)
+            await Promise.all([
+                playerRepository.setTeamById(team, player.getId()),
+                createTeam(player)
+            ])
         },
-        async deleteTeam(playerId: string) {
-            const player = await playerProvider.findByPk(playerId)
+
+        async deleteTeam(playerId: string): Promise<void> {
+            const player = await playerRepository.getPlayerById(playerId)
             if (!player) {
                 return
             }
-            if (player.team) {
-                await deleteTeam(player)
-            }
-            await updateTeamById(null, playerId)
+
+            await Promise.all([
+                deleteTeam(player),
+                playerRepository.setTeamById(null, playerId)
+            ])
         },
-        async getInfoAllPlayers(gameId: string): Promise<RoleStateHolder[]> {
+
+        async getInfoAboutTeams(gameId: string): Promise<RoleStateHolder[]> {
             const players = await this.getPlayersByGameId(gameId)
 
             const teamsInfo = []
             for (const player of players) {
-                teamsInfo.push(_getTeam(player))
+                teamsInfo.push(getTeam(player))
             }
 
             return (await Promise.all(teamsInfo)).filter(notEmpty)
         },
+
         prepareData(players: RoleStateHolder[]) {
             players.forEach(player => {
                 player.prepareData()
             })
         },
+
         async commitState(players: RoleStateHolder[]) {
             const updatePlayers = []
             for (const player of players) {
@@ -236,12 +184,13 @@ export function initPlayerProvider(sequelize: Sequelize) {
             }
             await Promise.all(updatePlayers)
         },
+
         async addRevenueToPlayers(gameId: string) {
             const players = await this.getPlayersByGameId(gameId)
 
             const teamsInfo = []
             for (const player of players) {
-                teamsInfo.push(_addRevenueToPlayer(player))
+                teamsInfo.push(addRevenueToPlayer(player))
             }
             await Promise.all(teamsInfo)
         }

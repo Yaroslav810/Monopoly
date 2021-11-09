@@ -1,6 +1,5 @@
 import {PoliticianOrder} from "./politicianOrder"
 import {OrderType} from "../../../../constants/OrderType"
-import {Politician} from "../../../Politician"
 import {Logger} from "../../../../../core/Logger"
 
 export interface WarehouseConstruction {
@@ -9,14 +8,21 @@ export interface WarehouseConstruction {
 }
 
 class WarehouseConstructionPoliticalOrder implements PoliticianOrder {
-    type = OrderType.TRADING
-    playerId
-
-    order: WarehouseConstruction
+    private readonly type = OrderType.TRADING
+    private readonly playerId
+    private readonly order: WarehouseConstruction
 
     constructor(playerId: string, order: WarehouseConstruction) {
         this.playerId = playerId
         this.order = order
+    }
+
+    getType(): OrderType {
+        return this.type
+    }
+
+    getPlayerId(): string {
+        return this.playerId
     }
 
     execute() {
@@ -25,17 +31,8 @@ class WarehouseConstructionPoliticalOrder implements PoliticianOrder {
 }
 
 export function initOrderToWarehouseConstructionProvider() {
-
     return {
-        create(playerId: string, order: WarehouseConstruction, politician: Politician): WarehouseConstructionPoliticalOrder | null {
-            const numberWarehouseConstructionBlanks = 1
-
-            if (numberWarehouseConstructionBlanks > politician.getNumberWarehouseConstructionBlanks()) {
-                return null
-            }
-
-            politician.changeNumberWarehouseConstructionBlanks(-numberWarehouseConstructionBlanks)
-
+        create(playerId: string, order: WarehouseConstruction): WarehouseConstructionPoliticalOrder {
             return new WarehouseConstructionPoliticalOrder(playerId, order)
         }
     }

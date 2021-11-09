@@ -1,7 +1,6 @@
 import {PoliticianOrder} from "./politicianOrder"
-import {Logger} from "../../../../../core/Logger"
 import {OrderType} from "../../../../constants/OrderType"
-import {Politician} from "../../../Politician"
+import {Logger} from "../../../../../core/Logger"
 
 export interface RailwayConstruction {
     railwayCompany: number
@@ -11,14 +10,21 @@ export interface RailwayConstruction {
 }
 
 class RailwayConstructionPoliticalOrder implements PoliticianOrder {
-    type = OrderType.RAILWAY_CONSTRUCTION
-    playerId
-
-    order: RailwayConstruction
+    private readonly type = OrderType.RAILWAY_CONSTRUCTION
+    private readonly playerId
+    private readonly order: RailwayConstruction
 
     constructor(playerId: string, order: RailwayConstruction) {
         this.playerId = playerId
         this.order = order
+    }
+
+    getType(): OrderType {
+        return this.type
+    }
+
+    getPlayerId(): string {
+        return this.playerId
     }
 
     execute() {
@@ -27,17 +33,8 @@ class RailwayConstructionPoliticalOrder implements PoliticianOrder {
 }
 
 export function initOrderToRailwayConstructionProvider() {
-
     return {
-        create(playerId: string, order: RailwayConstruction, politician: Politician): RailwayConstructionPoliticalOrder | null {
-            const numberRailwayConstructionBlanks = 1
-
-            if (numberRailwayConstructionBlanks > politician.getNumberRailwayConstructionBlanks()) {
-                return null
-            }
-
-            politician.changeNumberRailwayConstructionBlanks(-numberRailwayConstructionBlanks)
-
+        create(playerId: string, order: RailwayConstruction): RailwayConstructionPoliticalOrder {
             return new RailwayConstructionPoliticalOrder(playerId, order)
         }
     }

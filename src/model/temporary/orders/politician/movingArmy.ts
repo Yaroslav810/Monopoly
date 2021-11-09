@@ -1,7 +1,6 @@
 import {PoliticianOrder} from "./politicianOrder"
-import {Logger} from "../../../../../core/Logger"
 import {OrderType} from "../../../../constants/OrderType"
-import {Politician} from "../../../Politician"
+import {Logger} from "../../../../../core/Logger"
 
 export interface Squad {
     movementFrom: string
@@ -11,14 +10,21 @@ export interface Squad {
 }
 
 class MovingArmyPoliticalOrder implements PoliticianOrder {
-    type = OrderType.MOVEMENT_OF_DETACHMENTS
-    playerId
-
-    squads: Squad[]
+    private readonly type = OrderType.MOVEMENT_OF_DETACHMENTS
+    private readonly playerId
+    private readonly squads: Squad[]
 
     constructor(playerId: string, squads: Squad[]) {
         this.playerId = playerId
         this.squads = squads
+    }
+
+    getType(): OrderType {
+        return this.type
+    }
+
+    getPlayerId(): string {
+        return this.playerId
     }
 
     execute() {
@@ -30,15 +36,7 @@ class MovingArmyPoliticalOrder implements PoliticianOrder {
 
 export function initOrderToMovingArmyProvider() {
     return {
-        create(playerId: string, order: Squad[], politician: Politician): MovingArmyPoliticalOrder | null {
-            const numberMovementArmyBlanks = 1
-
-            if (numberMovementArmyBlanks > politician.getNumberMovementArmyBlanks()) {
-                return null
-            }
-
-            politician.changeNumberMovementArmyBlanks(-numberMovementArmyBlanks)
-
+        create(playerId: string, order: Squad[]): MovingArmyPoliticalOrder {
             return new MovingArmyPoliticalOrder(playerId, order)
         }
     }

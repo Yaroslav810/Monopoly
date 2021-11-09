@@ -1,7 +1,6 @@
 import {PoliticianOrder} from "./politicianOrder"
-import {Logger} from "../../../../../core/Logger"
 import {OrderType} from "../../../../constants/OrderType"
-import {Politician} from "../../../Politician"
+import {Logger} from "../../../../../core/Logger"
 
 export interface PrCampaign {
     firstCity: string
@@ -9,14 +8,21 @@ export interface PrCampaign {
 }
 
 class PrCampaignPoliticalOrder implements PoliticianOrder {
-    type = OrderType.CHANGING_IMPACT_OF_PR
-    playerId
-
-    order: PrCampaign
+    private readonly type = OrderType.CHANGING_IMPACT_OF_PR
+    private readonly playerId
+    private readonly order: PrCampaign
 
     constructor(playerId: string, order: PrCampaign) {
         this.playerId = playerId
         this.order = order
+    }
+
+    getType(): OrderType {
+        return this.type
+    }
+
+    getPlayerId(): string {
+        return this.playerId
     }
 
     execute() {
@@ -26,15 +32,7 @@ class PrCampaignPoliticalOrder implements PoliticianOrder {
 
 export function initOrderToPrCampaignProvider() {
     return {
-        create(playerId: string, order: PrCampaign, politician: Politician): PrCampaignPoliticalOrder | null {
-            const numberPrBlanks = 1
-
-            if (numberPrBlanks > politician.getNumberPrBlanks()) {
-                return null
-            }
-
-            politician.changeNumberPrBlanks(-numberPrBlanks)
-
+        create(playerId: string, order: PrCampaign): PrCampaignPoliticalOrder {
             return new PrCampaignPoliticalOrder(playerId, order)
         }
     }

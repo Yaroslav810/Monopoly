@@ -1,8 +1,7 @@
 import {OrderType} from "../../../constants/OrderType"
 
 export interface Order {
-    type: OrderType
-    playerId: string
-
+    getType(): OrderType
+    getPlayerId(): string
     execute(): void
 }

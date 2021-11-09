@@ -12,7 +12,7 @@ export const startOrderStep: Action<typeof StartOrderStep> = async ({dataProvide
         sendForbidden("The step of orders is already in the active state")
     }
 
-    const detailInfoPlayers = await dataProvider.player.getInfoAllPlayers(technician.gameId)
+    const detailInfoPlayers = await dataProvider.player.getInfoAboutTeams(technician.gameId)
     if (detailInfoPlayers.length === 0) {
         sendForbidden("A game without players is not interesting, probably")
     }

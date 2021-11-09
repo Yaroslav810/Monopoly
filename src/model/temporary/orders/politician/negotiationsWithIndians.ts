@@ -1,7 +1,6 @@
 import {PoliticianOrder} from "./politicianOrder"
-import {Logger} from "../../../../../core/Logger"
 import {OrderType} from "../../../../constants/OrderType"
-import {Politician} from "../../../Politician"
+import {Logger} from "../../../../../core/Logger"
 
 export interface Negotiations {
     firstTerritory: string
@@ -11,14 +10,21 @@ export interface Negotiations {
 }
 
 class NegotiationsWithIndiansPoliticalOrder implements PoliticianOrder {
-    type = OrderType.DESTRUCTION_OF_INDIAN_SETTLEMENTS
-    playerId
-
-    order: Negotiations
+    private readonly type = OrderType.DESTRUCTION_OF_INDIAN_SETTLEMENTS
+    private readonly playerId
+    private readonly order: Negotiations
 
     constructor(playerId: string, order: Negotiations) {
         this.playerId = playerId
         this.order = order
+    }
+
+    getType(): OrderType {
+        return this.type
+    }
+
+    getPlayerId(): string {
+        return this.playerId
     }
 
     execute() {
@@ -27,17 +33,8 @@ class NegotiationsWithIndiansPoliticalOrder implements PoliticianOrder {
 }
 
 export function initOrderToNegotiationsWithIndiansProvider() {
-
     return {
-        create(playerId: string, order: Negotiations, politician: Politician): NegotiationsWithIndiansPoliticalOrder | null {
-            const numberNegotiationsWithIndiansBlanks = 1
-
-            if (numberNegotiationsWithIndiansBlanks > politician.getNumberNegotiationsWithIndiansBlanks()) {
-                return null
-            }
-
-            politician.changeNumberNegotiationsWithIndiansBlanks(-numberNegotiationsWithIndiansBlanks)
-
+        create(playerId: string, order: Negotiations): NegotiationsWithIndiansPoliticalOrder {
             return new NegotiationsWithIndiansPoliticalOrder(playerId, order)
         }
     }

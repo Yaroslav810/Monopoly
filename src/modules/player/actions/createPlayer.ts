@@ -9,7 +9,7 @@ export const createPlayer: Action<typeof CreatePlayer> = async ({dataProvider}, 
         gameId: game.id,
         team: null
     })
-    
+
     return {
         playerToken: player.id
     }
