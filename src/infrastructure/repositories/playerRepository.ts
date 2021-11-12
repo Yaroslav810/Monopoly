@@ -3,6 +3,8 @@ import {generateUUId} from "../../../core/utils/UUIDUtils"
 import {MapToPlayer, MapToPolitician} from "./mappers/mapper"
 import {Player} from "../../model/entities/Player"
 import {Politician} from "../../model/entities/Politician"
+import {Team} from "../../constants/Team";
+import {RoleStateHolder} from "../../model/Player";
 
 export type { PlayerRepository }
 
@@ -59,12 +61,14 @@ class PlayerRepository {
         return players.map(player => MapToPlayer(player))
     }
 
-    async setTeamById(team: number | null, id: string): Promise<void> {
+    async updatePlayer(player: Player): Promise<void> {
         await this.dbContext.player.update({
-            team: team
+            gameId: player.getGameId(),
+            name: player.getName(),
+            team: player.getTeam()
         }, {
             where: {
-                id: id
+                id: player.getId()
             }
         })
     }
@@ -122,5 +126,45 @@ class PlayerRepository {
     async getPoliticianById(id: string): Promise<Politician | null> {
         const politician = await this.dbContext.politician.findByPk(id)
         return politician ? MapToPolitician(politician) : null
+    }
+
+
+    async getTeam(player: Player): Promise<RoleStateHolder | null> {
+        switch (player.getTeam()) {
+            case Team.FEDERATION:
+            case Team.CONFEDERATION:
+            case Team.REPUBLIC: {
+                return this.getPoliticianByPlayerId(player.getId())
+            }
+            default: {
+                return null
+            }
+        }
+    }
+
+    async createTeam(player: Player): Promise<RoleStateHolder | null> {
+        switch (player.getTeam()) {
+            case Team.FEDERATION:
+            case Team.CONFEDERATION:
+            case Team.REPUBLIC: {
+                return this.createPolitician(player.getId())
+            }
+            default: {
+                return null
+            }
+        }
+    }
+
+    async deleteTeam(player: Player): Promise<void> {
+        switch (player.getTeam()) {
+            case Team.FEDERATION:
+            case Team.CONFEDERATION:
+            case Team.REPUBLIC: {
+                return this.deletePolitician(player.getId())
+            }
+            default: {
+                return
+            }
+        }
     }
 }

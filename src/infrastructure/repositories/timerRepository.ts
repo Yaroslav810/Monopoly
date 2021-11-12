@@ -29,10 +29,10 @@ class TimerRepository {
     }
 
     private initTimer(gameId: string) {
-        return new Promise<void>(resolve => {
+        return new Promise<number>(resolve => {
             setTimeout(() => {
                 this.delete(gameId)
-                resolve()
+                resolve(this.TIMER_TIME)
             }, this.TIMER_TIME)
         })
     }

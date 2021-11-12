@@ -1,29 +1,45 @@
-import {Order} from "./temporary/orders/Order"
+import {Order} from "./orders/Order"
 import {OrderType} from "../constants/OrderType"
-import {initOrderToMovingArmyProvider, Squad} from "./temporary/orders/politician/movingArmy"
+import {initOrderToMovingArmyProvider, Squad} from "./orders/politician/movingArmy"
 
-import {BuyingOrders, initOrderToBuyingOrdersProvider} from "./temporary/orders/politician/buyingOrders"
+import {BuyingOrders, initOrderToBuyingOrdersProvider} from "./orders/politician/buyingOrders"
 import {
     initOrderToNegotiationsWithIndiansProvider,
     Negotiations
-} from "./temporary/orders/politician/negotiationsWithIndians"
+} from "./orders/politician/negotiationsWithIndians"
 import {
     initOrderToWarehouseConstructionProvider,
     WarehouseConstruction
-} from "./temporary/orders/politician/warehouseConstruction"
+} from "./orders/politician/warehouseConstruction"
 import {
     initOrderToRailwayConstructionProvider,
     RailwayConstruction
-} from "./temporary/orders/politician/railwayConstruction"
-import {initOrderToPrCampaignProvider, PrCampaign} from "./temporary/orders/politician/prCampaign"
+} from "./orders/politician/railwayConstruction"
+import {initOrderToPrCampaignProvider, PrCampaign} from "./orders/politician/prCampaign"
 
 import {OrdersRepository} from "../infrastructure/repositories/ordersRepository"
 import {PlayerRepository} from "../infrastructure/repositories/playerRepository"
 import {TempPlayerRepository} from "../infrastructure/repositories/tempPlayerRepository"
+import {RoleStateHolder} from "./Player"
+import {notEmpty} from "../../core/utils/typeutils"
+
+export interface IOrderProvider {
+    createOrderToMovementArmy(gameId: string, playerId: string, order: Squad[]): Order | null
+    createOrderToPrCampaign(gameId: string, playerId: string, order: PrCampaign): Order | null
+    createOrderToConstructionRailway(gameId: string, playerId: string, order: RailwayConstruction): Order | null
+    createOrderToConstructionWarehouse(gameId: string, playerId: string, order: WarehouseConstruction): Order | null
+    createOrderToNegotiationsWithIndians(gameId: string, playerId: string, order: Negotiations): Order | null
+    createOrderToBuyingOrders(gameId: string, playerId: string, order: BuyingOrders): Order | null
+    executeOrders(gameId: string): void
+    saveState(gameId: string): Promise<void>
+    commitState(gameId: string): Promise<void>
+    initOrderStorage(gameId: string): void
+    clearOrderStorage(gameId: string): void
+}
 
 export function initOrderProvider(
     ordersRepository: OrdersRepository,
-    _: PlayerRepository,
+    playerRepository: PlayerRepository,
     tempPlayerRepository: TempPlayerRepository
 ) {
     const orderToBuyingOrders = initOrderToBuyingOrdersProvider()
@@ -83,7 +99,34 @@ export function initOrderProvider(
         return count
     }
 
-    return {
+    const getTeamsOfPlayers = async (gameId: string): Promise<RoleStateHolder[]> => {
+        const players = await playerRepository.getPlayersByGameId(gameId)
+
+        const teamsInfo = []
+        for (const player of players) {
+            teamsInfo.push(playerRepository.getTeam(player))
+        }
+
+        return (await Promise.all(teamsInfo)).filter(notEmpty)
+    }
+
+    const preparePoliticianToOrderStep = (player: RoleStateHolder): void => {
+        player.setNumberMovementArmyBlanks(1)
+        player.setNumberNewBlanks(1)
+    }
+
+    const preparePlayerToOrderStep = (players: RoleStateHolder[]): void => {
+        players.forEach(player => {
+            // Todo: Реализовать свой prepare для разных ролей
+            preparePoliticianToOrderStep(player)
+        })
+    }
+
+    const addRevenueToPlayer = (player: RoleStateHolder): void => {
+        player.changeBudgetUnits(15)
+    }
+
+    return new class implements IOrderProvider {
         createOrderToMovementArmy(gameId: string, playerId: string, order: Squad[]): Order | null {
             const politician = tempPlayerRepository.getPlayerByGameIdAndPlayerId(gameId, playerId)
             if (!politician) {
@@ -99,7 +142,7 @@ export function initOrderProvider(
             politician.changeNumberMovementArmyBlanks(-numberMovementArmyBlanks)
 
             return ordersRepository.addOrderToStorageList(gameId, newOrder)
-        },
+        }
 
         createOrderToPrCampaign(gameId: string, playerId: string, order: PrCampaign): Order | null {
             const politician = tempPlayerRepository.getPlayerByGameIdAndPlayerId(gameId, playerId)
@@ -116,7 +159,7 @@ export function initOrderProvider(
             politician.changeNumberPrBlanks(-numberPrBlanks)
 
             return ordersRepository.addOrderToStorageList(gameId, newOrder)
-        },
+        }
 
         createOrderToConstructionRailway(gameId: string, playerId: string, order: RailwayConstruction): Order | null {
             const politician = tempPlayerRepository.getPlayerByGameIdAndPlayerId(gameId, playerId)
@@ -133,7 +176,7 @@ export function initOrderProvider(
             politician.changeNumberRailwayConstructionBlanks(-numberRailwayConstructionBlanks)
 
             return ordersRepository.addOrderToCurrentList(gameId, newOrder)
-        },
+        }
 
         createOrderToConstructionWarehouse(gameId: string, playerId: string, order: WarehouseConstruction): Order | null {
             const politician = tempPlayerRepository.getPlayerByGameIdAndPlayerId(gameId, playerId)
@@ -150,7 +193,7 @@ export function initOrderProvider(
             politician.changeNumberWarehouseConstructionBlanks(-numberWarehouseConstructionBlanks)
 
             return ordersRepository.addOrderToCurrentList(gameId, newOrder)
-        },
+        }
 
         createOrderToNegotiationsWithIndians(gameId: string, playerId: string, order: Negotiations): Order | null {
             const politician = tempPlayerRepository.getPlayerByGameIdAndPlayerId(gameId, playerId)
@@ -167,7 +210,7 @@ export function initOrderProvider(
             politician.changeNumberNegotiationsWithIndiansBlanks(-numberNegotiationsWithIndiansBlanks)
 
             return ordersRepository.addOrderToStorageList(gameId, newOrder)
-        },
+        }
 
         createOrderToBuyingOrders(gameId: string, playerId: string, order: BuyingOrders): Order | null {
             const politician = tempPlayerRepository.getPlayerByGameIdAndPlayerId(gameId, playerId)
@@ -186,7 +229,7 @@ export function initOrderProvider(
             politician.changeNumberNewBlanks(-numberNewBlanks)
 
             return ordersRepository.addOrderToStorageList(gameId, newOrder)
-        },
+        }
 
         executeOrders(gameId: string): void {
             const orders = ordersRepository.getOrders(gameId)
@@ -200,6 +243,35 @@ export function initOrderProvider(
                 .forEach(order => {
                     order.execute()
                 })
+        }
+
+        async saveState(gameId: string): Promise<void> {
+            const players = await getTeamsOfPlayers(gameId)
+            preparePlayerToOrderStep(players)
+            tempPlayerRepository.initPlayersStateStorage(gameId, players)
+        }
+
+        async commitState(gameId: string): Promise<void> {
+            const players = tempPlayerRepository.getStateByGameId(gameId)
+            if (!players) {
+                return
+            }
+
+            const updatePlayers = []
+            for (const player of players) {
+                // Todo: Реализовать для каждой роли
+                addRevenueToPlayer(player)
+                updatePlayers.push(playerRepository.updatePolitician(player))
+            }
+            await Promise.all(updatePlayers)
+        }
+
+        initOrderStorage(gameId: string): void {
+            ordersRepository.initOrdersStorage(gameId)
+        }
+
+        clearOrderStorage(gameId: string): void {
+            ordersRepository.clearOrderStorage(gameId)
         }
     }
 }

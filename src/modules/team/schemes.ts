@@ -57,7 +57,7 @@ export namespace GetOccupiedTeams {
     })
 
     export const PathVariables = () => object({
-        gameId: guid()
+        gameToken: guid()
     })
     export const Request = empty
     export const Response = () => array(occupiedTeams())

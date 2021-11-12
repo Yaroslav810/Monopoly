@@ -1,15 +1,22 @@
 import {Team} from "../../../constants/Team"
 import {Action} from "../../_common/Action"
-import {verifyTeam, verifyAuthorized} from "../../_common/checks"
+import {verifyAuthorized, verifyTeam} from "../../_common/checks"
 import {GetStatusOrderStep} from "../schemes"
 import {Logger} from "../../../../core/Logger"
-import {verifyExisting} from "../../../../core/http/httputils"
+import {sendForbidden, verifyExisting} from "../../../../core/http/httputils"
+import {GameStatus} from "../../../infrastructure/configurations/Game"
+import {StepStatus} from "../../../model/Game"
 
 export const getStatusOrderStep: Action<typeof GetStatusOrderStep> = async ({dataProvider}, _, {playerToken}) => {
     const technician = verifyAuthorized(await dataProvider.player.getPlayerById(playerToken))
-    verifyTeam(technician.team, [ Team.GAME_TECHNICIAN ])
+    verifyTeam(technician.getTeam(), [ Team.GAME_TECHNICIAN ])
 
-    const players = verifyExisting(dataProvider.playersState.getStateByGameId(technician.gameId))
+    const game = await dataProvider.game.currentPhase(technician.getGameId())
+    if (!game || game.stateGame !== GameStatus.ACTIVE || game.step !== StepStatus.ORDERS) {
+        sendForbidden("The action can only be performed during the order submission phase")
+    }
+
+    const players = verifyExisting(await dataProvider.player.getPlayersTeamByGameId(technician.getGameId()))
     players.forEach(player => {
         Logger.log(player.getId())
         Logger.log(String(player.getBudgetUnits()))
@@ -22,6 +29,6 @@ export const getStatusOrderStep: Action<typeof GetStatusOrderStep> = async ({dat
     })
 
     return {
-        remainingTimeInMs: dataProvider.timer.getRemainingTimeInMs(technician.gameId)
+        remainingTimeInMs: game.remainingTimeInMs
     }
 }

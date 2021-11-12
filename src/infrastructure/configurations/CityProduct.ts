@@ -1,7 +1,7 @@
 import {Sequelize, DataTypes, Model, BuildOptions} from "sequelize"
-import {generateUUId} from "../../core/utils/UUIDUtils"
+import {generateUUId} from "../../../core/utils/UUIDUtils";
 
-class CityProduct extends Model {
+class CityProductModel extends Model {
     public id!: number;
     public cityId!: number;
     public productId!: number;
@@ -10,11 +10,11 @@ class CityProduct extends Model {
 }
 
 type CityProductStatic = typeof Model & {
-    new (values?: Record<string, unknown>, options?: BuildOptions): CityProduct;
+    new (values?: Record<string, unknown>, options?: BuildOptions): CityProductModel
 }
 
-export function initCityProductProvider(sequelize: Sequelize) {
-    const cityProductProvider = <CityProductStatic>sequelize.define("city_product", {
+export function initCityProductConfiguration(sequelize: Sequelize) {
+    return <CityProductStatic>sequelize.define("city_product", {
         id: {
             type: DataTypes.UUID,
             primaryKey: true,
@@ -46,9 +46,4 @@ export function initCityProductProvider(sequelize: Sequelize) {
             allowNull: false
         }
     })
-    return {
-        get(cityProductId: string) {
-            return cityProductProvider.findByPk(cityProductId)
-        }
-    }
 }

@@ -1,20 +1,20 @@
 import {Sequelize, DataTypes, Model, BuildOptions} from "sequelize"
-import {generateUUId} from "../../core/utils/UUIDUtils"
+import {generateUUId} from "../../../core/utils/UUIDUtils"
 
-class Railway extends Model {
+class GuardRailwayCompanyModel extends Model {
     public id!: number;
     public addressVert!: number;
     public addressHoriz!: number;
-    public nextId!: number;
+    public quantity!: number;
     public team!: number;
 }
 
-type RailwayStatic = typeof Model & {
-    new (values?: Record<string, unknown>, options?: BuildOptions): Railway;
+type GuardRailwayCompanyStatic = typeof Model & {
+    new (values?: Record<string, unknown>, options?: BuildOptions): GuardRailwayCompanyModel;
 }
 
-export function initRailwayProvider(sequelize: Sequelize) {
-    const railwayProvider = <RailwayStatic>sequelize.define("railway", {
+export function initGuardRailwayCompanyConfiguration(sequelize: Sequelize) {
+    return <GuardRailwayCompanyStatic>sequelize.define("guard_railway_company", {
         id: {
             type: DataTypes.UUID,
             primaryKey: true,
@@ -30,8 +30,8 @@ export function initRailwayProvider(sequelize: Sequelize) {
             type: DataTypes.SMALLINT,
             allowNull: false
         },
-        nextId: {
-            type: DataTypes.UUID,
+        quantity: {
+            type: DataTypes.TINYINT,
             allowNull: false
         },
         team: {
@@ -39,9 +39,4 @@ export function initRailwayProvider(sequelize: Sequelize) {
             allowNull: false
         }
     })
-    return {
-        get(railwayId: string) {
-            return railwayProvider.findByPk(railwayId)
-        }
-    }
 }

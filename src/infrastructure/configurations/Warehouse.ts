@@ -1,7 +1,7 @@
 import {Sequelize, DataTypes, Model, BuildOptions} from "sequelize"
-import {generateUUId} from "../../core/utils/UUIDUtils"
+import {generateUUId} from "../../../core/utils/UUIDUtils";
 
-class Warehouse extends Model {
+class WarehouseModel extends Model {
     public id!: number;
     public team!: number;
     public cityId!: number;
@@ -9,11 +9,11 @@ class Warehouse extends Model {
 }
 
 type WarehouseStatic = typeof Model & {
-    new (values?: Record<string, unknown>, options?: BuildOptions): Warehouse;
+    new (values?: Record<string, unknown>, options?: BuildOptions): WarehouseModel;
 }
 
-export function initWarehouseProvider(sequelize: Sequelize) {
-    const warehouseProvider = <WarehouseStatic>sequelize.define("warehouse", {
+export function initWarehouseConfiguration(sequelize: Sequelize) {
+    return <WarehouseStatic>sequelize.define("warehouse", {
         id: {
             type: DataTypes.UUID,
             primaryKey: true,
@@ -41,9 +41,4 @@ export function initWarehouseProvider(sequelize: Sequelize) {
             allowNull: false
         }
     })
-    return {
-        get(warehouseId: string) {
-            return warehouseProvider.findByPk(warehouseId)
-        }
-    }
 }

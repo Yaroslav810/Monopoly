@@ -102,16 +102,11 @@ export class Politician {
         return this.numberNewBlanks
     }
 
-    public prepareData() {
-        this.setNumberMovementArmyBlanks(1)
-        this.setNumberNewBlanks(1)
-    }
-
-    private setNumberMovementArmyBlanks(numberMovementArmyBlanks: number) {
+    public setNumberMovementArmyBlanks(numberMovementArmyBlanks: number) {
         this.numberMovementArmyBlanks = numberMovementArmyBlanks
     }
 
-    private setNumberNewBlanks(numberNewBlanks: number) {
+    public setNumberNewBlanks(numberNewBlanks: number) {
         this.numberNewBlanks = numberNewBlanks
     }
 }

@@ -5,13 +5,14 @@ import {
     GamePhaseResponseStatus,
     GameStateResponseStatus
 } from "../../../constants/ResponseStatuses/GameStateResponseStatus"
-import {GameStatus} from "../../../model/Game"
+import {GameStatus} from "../../../infrastructure/configurations/Game"
+import {StepStatus} from "../../../model/Game"
 
 export const getStatus: Action<typeof GetStatus> = async ({dataProvider}, _, {playerToken}) => {
     const player = verifyAuthorized(await dataProvider.player.getPlayerById(playerToken))
 
-    const game = await dataProvider.game.getGameById(player.gameId)
-    if (!game || game.state === GameStatus.COMPLETED) {
+    const game = await dataProvider.game.currentPhase(player.getGameId())
+    if (!game || game.stateGame === GameStatus.COMPLETED) {
         return {
             status: GameStateResponseStatus.NO_GAME,
             turn: null,
@@ -19,7 +20,7 @@ export const getStatus: Action<typeof GetStatus> = async ({dataProvider}, _, {pl
             remainingTimeInMs: null
         }
     }
-    if (game.state === GameStatus.PREPARATION) {
+    if (game.stateGame === GameStatus.PREPARATION) {
         return {
             status: GameStateResponseStatus.PREPARATION_PHASE,
             turn: null,
@@ -28,14 +29,19 @@ export const getStatus: Action<typeof GetStatus> = async ({dataProvider}, _, {pl
         }
     }
 
-    const timer = dataProvider.timer.getRemainingTimeInMs(game.id)
+    if (game.stateGame === GameStatus.ACTIVE && game.step === StepStatus.ORDERS) {
+        return {
+            status: GameStateResponseStatus.ACTIVE_GAME,
+            turn: game.currentMove,
+            phase: GamePhaseResponseStatus.ORDER_PHASE,
+            remainingTimeInMs: game.remainingTimeInMs
+        }
+    }
 
     return {
         status: GameStateResponseStatus.ACTIVE_GAME,
         turn: game.currentMove,
-        phase: timer !== 0
-            ? GamePhaseResponseStatus.ORDER_PHASE
-            : GamePhaseResponseStatus.EXECUTION_PHASE,
-        remainingTimeInMs: timer !== 0 ? timer : null
+        phase: GamePhaseResponseStatus.EXECUTION_PHASE,
+        remainingTimeInMs: null
     }
 }

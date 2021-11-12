@@ -1,7 +1,7 @@
-import {Sequelize, DataTypes, Model, BuildOptions} from "sequelize"
-import {generateUUId} from "../../core/utils/UUIDUtils"
+import {BuildOptions, DataTypes, Model, Sequelize} from "sequelize"
+import {generateUUId} from "../../../core/utils/UUIDUtils"
 
-class NativeAmerican extends Model {
+class NativeAmericanModel extends Model {
     public id!: string;
     public addressVert!: number;
     public addressHoriz!: number;
@@ -10,11 +10,13 @@ class NativeAmerican extends Model {
 }
 
 type NativeAmericanStatic = typeof Model & {
-    new (values?: Record<string, unknown>, options?: BuildOptions): NativeAmerican;
+    new (values?: Record<string, unknown>, options?: BuildOptions): NativeAmericanModel;
 }
 
-export function initNativeAmericanProvider(sequelize: Sequelize) {
-    const nativeAmericanProvider = <NativeAmericanStatic>sequelize.define("native_american", {
+export type { NativeAmericanModel }
+
+export function initNativeAmericanConfiguration(sequelize: Sequelize) {
+    return <NativeAmericanStatic>sequelize.define("native_american", {
         id: {
             type: DataTypes.UUID,
             primaryKey: true,
@@ -39,9 +41,4 @@ export function initNativeAmericanProvider(sequelize: Sequelize) {
             allowNull: false
         }
     })
-    return {
-        get(nativeAmericanId: string) {
-            return nativeAmericanProvider.findByPk(nativeAmericanId)
-        }
-    }
 }

@@ -2,13 +2,14 @@ import {IRouter} from "../../../core/routing/IRouter"
 import {HttpMethod} from "../../../core/http/HttpMethod"
 import {SessionStorage} from "../../model/SessionStorage"
 import {DataProvider} from "../../model/DataProvider"
-import {CreateGame, StartOrderStep, GetStatusOrderStep, GetRating, GetGame, GetStatus} from "./schemes"
+import {CreateGame, StartOrderStep, GetStatusOrderStep, GetRating, GetGame, GetStatus, StartGame} from "./schemes"
 import {createGame} from "./actions/createGame"
 import {getRating} from "./actions/getRating"
 import {startOrderStep} from "./actions/startOrderStep"
 import {getStatusOrderStep} from "./actions/getOrderStepStatus"
 import {getGame} from "./actions/getGame"
 import {getStatus} from "./actions/getStatus"
+import {startGame} from "./actions/startGame";
 
 export function gameRouts(router: IRouter<DataProvider, SessionStorage>) {
     router.addRout({
@@ -42,6 +43,14 @@ export function gameRouts(router: IRouter<DataProvider, SessionStorage>) {
         requestScheme: GetStatus.Request(),
         responseScheme: GetStatus.Response(),
         action: getStatus
+    })
+    router.addRout({
+        path: "/game/start",
+        method: HttpMethod.POST,
+        pathVariables: StartGame.PathVariables(),
+        requestScheme: StartGame.Request(),
+        responseScheme: StartGame.Response(),
+        action: startGame
     })
     router.addRout({
         path: "/game/orders-step/start",

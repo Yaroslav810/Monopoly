@@ -31,7 +31,7 @@ export class Player {
         return this.team
     }
 
-    public setTeam(team: number): void {
+    public setTeam(team: number | null): void {
         this.team = team
     }
 }

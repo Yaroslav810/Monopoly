@@ -1,4 +1,4 @@
-import {Order} from "../../model/temporary/orders/Order"
+import {Order} from "../../model/orders/Order"
 
 class Orders {
     private readonly storage: Order[]
@@ -31,6 +31,10 @@ class OrdersRepository {
 
     initOrdersStorage(gameId: string) {
         this.storage.set(gameId, new Orders())
+    }
+
+    clearOrderStorage(gameId: string) {
+        this.storage.delete(gameId)
     }
 
     getOrders(gameId: string): Orders | null {

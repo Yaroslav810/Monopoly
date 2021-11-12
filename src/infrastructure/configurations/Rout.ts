@@ -1,7 +1,7 @@
 import {Sequelize, DataTypes, Model, BuildOptions} from "sequelize"
-import {generateUUId} from "../../core/utils/UUIDUtils"
+import {generateUUId} from "../../../core/utils/UUIDUtils";
 
-class Rout extends Model {
+class RoutModel extends Model {
     public id!: number;
     public cityId1!: number;
     public cityId2!: number;
@@ -10,11 +10,11 @@ class Rout extends Model {
 }
 
 type RoutStatic = typeof Model & {
-    new (values?: Record<string, unknown>, options?: BuildOptions): Rout;
+    new (values?: Record<string, unknown>, options?: BuildOptions): RoutModel
 }
 
-export function initRoutProvider(sequelize: Sequelize) {
-    const routProvider = <RoutStatic>sequelize.define("rout", {
+export function initRoutConfiguration(sequelize: Sequelize) {
+    return <RoutStatic>sequelize.define("rout", {
         id: {
             type: DataTypes.UUID,
             primaryKey: true,
@@ -27,7 +27,7 @@ export function initRoutProvider(sequelize: Sequelize) {
             allowNull: false,
             references: {
                 model: "city",
-                key: "city_id"
+                key: "id"
             },
             onDelete: "NO ACTION",
             onUpdate: "NO ACTION"
@@ -37,7 +37,7 @@ export function initRoutProvider(sequelize: Sequelize) {
             allowNull: false,
             references: {
                 model: "city",
-                key: "city_id"
+                key: "id"
             },
             onDelete: "NO ACTION",
             onUpdate: "NO ACTION"
@@ -51,9 +51,4 @@ export function initRoutProvider(sequelize: Sequelize) {
             allowNull: false
         }
     })
-    return {
-        get(routId: string) {
-            return routProvider.findByPk(routId)
-        }
-    }
 }

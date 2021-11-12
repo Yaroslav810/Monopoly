@@ -1,6 +1,6 @@
 import {PoliticianOrder} from "./politicianOrder"
-import {OrderType} from "../../../../constants/OrderType"
-import {Logger} from "../../../../../core/Logger"
+import {OrderType} from "../../../constants/OrderType"
+import {Logger} from "../../../../core/Logger"
 
 export interface PrCampaign {
     firstCity: string
