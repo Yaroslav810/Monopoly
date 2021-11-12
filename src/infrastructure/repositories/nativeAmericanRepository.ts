@@ -1,6 +1,6 @@
 import {DbContext} from "../dbContext/context"
 
-export type { NativeAmericanRepository }
+export type {NativeAmericanRepository}
 
 export function nativeAmericanRepository(dbContext: DbContext): NativeAmericanRepository {
     if (!instance) {

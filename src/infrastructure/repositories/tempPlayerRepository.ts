@@ -1,4 +1,4 @@
-import {RoleStateHolder} from "../../model/Player";
+import {RoleStateHolder} from "../../model/Player"
 
 class PlayerState {
     private players = new Map<string, RoleStateHolder>()
@@ -70,7 +70,7 @@ class TempPlayerRepository {
 
 const tempPlayer = new TempPlayerRepository()
 
-export type { TempPlayerRepository }
+export type {TempPlayerRepository}
 
 export function tempPlayerRepository(): TempPlayerRepository {
     return tempPlayer

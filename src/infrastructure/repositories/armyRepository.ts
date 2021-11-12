@@ -1,6 +1,6 @@
 import {DbContext} from "../dbContext/context"
 
-export type { ArmyRepository }
+export type {ArmyRepository}
 
 export function armyRepository(dbContext: DbContext): ArmyRepository {
     if (!instance) {

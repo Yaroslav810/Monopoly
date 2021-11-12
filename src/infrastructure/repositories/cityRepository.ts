@@ -1,6 +1,6 @@
 import {DbContext} from "../dbContext/context"
 
-export type { CityRepository }
+export type {CityRepository}
 
 export function cityRepository(dbContext: DbContext): CityRepository {
     if (!instance) {

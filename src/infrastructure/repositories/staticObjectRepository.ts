@@ -1,6 +1,6 @@
 import {DbContext} from "../dbContext/context"
 
-export type { StaticObjectRepository }
+export type {StaticObjectRepository}
 
 export function staticObjectRepository(dbContext: DbContext): StaticObjectRepository {
     if (!instance) {

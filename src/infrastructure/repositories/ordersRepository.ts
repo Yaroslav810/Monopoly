@@ -125,7 +125,7 @@ class OrdersRepository {
 
 const orders = new OrdersRepository()
 
-export type { OrdersRepository }
+export type {OrdersRepository}
 
 export function ordersRepository(): OrdersRepository {
     return orders

@@ -1,5 +1,5 @@
 import {Sequelize, DataTypes, Model, BuildOptions} from "sequelize"
-import {generateUUId} from "../../../core/utils/UUIDUtils";
+import {generateUUId} from "../../../core/utils/UUIDUtils"
 
 class RoutModel extends Model {
     public id!: number;

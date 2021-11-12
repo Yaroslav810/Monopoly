@@ -6,7 +6,7 @@ import {TempPlayerRepository} from "../infrastructure/repositories/tempPlayerRep
 import {GameRepository} from "../infrastructure/repositories/gameRepository"
 import {TimerRepository} from "../infrastructure/repositories/timerRepository"
 import {notEmpty} from "../../core/utils/typeutils"
-import {GameStatus} from "../infrastructure/configurations/Game";
+import {GameStatus} from "../infrastructure/configurations/Game"
 
 export type RoleStateHolder = Politician
 

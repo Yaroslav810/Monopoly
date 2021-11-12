@@ -1,8 +1,8 @@
 import {Game} from "./entities/Game"
 import {GameRepository} from "../infrastructure/repositories/gameRepository"
 import {TimerRepository} from "../infrastructure/repositories/timerRepository"
-import {GameStatus} from "../infrastructure/configurations/Game";
-import {IOrderProvider} from "./Orders";
+import {GameStatus} from "../infrastructure/configurations/Game"
+import {IOrderProvider} from "./Orders"
 
 export enum StepStatus {
     ORDERS = "orders",
@@ -47,12 +47,12 @@ export function initGameProvider(
 
         async isGameStarted(gameId: string): Promise<boolean> {
             const game = await gameRepository.getGameById(gameId)
-            return !(!game || game.getState() !== GameStatus.PREPARATION);
+            return !(!game || game.getState() !== GameStatus.PREPARATION)
         },
 
         async isGameActive(gameId: string): Promise<boolean> {
             const game = await gameRepository.getGameById(gameId)
-            return !(!game || game.getState() !== GameStatus.ACTIVE);
+            return !(!game || game.getState() !== GameStatus.ACTIVE)
         },
 
         async currentPhase(gameId: string): Promise<CurrentPhase> {

@@ -1,6 +1,6 @@
 import {DbContext} from "../dbContext/context"
 
-export type { RoutRepository }
+export type {RoutRepository}
 
 export function routRepository(dbContext: DbContext): RoutRepository {
     if (!instance) {

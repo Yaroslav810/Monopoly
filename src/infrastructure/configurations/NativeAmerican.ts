@@ -13,7 +13,7 @@ type NativeAmericanStatic = typeof Model & {
     new (values?: Record<string, unknown>, options?: BuildOptions): NativeAmericanModel;
 }
 
-export type { NativeAmericanModel }
+export type {NativeAmericanModel}
 
 export function initNativeAmericanConfiguration(sequelize: Sequelize) {
     return <NativeAmericanStatic>sequelize.define("native_american", {

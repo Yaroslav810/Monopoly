@@ -2,7 +2,7 @@ import {DbContext} from "../dbContext/context"
 import {generateUUId} from "../../../core/utils/UUIDUtils"
 import {MapToGame} from "./mappers/mapper"
 import {Game} from "../../model/entities/Game"
-import {GameStatus} from "../configurations/Game";
+import {GameStatus} from "../configurations/Game"
 
 let instance: GameRepository
 
@@ -40,7 +40,7 @@ class GameRepository {
     }
 }
 
-export type { GameRepository }
+export type {GameRepository}
 
 export function gameRepository(dbContext: DbContext): GameRepository {
     if (!instance) {

@@ -40,7 +40,7 @@ class TimerRepository {
 
 const timer = new TimerRepository()
 
-export type { TimerRepository }
+export type {TimerRepository}
 
 export function timerRepository(): TimerRepository {
     return timer

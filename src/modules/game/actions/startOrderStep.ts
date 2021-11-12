@@ -4,9 +4,9 @@ import {Action} from "../../_common/Action"
 import {verifyAuthorized, verifyTeam} from "../../_common/checks"
 import {StartOrderStep} from "../schemes"
 import {GameStatus} from "../../../infrastructure/configurations/Game"
-import {Logger} from "../../../../core/Logger";
-import {StepStatus} from "../../../model/Game";
-import {empty} from "../../../../core/scheme/pseudo";
+import {Logger} from "../../../../core/Logger"
+import {StepStatus} from "../../../model/Game"
+import {empty} from "../../../../core/scheme/pseudo"
 
 export const startOrderStep: Action<typeof StartOrderStep> = async ({dataProvider}, _, {playerToken}) => {
     const technician = verifyAuthorized(await dataProvider.player.getPlayerById(playerToken))

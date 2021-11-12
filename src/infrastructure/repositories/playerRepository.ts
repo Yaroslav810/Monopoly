@@ -3,10 +3,10 @@ import {generateUUId} from "../../../core/utils/UUIDUtils"
 import {MapToPlayer, MapToPolitician} from "./mappers/mapper"
 import {Player} from "../../model/entities/Player"
 import {Politician} from "../../model/entities/Politician"
-import {Team} from "../../constants/Team";
-import {RoleStateHolder} from "../../model/Player";
+import {Team} from "../../constants/Team"
+import {RoleStateHolder} from "../../model/Player"
 
-export type { PlayerRepository }
+export type {PlayerRepository}
 
 export function playerRepository(dbContext: DbContext): PlayerRepository {
     if (!instance) {

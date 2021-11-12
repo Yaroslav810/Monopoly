@@ -16,31 +16,31 @@ type GameStatic = typeof Model & {
     new (values?: Record<string, unknown>, options?: BuildOptions): GameModel
 }
 
-export type { GameModel }
+export type {GameModel}
 
 export function initGameConfiguration(sequelize: Sequelize) {
     return <GameStatic>sequelize.define("Game", {
-            id: {
-                type: DataTypes.UUID,
-                primaryKey: true,
-                unique: true,
-                allowNull: false
-            },
-            state: {
-                type: DataTypes.ENUM(
-                    GameStatus.PREPARATION,
-                    GameStatus.ACTIVE,
-                    GameStatus.COMPLETED
-                ),
-                allowNull: false
-            },
-            currentMove: {
-                type: DataTypes.INTEGER,
-                allowNull: false,
-                field: "current_move"
-            }
+        id: {
+            type: DataTypes.UUID,
+            primaryKey: true,
+            unique: true,
+            allowNull: false
         },
-        {
-            createdAt: "creationDate"
-        })
+        state: {
+            type: DataTypes.ENUM(
+                GameStatus.PREPARATION,
+                GameStatus.ACTIVE,
+                GameStatus.COMPLETED
+            ),
+            allowNull: false
+        },
+        currentMove: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            field: "current_move"
+        }
+    },
+    {
+        createdAt: "creationDate"
+    })
 }

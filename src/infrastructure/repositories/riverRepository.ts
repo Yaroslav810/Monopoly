@@ -1,6 +1,6 @@
 import {DbContext} from "../dbContext/context"
 
-export type { RiverRepository }
+export type {RiverRepository}
 
 export function riverRepository(dbContext: DbContext): RiverRepository {
     if (!instance) {

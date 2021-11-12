@@ -1,6 +1,6 @@
 import {DbContext} from "../dbContext/context"
 
-export type { GuardRailwayCompanyRepository }
+export type {GuardRailwayCompanyRepository}
 
 export function guardRailwayCompanyRepository(dbContext: DbContext): GuardRailwayCompanyRepository {
     if (!instance) {

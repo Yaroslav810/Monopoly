@@ -1,6 +1,6 @@
 import {DbContext} from "../dbContext/context"
 
-export type { WarehouseRepository }
+export type {WarehouseRepository}
 
 export function warehouseRepository(dbContext: DbContext): WarehouseRepository {
     if (!instance) {

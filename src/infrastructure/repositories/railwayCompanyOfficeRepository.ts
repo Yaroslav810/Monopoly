@@ -1,6 +1,6 @@
 import {DbContext} from "../dbContext/context"
 
-export type { RailwayCompanyOfficeRepository }
+export type {RailwayCompanyOfficeRepository}
 
 export function railwayCompanyOfficeRepository(dbContext: DbContext): RailwayCompanyOfficeRepository {
     if (!instance) {

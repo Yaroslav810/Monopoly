@@ -9,7 +9,7 @@ import {startOrderStep} from "./actions/startOrderStep"
 import {getStatusOrderStep} from "./actions/getOrderStepStatus"
 import {getGame} from "./actions/getGame"
 import {getStatus} from "./actions/getStatus"
-import {startGame} from "./actions/startGame";
+import {startGame} from "./actions/startGame"
 
 export function gameRouts(router: IRouter<DataProvider, SessionStorage>) {
     router.addRout({
