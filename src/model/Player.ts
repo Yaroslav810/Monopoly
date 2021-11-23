@@ -1,249 +1,221 @@
-import {BuildOptions, DataTypes, Model, Sequelize} from "sequelize"
-import {generateUUId} from "../../core/utils/UUIDUtils"
 import {Team} from "../constants/Team"
-import {initPoliticianProvider, Politician} from "./Politician"
-import {Role} from "../constants/Role"
+import {Player} from "./entities/Player"
+import {Politician} from "./entities/Politician"
+import {PlayerRepository} from "../infrastructure/repositories/playerRepository"
+import {TempPlayerRepository} from "../infrastructure/repositories/tempPlayerRepository"
+import {GameRepository} from "../infrastructure/repositories/gameRepository"
+import {TimerRepository} from "../infrastructure/repositories/timerRepository"
 import {notEmpty} from "../../core/utils/typeutils"
+import {GameStatus} from "../infrastructure/configurations/Game"
 
 export type RoleStateHolder = Politician
 
-type TeamInfo = null | {
-    type: Role.POLICIES
-    data: Politician
-} | {
-    type: Role.RAILWAYS
-    data: Politician
-} | {
-    type: Role.TRADING_COMPANIES
-    data: Politician
-}
+// type TeamInfo = null | {
+//     type: Role.POLICIES
+//     data: Politician
+// } | {
+//     type: Role.RAILWAYS
+//     data: Politician
+// } | {
+//     type: Role.TRADING_COMPANIES
+//     data: Politician
+// }
 
-class Player extends Model {
-    public id!: string;
-    public name!: string;
-    public team!: number;
-    public gameId!: string;
-}
+export function initPlayerProvider(
+    playerRepository: PlayerRepository,
+    tempPlayerRepository: TempPlayerRepository,
+    gameRepository: GameRepository,
+    timerRepository: TimerRepository
+) {
 
-type PlayerStatic = typeof Model & {
-    new (values?: Record<string, unknown>, options?: BuildOptions): Player
-}
-
-export function initPlayerProvider(sequelize: Sequelize) {
-    const playerProvider = <PlayerStatic>sequelize.define("Player", {
-        id: {
-            type: DataTypes.UUID,
-            primaryKey: true,
-            unique: true,
-            allowNull: false
-        },
-        name: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        team: {
-            type: DataTypes.TINYINT,
-            field: "team"
-        },
-        gameId: {
-            type: DataTypes.UUID,
-            allowNull: false,
-            references: {
-                model: "Game",
-                key: "id"
-            },
-            onDelete: "cascade",
-            field: "game_id"
-        }
-    },
-    {
-        indexes: [
-            {
-                unique: true,
-                fields: ["team", "game_id"]
-            }
-        ],
-        underscored: true
-    })
-
-
-    const createTeam = (player: Player) => {
-        switch (player.team) {
-            case Team.FEDERATION:
-            case Team.CONFEDERATION:
-            case Team.REPUBLIC: {
-                return politician.create(player.id)
-            }
-            default: {
-                return null
-            }
-        }
+    const getTeamsList = (): number[] => {
+        return Object.keys(Team)
+            .map(team => +team)
+            .filter(team => !isNaN(team))
     }
 
-    const deleteTeam = (player: Player) => {
-        switch (player.team) {
-            case Team.FEDERATION:
-            case Team.CONFEDERATION:
-            case Team.REPUBLIC: {
-                return politician.delete(player.id)
-            }
-            default: {
-                return null
-            }
-        }
-    }
-
-    const updateTeamById = async (team: number | null, id: string) => {
-        await playerProvider.update({
-            team: team
-        }, {
-            where: {
-                id: id
-            }
-        })
-
-        return playerProvider.findByPk(id)
-    }
-
-    const _addRevenueToPlayer = async (player: Player) => {
-        const teamInfo = await _getTeamInfo(player.id)
-        if (!teamInfo) {
-            return
-        }
-        switch (teamInfo.type) {
-            case Role.POLICIES: {
-                await politician.addBudgetUnits(teamInfo.data.getId(), 15)
-            }
-        }
-    }
-
-    const _getTeamInfo = async (playerId: string): Promise<TeamInfo> => {
-        const player = await playerProvider.findByPk(playerId)
-        if (!player || !player.team) {
-            return null
-        }
-        switch (player.team) {
-            case Team.FEDERATION:
-            case Team.CONFEDERATION:
-            case Team.REPUBLIC: {
-                const politicianPlayer = await politician.getByPlayerId(player.id)
-                if (!politicianPlayer) {
-                    return null
-                }
-                return {
-                    type: Role.POLICIES,
-                    data: politicianPlayer as Politician
-                }
-            }
-        }
-
-        return null
-    }
-
-    const _getTeam = async (player: Player) => {
-        switch (player.team) {
-            case Team.FEDERATION:
-            case Team.CONFEDERATION:
-            case Team.REPUBLIC: {
-                return politician.getByPlayerId(player.id)
-            }
-            default: {
-                return null
-            }
-        }
-    }
-
-    const politician = initPoliticianProvider(sequelize)
+    // Todo: Убрать!
+    // const addRevenueToPlayer = async (player: Player) => {
+    //     const teamInfo = await getTeamInfo(player.getId())
+    //     if (!teamInfo) {
+    //         return
+    //     }
+    //     switch (teamInfo.type) {
+    //         case Role.POLICIES: {
+    //             await politician.addBudgetUnits(teamInfo.data.getId(), 15)
+    //         }
+    //     }
+    // }
+    //
+    // const getTeamInfo = async (playerId: string): Promise<TeamInfo> => {
+    //     const player = await playerRepository.getPlayerById(playerId)
+    //     if (!player || !player.getTeam()) {
+    //         return null
+    //     }
+    //     switch (player.getTeam()) {
+    //         case Team.FEDERATION:
+    //         case Team.CONFEDERATION:
+    //         case Team.REPUBLIC: {
+    //             const politicianPlayer = await politician.getByPlayerId(player.getId())
+    //             if (!politicianPlayer) {
+    //                 return null
+    //             }
+    //             return {
+    //                 type: Role.POLICIES,
+    //                 data: politicianPlayer as Politician
+    //             }
+    //         }
+    //     }
+    //
+    //     return null
+    // }
+    //
+    // const politician = initPoliticianProvider(playerRepository)
 
     return {
-        create(player: {name: string, gameId: string, team: number | null}) {
-            return playerProvider.create({
-                id: generateUUId(),
-                name: player.name,
-                team: player.team,
-                gameId: player.gameId
+        async createPlayer(gameId: string, name: string): Promise<Player | null> {
+            const game = await gameRepository.getGameById(gameId)
+            if (!game || game.getState() !== GameStatus.PREPARATION) {
+                return null
+            }
+
+            return playerRepository.createPlayer({
+                name: name,
+                gameId: gameId,
+                team: null
             })
         },
-        createGameTechnician(gameId: string) {
-            return playerProvider.create({
-                id: generateUUId(),
+
+        async createGameTechnician(gameId: string): Promise<Player> {
+            return playerRepository.createPlayer({
                 name: "Game Technician",
-                team: Team.GAME_TECHNICIAN,
-                gameId: gameId
+                gameId: gameId,
+                team: Team.GAME_TECHNICIAN
             })
         },
-        getPlayerById(id: string) {
-            return playerProvider.findByPk(id)
+
+        getPlayerById(playerId: string): Promise<Player | null> {
+            return playerRepository.getPlayerById(playerId)
         },
-        getPlayerByGameIdAndTeam(gameId: string, team: number) {
-            return playerProvider.findOne({
-                where: {
-                    gameId: gameId,
-                    team: team
-                }
-            })
+
+        getPlayersByGameId(gameId: string): Promise<Player[]> {
+            return playerRepository.getPlayersByGameId(gameId)
         },
-        getPlayersByGameId(gameId: string) {
-            return playerProvider.findAll({
-                where: {
-                    gameId: gameId
-                },
-                order: ["updatedAt"]
-            })
-        },
-        async setTeam(team: number | null, playerId: string) {
-            let player = await playerProvider.findByPk(playerId)
+
+        async getPlayerTeamById(playerId: string): Promise<RoleStateHolder | null> {
+            const player = await playerRepository.getPlayerById(playerId)
             if (!player) {
-                return
+                return null
             }
-            if (player.team) {
-                await deleteTeam(player)
+
+            const game = await gameRepository.getGameById(player.getGameId())
+            if (!game) {
+                return null
             }
-            player = await updateTeamById(team, player.id) as Player
-            await createTeam(player)
+
+            const timer = timerRepository.getRemainingTimeInMs(player.getGameId())
+            if (timer !== 0) {
+                return tempPlayerRepository.getPlayerByGameIdAndPlayerId(player.getGameId(), player.getId())
+            }
+
+            return playerRepository.getTeam(player)
         },
-        async deleteTeam(playerId: string) {
-            const player = await playerProvider.findByPk(playerId)
-            if (!player) {
-                return
+
+        async getPlayersTeamByGameId(gameId: string): Promise<RoleStateHolder[] | null> {
+            const game = await gameRepository.getGameById(gameId)
+            if (!game) {
+                return null
             }
-            if (player.team) {
-                await deleteTeam(player)
+
+            const timer = timerRepository.getRemainingTimeInMs(gameId)
+            if (timer !== 0) {
+                return tempPlayerRepository.getStateByGameId(gameId)
             }
-            await updateTeamById(null, playerId)
-        },
-        async getInfoAllPlayers(gameId: string): Promise<RoleStateHolder[]> {
-            const players = await this.getPlayersByGameId(gameId)
+
+            const players = await playerRepository.getPlayersByGameId(gameId)
 
             const teamsInfo = []
             for (const player of players) {
-                teamsInfo.push(_getTeam(player))
+                teamsInfo.push(playerRepository.getTeam(player))
             }
-
             return (await Promise.all(teamsInfo)).filter(notEmpty)
         },
-        prepareData(players: RoleStateHolder[]) {
-            players.forEach(player => {
-                player.prepareData()
-            })
+
+
+        async isTeamReserved(gameId: string, team: number): Promise<boolean> {
+            const player = await playerRepository.getPlayerByGameIdAndTeam(gameId, team)
+            return (player !== null)
         },
-        async commitState(players: RoleStateHolder[]) {
-            const updatePlayers = []
-            for (const player of players) {
-                if (politician.isPolitician(player)) {
-                    updatePlayers.push(politician.update(player))
-                }
+
+        async reserveTeam(playerId: string, team: number): Promise<void> {
+            const player = await playerRepository.getPlayerById(playerId)
+            if (!player) {
+                return
             }
-            await Promise.all(updatePlayers)
+
+            player.setTeam(team)
+            Promise.all([
+                playerRepository.updatePlayer(player),
+                playerRepository.createTeam(player)
+            ])
         },
-        async addRevenueToPlayers(gameId: string) {
+
+        async releasingTeam(playerId: string): Promise<void> {
+            const player = await playerRepository.getPlayerById(playerId)
+            if (!player) {
+                return
+            }
+
+            Promise.all([
+                playerRepository.deleteTeam(player),
+                (async () => {
+                    player.setTeam(null)
+                    return playerRepository.updatePlayer(player)
+                })()
+            ])
+        },
+
+        async getFreeTeams(gameId: string): Promise<number[]> {
             const players = await this.getPlayersByGameId(gameId)
 
-            const teamsInfo = []
-            for (const player of players) {
-                teamsInfo.push(_addRevenueToPlayer(player))
-            }
-            await Promise.all(teamsInfo)
+            const busyTeams: Array<number> = []
+            players.forEach(player => {
+                const team = player.getTeam()
+                if (team !== null) {
+                    busyTeams.push(team)
+                }
+            })
+
+            return getTeamsList()
+                .filter(team => !~busyTeams.indexOf(team))
+        },
+
+        async getBusyTeams(gameId: string): Promise<{team: number, name: string}[]> {
+            const players = await this.getPlayersByGameId(gameId)
+
+            const occupiedTeams: Array<{team: number, name: string}> = []
+            players
+                .filter(player => player.getTeam())
+                .forEach(player => {
+                    occupiedTeams.push({
+                        team: player.getTeam() as number,
+                        name: player.getName()
+                    })
+                })
+
+            return occupiedTeams
+        },
+
+        async getPlayersTeamTokens(gameId: string): Promise<Map<number, string>> {
+            const players = await this.getPlayersByGameId(gameId)
+
+            const playersMap = new Map<number, string>()
+            players.forEach(player => {
+                const team = player.getTeam()
+                team !== null && playersMap.set(team, player.getId())
+            })
+
+            return playersMap
         }
     }
 }

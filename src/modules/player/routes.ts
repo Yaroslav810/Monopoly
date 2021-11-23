@@ -14,7 +14,7 @@ export function playerRouts(router: IRouter<DataProvider, SessionStorage>) {
         requestScheme: CreatePlayer.Request(),
         responseScheme: CreatePlayer.Response(),
         action: createPlayer
-    }),
+    })
     router.addRout({
         path: "/player/tokens/list",
         method: HttpMethod.POST,

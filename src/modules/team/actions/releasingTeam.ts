@@ -7,11 +7,11 @@ import {ReleasingTeam} from "../schemes"
 
 export const releasingTeam: Action<typeof ReleasingTeam> = async ({dataProvider}, _, {playerToken}) => {
     const player = verifyAuthorized(await dataProvider.player.getPlayerById(playerToken))
-    if (player.team === Team.GAME_TECHNICIAN) {
+
+    if (player.getTeam() === Team.GAME_TECHNICIAN) {
         sendForbidden("The role of the game technician cannot be changed")
     }
 
-    await dataProvider.player.deleteTeam(player.id)
-
+    await dataProvider.player.releasingTeam(player.getId())
     return empty
 }

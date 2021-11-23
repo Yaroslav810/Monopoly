@@ -68,14 +68,20 @@ export namespace GetStatus {
     })
 }
 
+export namespace StartGame {
+    export const PathVariables = empty
+    export const Request = () => object({
+        playerToken: guid()
+    })
+    export const Response = () => empty
+}
+
 export namespace StartOrderStep {
     export const PathVariables = empty
     export const Request = () => object({
         playerToken: guid()
     })
-    export const Response = () => object({
-        remainingTimeInMs: number()
-    })
+    export const Response = () => empty
 }
 
 export namespace GetStatusOrderStep {

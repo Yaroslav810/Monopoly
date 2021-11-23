@@ -34,7 +34,7 @@ export function teamRouts(router: IRouter<DataProvider, SessionStorage>) {
         action: getFreeTeams
     })
     router.addRout({
-        path: "/team/get-occupied-teams/:gameId",
+        path: "/team/get-occupied-teams/:gameToken",
         method: HttpMethod.GET,
         pathVariables: GetOccupiedTeams.PathVariables(),
         requestScheme: GetOccupiedTeams.Request(),

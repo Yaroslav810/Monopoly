@@ -7,7 +7,7 @@ export const verifyAuthorized = <T>(player: null | T): T => {
     return player as T
 }
 
-export const verifyTeam = (checkingTeam: number, availableTeamsList: Array<number>) => {
+export const verifyTeam = (checkingTeam: number | null, availableTeamsList: Array<number>) => {
     const isTeamPresent = availableTeamsList.some(availableTeam => availableTeam === checkingTeam)
     
     if (!isTeamPresent) {

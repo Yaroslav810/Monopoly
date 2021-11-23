@@ -6,6 +6,6 @@ export const getGame: Action<typeof GetGame> = async ({dataProvider}, _, {player
     const player = verifyAuthorized(await dataProvider.player.getPlayerById(playerToken))
 
     return {
-        gameToken: player.gameId
+        gameToken: player.getGameId()
     }
 }
