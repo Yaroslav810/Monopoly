@@ -1,10 +1,9 @@
 import {BuildOptions, DataTypes, Model, Sequelize} from "sequelize"
 
 class PlayerModel extends Model {
-    public id!: string;
-    public name!: string;
-    public team!: number;
-    public gameId!: string;
+    public id!: string
+    public name!: string
+    public gameId!: string
 }
 
 type PlayerStatic = typeof Model & {
@@ -21,14 +20,6 @@ export function initPlayerConfiguration(sequelize: Sequelize) {
             unique: true,
             allowNull: false
         },
-        name: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        team: {
-            type: DataTypes.TINYINT,
-            field: "team"
-        },
         gameId: {
             type: DataTypes.UUID,
             allowNull: false,
@@ -38,15 +29,10 @@ export function initPlayerConfiguration(sequelize: Sequelize) {
             },
             onDelete: "cascade",
             field: "game_id"
+        },
+        name: {
+            type: DataTypes.STRING,
+            allowNull: false
         }
-    },
-    {
-        indexes: [
-            {
-                unique: true,
-                fields: ["team", "game_id"]
-            }
-        ],
-        underscored: true
     })
 }

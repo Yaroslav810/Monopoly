@@ -1,10 +1,8 @@
 import {DbContext} from "../dbContext/context"
+import {GameStatus} from "../configurations/Game"
+import {Game} from "../../model/entities/Game"
 import {generateUUId} from "../../../core/utils/UUIDUtils"
 import {MapToGame} from "./mappers/mapper"
-import {Game} from "../../model/entities/Game"
-import {GameStatus} from "../configurations/Game"
-
-let instance: GameRepository
 
 class GameRepository {
     private readonly dbContext: DbContext;
@@ -13,12 +11,12 @@ class GameRepository {
         this.dbContext = dbContext
     }
 
-    async createGame() {
+    async createGame(numberPlayers: number): Promise<Game> {
         return MapToGame(
             await this.dbContext.game.create({
                 id: generateUUId(),
-                state: GameStatus.PREPARATION,
-                currentMove: 0
+                numberPlayers: numberPlayers,
+                state: GameStatus.RECRUITMENT_OF_PLAYERS
             })
         )
     }
@@ -30,15 +28,27 @@ class GameRepository {
 
     async updateGame(game: Game): Promise<void> {
         await this.dbContext.game.update({
-            state: game.getState(),
-            currentMove: game.getCurrentMove()
+            numberPlayers: game.getNumberPlayers(),
+            state: game.getState()
         }, {
             where: {
                 id: game.getId()
             }
         })
     }
+
+    async getGamesByState(state: GameStatus): Promise<Game[]> {
+        const games = await this.dbContext.game.findAll({
+            where: {
+                state: state
+            }
+        })
+
+        return games.map(game => MapToGame(game))
+    }
 }
+
+let instance: GameRepository
 
 export type {GameRepository}
 
@@ -46,5 +56,6 @@ export function gameRepository(dbContext: DbContext): GameRepository {
     if (!instance) {
         instance = new GameRepository(dbContext)
     }
+
     return instance
 }

@@ -2,16 +2,13 @@ import {IRouter} from "../../../core/routing/IRouter"
 import {HttpMethod} from "../../../core/http/HttpMethod"
 import {SessionStorage} from "../../model/SessionStorage"
 import {DataProvider} from "../../model/DataProvider"
-import {CreateGame, StartOrderStep, GetStatusOrderStep, GetRating, GetGame, GetStatus, StartGame} from "./schemes"
+import {AddPlayer, CreateGame, GetAvailable, RemovePlayer} from "./schemes"
 import {createGame} from "./actions/createGame"
-import {getRating} from "./actions/getRating"
-import {startOrderStep} from "./actions/startOrderStep"
-import {getStatusOrderStep} from "./actions/getOrderStepStatus"
-import {getGame} from "./actions/getGame"
-import {getStatus} from "./actions/getStatus"
-import {startGame} from "./actions/startGame"
+import {addPlayer} from "./actions/addPlayer"
+import {removePlayer} from "./actions/removePlayer"
+import {getAvailableGames} from "./actions/getAvailableGames";
 
-export function gameRouts(router: IRouter<DataProvider, SessionStorage>) {
+export function gameRoutes(router: IRouter<DataProvider, SessionStorage>) {
     router.addRout({
         path: "/game/create",
         method: HttpMethod.POST,
@@ -21,51 +18,27 @@ export function gameRouts(router: IRouter<DataProvider, SessionStorage>) {
         action: createGame
     })
     router.addRout({
-        path: "/game/get-rating/:gameId",
+        path: "/game/add-player",
+        method: HttpMethod.POST,
+        pathVariables: AddPlayer.PathVariables(),
+        requestScheme: AddPlayer.Request(),
+        responseScheme: AddPlayer.Response(),
+        action: addPlayer
+    })
+    router.addRout({
+        path: "/game/remove-player",
+        method: HttpMethod.POST,
+        pathVariables: RemovePlayer.PathVariables(),
+        requestScheme: RemovePlayer.Request(),
+        responseScheme: RemovePlayer.Response(),
+        action: removePlayer
+    })
+    router.addRout({
+        path: "/game/get-available",
         method: HttpMethod.GET,
-        pathVariables: GetRating.PathVariables(),
-        requestScheme: GetRating.Request(),
-        responseScheme: GetRating.Response(),
-        action: getRating
-    })
-    router.addRout({
-        path: "/game/get-game",
-        method: HttpMethod.POST,
-        pathVariables: GetGame.PathVariables(),
-        requestScheme: GetGame.Request(),
-        responseScheme: GetGame.Response(),
-        action: getGame
-    })
-    router.addRout({
-        path: "/game/get-status",
-        method: HttpMethod.POST,
-        pathVariables: GetStatus.PathVariables(),
-        requestScheme: GetStatus.Request(),
-        responseScheme: GetStatus.Response(),
-        action: getStatus
-    })
-    router.addRout({
-        path: "/game/start",
-        method: HttpMethod.POST,
-        pathVariables: StartGame.PathVariables(),
-        requestScheme: StartGame.Request(),
-        responseScheme: StartGame.Response(),
-        action: startGame
-    })
-    router.addRout({
-        path: "/game/orders-step/start",
-        method: HttpMethod.POST,
-        pathVariables: StartOrderStep.PathVariables(),
-        requestScheme: StartOrderStep.Request(),
-        responseScheme: StartOrderStep.Response(),
-        action: startOrderStep
-    })
-    router.addRout({
-        path: "/game/orders-step/status",
-        method: HttpMethod.POST,
-        pathVariables: GetStatusOrderStep.PathVariables(),
-        requestScheme: GetStatusOrderStep.Request(),
-        responseScheme: GetStatusOrderStep.Response(),
-        action: getStatusOrderStep
+        pathVariables: GetAvailable.PathVariables(),
+        requestScheme: GetAvailable.Request(),
+        responseScheme: GetAvailable.Response(),
+        action: getAvailableGames
     })
 }

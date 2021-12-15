@@ -1,33 +1,33 @@
 import {GameStatus} from "../../infrastructure/configurations/Game"
 
 export class Game {
-    private readonly id!: string;
+    private readonly id!: string
+    private numberPlayers!: number
     private state!: GameStatus
-    private currentMove!: number
 
-    constructor(id: string, state: GameStatus, currentMove: number) {
+    constructor(id: string, numberPlayers: number, state: GameStatus) {
         this.id = id
+        this.numberPlayers = numberPlayers
         this.state = state
-        this.currentMove = currentMove
     }
 
     getId(): string {
         return this.id
     }
 
+    getNumberPlayers(): number {
+        return this.numberPlayers
+    }
+
     getState(): GameStatus {
         return this.state
     }
 
+    setNumberPlayers(numberPlayers: number): void {
+        this.numberPlayers = numberPlayers
+    }
+
     setState(state: GameStatus): void {
         this.state = state
-    }
-
-    getCurrentMove(): number {
-        return this.currentMove
-    }
-
-    setCurrentMove(currentMove: number): void {
-        this.currentMove = currentMove
     }
 }

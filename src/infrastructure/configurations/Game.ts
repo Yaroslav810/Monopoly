@@ -1,15 +1,16 @@
 import {BuildOptions, DataTypes, Model, Sequelize} from "sequelize"
 
 export enum GameStatus {
+    RECRUITMENT_OF_PLAYERS = "recruitmentOfPlayers",
     PREPARATION = "preparation",
     ACTIVE = "active",
-    COMPLETED = "completed"
+    GAME_OVER = "gameOver"
 }
 
 class GameModel extends Model {
     public id!: string
+    public numberPlayers!: number
     public state!: GameStatus
-    public currentMove!: number
 }
 
 type GameStatic = typeof Model & {
@@ -26,18 +27,19 @@ export function initGameConfiguration(sequelize: Sequelize) {
             unique: true,
             allowNull: false
         },
-        state: {
-            type: DataTypes.ENUM(
-                GameStatus.PREPARATION,
-                GameStatus.ACTIVE,
-                GameStatus.COMPLETED
-            ),
-            allowNull: false
-        },
-        currentMove: {
+        numberPlayers: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            field: "current_move"
+            field: "number_players"
+        },
+        state: {
+            type: DataTypes.ENUM(
+                GameStatus.RECRUITMENT_OF_PLAYERS,
+                GameStatus.PREPARATION,
+                GameStatus.ACTIVE,
+                GameStatus.GAME_OVER
+            ),
+            allowNull: false
         }
     },
     {
