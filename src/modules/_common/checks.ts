@@ -1,4 +1,6 @@
 import {sendForbidden, sendUnauthorized} from "../../../core/http/httputils"
+import {GameData} from "../../constants/GameData";
+import {ErrorText} from "../../constants/ErrorText";
 
 export const verifyAuthorized = <T>(player: null | T): T => {
     if (!player) {
@@ -7,16 +9,14 @@ export const verifyAuthorized = <T>(player: null | T): T => {
     return player as T
 }
 
-export const verifyTeam = (checkingTeam: number | null, availableTeamsList: Array<number>) => {
-    const isTeamPresent = availableTeamsList.some(availableTeam => availableTeam === checkingTeam)
-    
-    if (!isTeamPresent) {
-        sendForbidden("The team does not have access to perform operations")
+export const verifyNumberPlayers = (numberPlayers: number) => {
+    if (numberPlayers > GameData.MAX_NUMBER_PLAYER || numberPlayers < GameData.MIN_NUMBER_PLAYER) {
+        sendForbidden(ErrorText.ERROR_NUMBER_PLAYERS)
     }
 }
 
 export const verifyTimer = (time: number) => {
     if (!time) {
-        sendForbidden("The orders step is not active")
+        sendForbidden(ErrorText.ERROR_TIME)
     }
 }

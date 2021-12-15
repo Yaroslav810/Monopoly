@@ -1,14 +1,12 @@
 export class Player {
-    private readonly id!: string;
-    private readonly gameId!: string;
-    private name!: string;
-    private team!: number | null;
+    private readonly id!: string
+    private readonly gameId!: string
+    private name!: string
 
-    constructor(id: string, gameId: string, name: string, team: number | null) {
+    constructor(id: string, gameId: string, name: string) {
         this.id = id
         this.gameId = gameId
         this.name = name
-        this.team = team
     }
 
     public getId(): string {
@@ -25,13 +23,5 @@ export class Player {
 
     public setName(name: string): void {
         this.name = name
-    }
-
-    public getTeam(): number | null {
-        return this.team
-    }
-
-    public setTeam(team: number | null): void {
-        this.team = team
     }
 }
