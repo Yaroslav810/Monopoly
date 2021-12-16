@@ -1,6 +1,5 @@
 import {Game} from "./entities/Game"
 import {GameRepository} from "../infrastructure/repositories/gameRepository"
-import {TimerRepository} from "../infrastructure/repositories/timerRepository"
 import {GameStatus} from "../infrastructure/configurations/Game"
 import {PlayerRepository} from "../infrastructure/repositories/playerRepository"
 
@@ -20,8 +19,7 @@ interface AvailableGame {
 
 export function initGameProvider(
     gameRepository: GameRepository,
-    playerRepository: PlayerRepository,
-    _: TimerRepository
+    playerRepository: PlayerRepository
 ) {
     return new class implements GameProvider {
         create(numberPlayers: number): Promise<Game> {

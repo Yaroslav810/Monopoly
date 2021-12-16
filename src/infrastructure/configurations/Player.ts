@@ -13,7 +13,7 @@ type PlayerStatic = typeof Model & {
 export type {PlayerModel}
 
 export function initPlayerConfiguration(sequelize: Sequelize) {
-    return <PlayerStatic>sequelize.define("Player", {
+    return <PlayerStatic>sequelize.define("player", {
         id: {
             type: DataTypes.UUID,
             primaryKey: true,
@@ -24,7 +24,7 @@ export function initPlayerConfiguration(sequelize: Sequelize) {
             type: DataTypes.UUID,
             allowNull: false,
             references: {
-                model: "Game",
+                model: "game",
                 key: "id"
             },
             onDelete: "cascade",

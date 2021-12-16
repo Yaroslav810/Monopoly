@@ -1,7 +1,6 @@
 import {Player} from "./entities/Player"
 import {PlayerRepository} from "../infrastructure/repositories/playerRepository"
 import {GameRepository} from "../infrastructure/repositories/gameRepository"
-import {TimerRepository} from "../infrastructure/repositories/timerRepository"
 import {GameStatus} from "../infrastructure/configurations/Game"
 
 export interface PlayerProvider {
@@ -13,10 +12,8 @@ export interface PlayerProvider {
 
 export function initPlayerProvider(
     playerRepository: PlayerRepository,
-    gameRepository: GameRepository,
-    __: TimerRepository
+    gameRepository: GameRepository
 ) {
-
     return new class implements PlayerProvider {
         async createPlayer(gameId: string, name: string): Promise<Player | null> {
             const game = await gameRepository.getGameById(gameId)

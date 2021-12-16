@@ -1,7 +1,6 @@
 import {DbContext} from "../infrastructure/dbContext/context"
-import {gameRepository} from "../infrastructure/repositories/gameRepository"
-import {timerRepository} from "../infrastructure/repositories/timerRepository"
-import {playerRepository} from "../infrastructure/repositories/playerRepository"
+import {GameRepository} from "../infrastructure/repositories/gameRepository"
+import {PlayerRepository} from "../infrastructure/repositories/playerRepository"
 import {initGameProvider} from "./Game"
 import {initPlayerProvider} from "./Player"
 
@@ -12,15 +11,16 @@ export class DataProvider {
 
     private _dbContext = new DbContext()
 
+    private readonly gameRepository = new GameRepository(this._dbContext)
+    private readonly playerRepository = new PlayerRepository(this._dbContext)
+
     readonly game = initGameProvider(
-        gameRepository(this._dbContext),
-        playerRepository(this._dbContext),
-        timerRepository(),
+        this.gameRepository,
+        this.playerRepository
     )
 
     readonly player = initPlayerProvider(
-        playerRepository(this._dbContext),
-        gameRepository(this._dbContext),
-        timerRepository()
+        this.playerRepository,
+        this.gameRepository
     )
 }

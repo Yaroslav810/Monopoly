@@ -1,25 +1,12 @@
 import {DbContext} from "../dbContext/context"
 import {Player} from "../../model/entities/Player"
+import {BaseRepository} from "./baseRepository"
 import {generateUUId} from "../../../core/utils/UUIDUtils"
 import {MapToPlayer} from "./mappers/mapper"
 
-export type {PlayerRepository}
-
-export function playerRepository(dbContext: DbContext): PlayerRepository {
-    if (!instance) {
-        instance = new PlayerRepository(dbContext)
-    }
-
-    return instance
-}
-
-let instance: PlayerRepository
-
-class PlayerRepository {
-    private readonly dbContext: DbContext;
-
+export class PlayerRepository extends BaseRepository {
     constructor(dbContext: DbContext) {
-        this.dbContext = dbContext
+        super(dbContext)
     }
 
     async createPlayer(player: {gameId: string, name: string}): Promise<Player> {
