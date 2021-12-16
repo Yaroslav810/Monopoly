@@ -1,14 +1,13 @@
 import {DbContext} from "../dbContext/context"
 import {GameStatus} from "../configurations/Game"
 import {Game} from "../../model/entities/Game"
+import {BaseRepository} from "./baseRepository"
 import {generateUUId} from "../../../core/utils/UUIDUtils"
 import {MapToGame} from "./mappers/mapper"
 
-class GameRepository {
-    private readonly dbContext: DbContext;
-
+export class GameRepository extends BaseRepository {
     constructor(dbContext: DbContext) {
-        this.dbContext = dbContext
+        super(dbContext)
     }
 
     async createGame(numberPlayers: number): Promise<Game> {
@@ -46,16 +45,4 @@ class GameRepository {
 
         return games.map(game => MapToGame(game))
     }
-}
-
-let instance: GameRepository
-
-export type {GameRepository}
-
-export function gameRepository(dbContext: DbContext): GameRepository {
-    if (!instance) {
-        instance = new GameRepository(dbContext)
-    }
-
-    return instance
 }

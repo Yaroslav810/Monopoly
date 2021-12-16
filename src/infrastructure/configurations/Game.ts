@@ -20,7 +20,7 @@ type GameStatic = typeof Model & {
 export type {GameModel}
 
 export function initGameConfiguration(sequelize: Sequelize) {
-    return <GameStatic>sequelize.define("Game", {
+    return <GameStatic>sequelize.define("game", {
         id: {
             type: DataTypes.UUID,
             primaryKey: true,
@@ -41,8 +41,5 @@ export function initGameConfiguration(sequelize: Sequelize) {
             ),
             allowNull: false
         }
-    },
-    {
-        createdAt: "creationDate"
     })
 }

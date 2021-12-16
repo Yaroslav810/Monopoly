@@ -6,7 +6,7 @@ import {AddPlayer, CreateGame, GetAvailable, RemovePlayer} from "./schemes"
 import {createGame} from "./actions/createGame"
 import {addPlayer} from "./actions/addPlayer"
 import {removePlayer} from "./actions/removePlayer"
-import {getAvailableGames} from "./actions/getAvailableGames";
+import {getAvailableGames} from "./actions/getAvailableGames"
 
 export function gameRoutes(router: IRouter<DataProvider, SessionStorage>) {
     router.addRout({

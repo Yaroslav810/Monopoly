@@ -2,7 +2,7 @@ import {object} from "../../../core/scheme/object"
 import {empty} from "../../../core/scheme/pseudo"
 import {guid, string} from "../../../core/scheme/string"
 import {number} from "../../../core/scheme/number"
-import {array} from "../../../core/scheme/array";
+import {array} from "../../../core/scheme/array"
 
 export namespace CreateGame {
     export const PathVariables = empty
