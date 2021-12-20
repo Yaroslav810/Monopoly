@@ -1,11 +1,11 @@
 import {DbContext} from "../dbContext/context"
 import {GameStatus} from "../configurations/Game"
-import {Game} from "../../model/entities/Game"
+import {Game} from "./mappers/entities/Game"
 import {BaseRepository} from "./baseRepository"
 import {generateUUId} from "../../../core/utils/UUIDUtils"
 import {MapToGame} from "./mappers/mapper"
 
-export class GameRepository extends BaseRepository {
+class GameRepository extends BaseRepository {
     constructor(dbContext: DbContext) {
         super(dbContext)
     }
@@ -45,4 +45,10 @@ export class GameRepository extends BaseRepository {
 
         return games.map(game => MapToGame(game))
     }
+}
+
+export type {GameRepository}
+
+export function initGameRepository(dbContext: DbContext) {
+    return new GameRepository(dbContext)
 }

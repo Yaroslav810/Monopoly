@@ -1,9 +1,9 @@
 import {DbContext} from "../dbContext/context"
 import {BaseRepository} from "./baseRepository"
-import {Property} from "../../model/entities/Property"
+import {Property} from "./mappers/entities/Property"
 import {MapToProperty} from "./mappers/mapper"
 
-export class PropertyRepository extends BaseRepository {
+class PropertyRepository extends BaseRepository {
     constructor(dbContext: DbContext) {
         super(dbContext)
     }
@@ -13,3 +13,10 @@ export class PropertyRepository extends BaseRepository {
         return property ? MapToProperty(property) : null
     }
 }
+
+export type {PropertyRepository}
+
+export function initPropertyRepository(dbContext: DbContext) {
+    return new PropertyRepository(dbContext)
+}
+

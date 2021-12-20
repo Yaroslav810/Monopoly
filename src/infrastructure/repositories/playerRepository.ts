@@ -1,10 +1,10 @@
 import {DbContext} from "../dbContext/context"
-import {Player} from "../../model/entities/Player"
+import {Player} from "./mappers/entities/Player"
 import {BaseRepository} from "./baseRepository"
 import {generateUUId} from "../../../core/utils/UUIDUtils"
 import {MapToPlayer} from "./mappers/mapper"
 
-export class PlayerRepository extends BaseRepository {
+class PlayerRepository extends BaseRepository {
     constructor(dbContext: DbContext) {
         super(dbContext)
     }
@@ -52,4 +52,10 @@ export class PlayerRepository extends BaseRepository {
             }
         })
     }
+}
+
+export type {PlayerRepository}
+
+export function initPlayerRepository(dbContext: DbContext) {
+    return new PlayerRepository(dbContext)
 }

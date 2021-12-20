@@ -1,9 +1,9 @@
 import {DbContext} from "../dbContext/context"
 import {BaseRepository} from "./baseRepository"
-import {GameState} from "../../model/entities/GameState"
+import {GameState} from "./mappers/entities/GameState"
 import {MapToGameState} from "./mappers/mapper"
 
-export class GameStateRepository extends BaseRepository {
+class GameStateRepository extends BaseRepository {
     constructor(dbContext: DbContext) {
         super(dbContext)
     }
@@ -12,4 +12,10 @@ export class GameStateRepository extends BaseRepository {
         const gameState = await this.dbContext.gameState.findByPk(id)
         return gameState ? MapToGameState(gameState) : null
     }
+}
+
+export type {GameStateRepository}
+
+export function initGameStateRepository(dbContext: DbContext) {
+    return new GameStateRepository(dbContext)
 }

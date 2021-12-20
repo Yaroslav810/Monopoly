@@ -1,9 +1,9 @@
-import {Player} from "./entities/Player"
+import {Player} from "../infrastructure/repositories/mappers/entities/Player"
 import {PlayerRepository} from "../infrastructure/repositories/playerRepository"
 import {GameRepository} from "../infrastructure/repositories/gameRepository"
 import {GameStatus} from "../infrastructure/configurations/Game"
 
-export interface PlayerProvider {
+interface IPlayerProvider {
     createPlayer(gameId: string, name: string): Promise<Player | null>
     removePlayer(playerId: string): Promise<void>
     getPlayerById(playerId: string): Promise<Player | null>
@@ -14,7 +14,7 @@ export function initPlayerProvider(
     playerRepository: PlayerRepository,
     gameRepository: GameRepository
 ) {
-    return new class implements PlayerProvider {
+    return new class PlayerProvider implements IPlayerProvider {
         async createPlayer(gameId: string, name: string): Promise<Player | null> {
             const game = await gameRepository.getGameById(gameId)
             if (!game || game.getState() !== GameStatus.RECRUITMENT_OF_PLAYERS) {

@@ -1,9 +1,9 @@
 import {DbContext} from "../dbContext/context"
-import {PlayerQueue} from "../../model/entities/PlayerQueue"
+import {PlayerQueue} from "./mappers/entities/PlayerQueue"
 import {BaseRepository} from "./baseRepository"
 import {MapToPlayerQueue} from "./mappers/mapper"
 
-export class PlayerQueueRepository extends BaseRepository {
+class PlayerQueueRepository extends BaseRepository {
     constructor(dbContext: DbContext) {
         super(dbContext)
     }
@@ -13,3 +13,10 @@ export class PlayerQueueRepository extends BaseRepository {
         return playerQueue ? MapToPlayerQueue(playerQueue) : null
     }
 }
+
+export type {PlayerQueueRepository}
+
+export function initPlayerQueueRepository(dbContext: DbContext) {
+    return new PlayerQueueRepository(dbContext)
+}
+

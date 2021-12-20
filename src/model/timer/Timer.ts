@@ -1,4 +1,4 @@
-class TimerRepository {
+class Timer {
     private storage = new Map<string, Date>()
     private readonly TIMER_TIME = 1000 * 60 * 15
 
@@ -38,10 +38,8 @@ class TimerRepository {
     }
 }
 
-const timer = new TimerRepository()
+export type {Timer}
 
-export type {TimerRepository}
-
-export function timerRepository(): TimerRepository {
-    return timer
+export function initTimer(): Timer {
+    return new Timer()
 }

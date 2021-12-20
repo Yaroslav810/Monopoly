@@ -1,4 +1,4 @@
-import {LevelProperty} from "../../infrastructure/configurations/Property"
+import {LevelProperty} from "../../../configurations/Property"
 
 export class Property {
     private readonly id!: string

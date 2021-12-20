@@ -1,4 +1,4 @@
-import {ActionType} from "../../infrastructure/configurations/Action"
+import {ActionType} from "../../../configurations/Action"
 
 export class Action {
     private readonly id!: string

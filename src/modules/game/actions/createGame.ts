@@ -13,6 +13,7 @@ export const createGame: Action<typeof CreateGame> = async ({dataProvider}, _, {
     if (!player) {
         sendForbidden(ErrorText.ERROR_ADD_PLAYER)
     }
+    dataProvider.game.addPlayer(game.getId(), player.getId())
 
     return {
         gameToken: game.getId(),

@@ -1,4 +1,4 @@
-import {PlayerStateStatus} from "../../infrastructure/configurations/PlayerState"
+import {PlayerStateStatus} from "../../../configurations/PlayerState"
 
 export class PlayerState {
     private readonly id!: string
