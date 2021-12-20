@@ -1,9 +1,9 @@
 import {DbContext} from "../dbContext/context"
 import {BaseRepository} from "./baseRepository"
+import {PublicTreasureQueue} from "./mappers/entities/PublicTreasureQueue"
 import {MapToPublicTreasureQueue} from "./mappers/mapper"
-import {PublicTreasureQueue} from "../../model/entities/PublicTreasureQueue"
 
-export class PublicTreasureQueueRepository extends BaseRepository {
+class PublicTreasureQueueRepository extends BaseRepository {
     constructor(dbContext: DbContext) {
         super(dbContext)
     }
@@ -13,3 +13,10 @@ export class PublicTreasureQueueRepository extends BaseRepository {
         return publicTreasureQueue ? MapToPublicTreasureQueue(publicTreasureQueue) : null
     }
 }
+
+export type {PublicTreasureQueueRepository}
+
+export function initPublicTreasureQueueRepository(dbContext: DbContext) {
+    return new PublicTreasureQueueRepository(dbContext)
+}
+

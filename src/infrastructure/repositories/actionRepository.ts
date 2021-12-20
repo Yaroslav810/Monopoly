@@ -1,9 +1,9 @@
 import {DbContext} from "../dbContext/context"
 import {BaseRepository} from "./baseRepository"
-import {Action} from "../../model/entities/Action"
+import {Action} from "./mappers/entities/Action"
 import {MapToAction} from "./mappers/mapper"
 
-export class ActionRepository extends BaseRepository {
+class ActionRepository extends BaseRepository {
     constructor(dbContext: DbContext) {
         super(dbContext)
     }
@@ -12,4 +12,10 @@ export class ActionRepository extends BaseRepository {
         const action = await this.dbContext.action.findByPk(id)
         return action ? MapToAction(action) : null
     }
+}
+
+export type {ActionRepository}
+
+export function initActionRepository(dbContext: DbContext) {
+    return new ActionRepository(dbContext)
 }

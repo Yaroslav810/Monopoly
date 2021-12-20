@@ -1,9 +1,9 @@
 import {DbContext} from "../dbContext/context"
 import {BaseRepository} from "./baseRepository"
-import {MotionAction} from "../../model/entities/MotionAction"
+import {MotionAction} from "./mappers/entities/MotionAction"
 import {MapToMotionAction} from "./mappers/mapper"
 
-export class MotionActionRepository extends BaseRepository {
+class MotionActionRepository extends BaseRepository {
     constructor(dbContext: DbContext) {
         super(dbContext)
     }
@@ -12,4 +12,10 @@ export class MotionActionRepository extends BaseRepository {
         const motionAction = await this.dbContext.motionAction.findByPk(id)
         return motionAction ? MapToMotionAction(motionAction) : null
     }
+}
+
+export type {MotionActionRepository}
+
+export function initMotionActionRepository(dbContext: DbContext) {
+    return new MotionActionRepository(dbContext)
 }

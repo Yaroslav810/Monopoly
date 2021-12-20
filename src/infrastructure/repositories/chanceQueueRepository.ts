@@ -1,9 +1,9 @@
 import {DbContext} from "../dbContext/context"
-import {ChanceQueue} from "../../model/entities/ChanceQueue"
+import {ChanceQueue} from "./mappers/entities/ChanceQueue"
 import {BaseRepository} from "./baseRepository"
 import {MapToChanceQueue} from "./mappers/mapper"
 
-export class ChanceQueueRepository extends BaseRepository {
+class ChanceQueueRepository extends BaseRepository {
     constructor(dbContext: DbContext) {
         super(dbContext)
     }
@@ -12,4 +12,10 @@ export class ChanceQueueRepository extends BaseRepository {
         const chanceQueue = await this.dbContext.chanceQueue.findByPk(id)
         return chanceQueue ? MapToChanceQueue(chanceQueue) : null
     }
+}
+
+export type {ChanceQueueRepository}
+
+export function initChanceQueueRepository(dbContext: DbContext) {
+    return new ChanceQueueRepository(dbContext)
 }

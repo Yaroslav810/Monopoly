@@ -1,8 +1,13 @@
 import {DbContext} from "../infrastructure/dbContext/context"
-import {GameRepository} from "../infrastructure/repositories/gameRepository"
-import {PlayerRepository} from "../infrastructure/repositories/playerRepository"
+import {initPlayerRepository} from "../infrastructure/repositories/playerRepository"
 import {initGameProvider} from "./Game"
 import {initPlayerProvider} from "./Player"
+import {initEventBindingProvider} from "./EventBinding"
+import {initGameRepository} from "../infrastructure/repositories/gameRepository"
+import {initAwaiting} from "./awaiting/Awaiting"
+import {initBankProvider} from "./Bank"
+import {initPlayerStateRepository} from "../infrastructure/repositories/playerStateRepository"
+import {initPropertyRepository} from "../infrastructure/repositories/propertyRepository"
 
 export class DataProvider {
     public async init() {
@@ -10,13 +15,24 @@ export class DataProvider {
     }
 
     private _dbContext = new DbContext()
+    private readonly gameRepository = initGameRepository(this._dbContext)
+    private readonly playerRepository = initPlayerRepository(this._dbContext)
+    private readonly playerStateRepository = initPlayerStateRepository(this._dbContext)
+    private readonly propertyState = initPropertyRepository(this._dbContext)
+    private readonly awaiting = initAwaiting()
 
-    private readonly gameRepository = new GameRepository(this._dbContext)
-    private readonly playerRepository = new PlayerRepository(this._dbContext)
+    private readonly awaitingProvider = initEventBindingProvider()
+    private readonly bank = initBankProvider(
+        this.playerStateRepository,
+        this.propertyState
+    )
 
     readonly game = initGameProvider(
         this.gameRepository,
-        this.playerRepository
+        this.playerRepository,
+        this.awaiting,
+        this.awaitingProvider,
+        this.bank
     )
 
     readonly player = initPlayerProvider(

@@ -15,6 +15,7 @@ export const removePlayer: Action<typeof RemovePlayer> = async ({dataProvider}, 
     }
 
     dataProvider.player.removePlayer(player.getId()).then()
+    dataProvider.game.removePlayer(game.getId(), player.getId())
 
     return empty
 }
