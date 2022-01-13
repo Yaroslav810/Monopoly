@@ -1,5 +1,5 @@
 import {sendForbidden, sendUnauthorized} from "../../../core/http/httputils"
-import {GameData} from "../../constants/GameData"
+import {GameData} from "../../constants/Game/GameData"
 import {ErrorText} from "../../constants/ErrorText"
 
 export const verifyAuthorized = <T>(player: null | T): T => {
