@@ -1148,4 +1148,5 @@ export class GameData {
             id: 16
         }
     ]
+    static readonly INITIAL_AMOUNT_OF_PLAYERS = 15000
 }
