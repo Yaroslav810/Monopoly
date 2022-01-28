@@ -11,6 +11,7 @@ import {initPropertyRepository} from "../infrastructure/repositories/propertyRep
 import {initPlayerQueueRepository} from "../infrastructure/repositories/playerQueueRepository"
 import {initChanceQueueRepository} from "../infrastructure/repositories/chanceQueueRepository"
 import {initPublicTreasureQueueRepository} from "../infrastructure/repositories/publicTreasureQueueRepository"
+import {initGameStateRepository} from "../infrastructure/repositories/gameStateRepository"
 
 export class DataProvider {
     public async init() {
@@ -26,6 +27,7 @@ export class DataProvider {
     private readonly chanceQueue = initChanceQueueRepository(this._dbContext)
     private readonly publicTreasureQueue = initPublicTreasureQueueRepository(this._dbContext)
     private readonly playerState = initPlayerStateRepository(this._dbContext)
+    private readonly gameState = initGameStateRepository(this._dbContext)
     private readonly awaiting = initAwaiting()
 
     private readonly awaitingProvider = initEventBindingProvider()
@@ -42,6 +44,7 @@ export class DataProvider {
         this.chanceQueue,
         this.publicTreasureQueue,
         this.playerState,
+        this.gameState,
         this.awaitingProvider,
         this.bank
     )

@@ -24,6 +24,16 @@ class ChanceQueueRepository extends BaseRepository {
         const chanceQueue = await this.dbContext.chanceQueue.findByPk(id)
         return chanceQueue ? MapToChanceQueue(chanceQueue) : null
     }
+
+    async getChanceQueueByGameIdAndNumberInQueue(gameId: string, numberInQueue: number): Promise<ChanceQueue | null> {
+        const chanceQueue = await this.dbContext.chanceQueue.findOne({
+            where: {
+                gameId: gameId,
+                numberInQueue: numberInQueue
+            }
+        })
+        return chanceQueue ? MapToChanceQueue(chanceQueue) : null
+    }
 }
 
 export type {ChanceQueueRepository}

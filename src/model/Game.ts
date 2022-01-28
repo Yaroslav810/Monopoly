@@ -15,6 +15,9 @@ import {ChanceQueueRepository} from "../infrastructure/repositories/chanceQueueR
 import {PublicTreasureQueueRepository} from "../infrastructure/repositories/publicTreasureQueueRepository"
 import {PlayerStateRepository} from "../infrastructure/repositories/playerStateRepository"
 import {PlayerStateStatus} from "../infrastructure/configurations/PlayerState"
+import {GameStateRepository} from "../infrastructure/repositories/gameStateRepository"
+import {ChanceQueue} from "../infrastructure/repositories/mappers/entities/ChanceQueue"
+import {PublicTreasureQueue} from "../infrastructure/repositories/mappers/entities/PublicTreasureQueue"
 
 interface AvailableGame {
     gameToken: string,
@@ -44,6 +47,7 @@ export function initGameProvider(
     chanceQueueRepository: ChanceQueueRepository,
     publicTreasureQueueRepository: PublicTreasureQueueRepository,
     playerStateRepository: PlayerStateRepository,
+    gameStateRepository: GameStateRepository,
     awaitingProvider: IEventBindingProvider,
     _: IBankProvider
 ) {
@@ -127,16 +131,6 @@ export function initGameProvider(
             // Этап подготвоки:
             const players = await playerRepository.getPlayersByGameId(gameId)
 
-            // Todo: Перемешать Player, Создать и занести данные в PlayerQueue
-            const playerQueue = getRandomOrder(players)
-            const playerQueueAwait = []
-            for (let i = 0; i < playerQueue.length; i++) {
-                playerQueueAwait.push(playerQueueRepository.createPlayerQueue({
-                    playerId: (playerQueue[i] as Player).getId(),
-                    numberInQueue: i + 1
-                }))
-            }
-
             // Todo: Создать и занести данные в ChanceQueue
             const chanceQueue = getRandomOrder(GameData.CHANCE)
             const chanceQueueAwait = []
@@ -159,6 +153,16 @@ export function initGameProvider(
                 ))
             }
 
+            // Todo: Перемешать Player, Создать и занести данные в PlayerQueue
+            const playerQueue = getRandomOrder(players)
+            const playerQueueAwait = []
+            for (let i = 0; i < playerQueue.length; i++) {
+                playerQueueAwait.push(playerQueueRepository.createPlayerQueue({
+                    playerId: (playerQueue[i] as Player).getId(),
+                    numberInQueue: i + 1
+                }))
+            }
+
             // Todo: Создать данные в PlayerState
             const playerStateAwait = []
             for (let i = 0; i < players.length; i++) {
@@ -169,15 +173,28 @@ export function initGameProvider(
                 ))
             }
 
-            await Promise.all([
-                playerQueueAwait,
+            const result = await Promise.all([
                 chanceQueueAwait,
                 publicTreasureQueueAwait,
+                playerQueueAwait,
                 playerStateAwait
             ])
 
-            // Todo: Создать и занести данные в GameState
 
+            // Todo: Создать и занести данные в GameState
+            const currentChance = await (result[0][0] as Promise<ChanceQueue>)
+            const currentPublicTreasure = await (result[1][0] as Promise<PublicTreasureQueue>)
+
+            if (!currentChance || !currentPublicTreasure) {
+                Logger.error("Ошибка создания GameState")
+                return
+            }
+            await gameStateRepository.createGameState(
+                game.getId(),
+                (playerQueue[0] as Player).getId(),
+                currentChance.getId(),
+                currentPublicTreasure.getId()
+            )
         }
     }
 }
