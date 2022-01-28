@@ -2,10 +2,21 @@ import {DbContext} from "../dbContext/context"
 import {PlayerQueue} from "./mappers/entities/PlayerQueue"
 import {BaseRepository} from "./baseRepository"
 import {MapToPlayerQueue} from "./mappers/mapper"
+import {generateUUId} from "../../../core/utils/UUIDUtils"
 
 class PlayerQueueRepository extends BaseRepository {
     constructor(dbContext: DbContext) {
         super(dbContext)
+    }
+
+    async createPlayerQueue(player: {playerId: string, numberInQueue: number}) {
+        return MapToPlayerQueue(
+            await this.dbContext.playerQueue.create({
+                id: generateUUId(),
+                playerId: player.playerId,
+                numberInQueue: player.numberInQueue
+            })
+        )
     }
 
     async getPlayerQueueById(id: string): Promise<PlayerQueue | null> {
