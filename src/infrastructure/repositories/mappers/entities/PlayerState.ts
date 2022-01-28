@@ -5,12 +5,14 @@ export class PlayerState {
     private readonly playerId!: string
     private amountMoney!: number
     private state!: PlayerStateStatus
+    private positionOnMap!: number | null
 
-    constructor(id: string, playerId: string, amountMoney: number, state: PlayerStateStatus) {
+    constructor(id: string, playerId: string, amountMoney: number, state: PlayerStateStatus, positionOnMap: number | null) {
         this.id = id
         this.playerId = playerId
         this.amountMoney = amountMoney
         this.state = state
+        this.positionOnMap = positionOnMap
     }
 
     public getId(): string {
@@ -35,5 +37,13 @@ export class PlayerState {
 
     public setState(state: PlayerStateStatus): void {
         this.state = state
+    }
+
+    public getPositionOnMap(): number | null {
+        return this.positionOnMap
+    }
+
+    public setPositionOnMap(positionOnMap: number | null): void {
+        this.positionOnMap = positionOnMap
     }
 }

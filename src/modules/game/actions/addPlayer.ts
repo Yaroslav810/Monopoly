@@ -10,6 +10,9 @@ export const addPlayer: Action<typeof AddPlayer> = async ({dataProvider}, _, {ga
     if (players.length >= game.getNumberPlayers()) {
         sendForbidden(ErrorText.ERROR_ADD_PLAYER)
     }
+    if (players.some(player => player.getName() === name)) {
+        sendForbidden(ErrorText.ERROR_NAME_OCCUPIED)
+    }
 
     const player = await dataProvider.player.createPlayer(game.getId(), name)
     if (!player) {
