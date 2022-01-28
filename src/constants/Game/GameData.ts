@@ -1011,7 +1011,7 @@ export class GameData {
                 priceHouse: 200,
                 priceHotel: 200
             }
-        },
+        }
     ]
     static readonly CHANCE: Array<{id: number}> = [
         // Дивиденты банка в размере $50

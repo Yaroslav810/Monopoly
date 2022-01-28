@@ -7,6 +7,9 @@ import {Awaiting} from "./awaiting/Awaiting"
 import {StartGameAwaitingPlayerState} from "./awaiting/StartGameAwaiting"
 import {IBankProvider} from "./Bank"
 import {Logger} from "../../core/Logger"
+import {PlayerQueueRepository} from "../infrastructure/repositories/playerQueueRepository"
+import {getRandomOrder} from "../common/utils"
+import {Player} from "../infrastructure/repositories/mappers/entities/Player"
 
 interface AvailableGame {
     gameToken: string,
@@ -32,6 +35,7 @@ export function initGameProvider(
     gameRepository: GameRepository,
     playerRepository: PlayerRepository,
     awaiting: Awaiting,
+    playerQueueRepository: PlayerQueueRepository,
     awaitingProvider: IEventBindingProvider,
     bankProvider: IBankProvider
 ) {
@@ -113,11 +117,23 @@ export function initGameProvider(
             await gameRepository.updateGame(game)
 
             // Этап подготвоки:
+            const players = await playerRepository.getPlayersByGameId(gameId)
+
             // Todo: Перемешать Player, Создать и занести данные в PlayerQueue
+            const playerQueue = getRandomOrder(players)
+            const playerQueueAwait = []
+            for (let i = 0; i < playerQueue.length; i++) {
+                playerQueueAwait.push(playerQueueRepository.createPlayerQueue({
+                    playerId: (playerQueue[i] as Player).getId(),
+                    numberInQueue: i + 1
+                }))
+            }
+            await Promise.all(playerQueueAwait)
+
             // Todo: Создать данные в PlayerState
 
             // Todo: Реализовать начисление игрокам денег
-            const players = await playerRepository.getPlayersByGameId(gameId)
+
             await bankProvider.addStartingAmount(players)
 
             // Todo: Создать и занести данные в GameState
