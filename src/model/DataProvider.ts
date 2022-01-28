@@ -25,6 +25,7 @@ export class DataProvider {
     private readonly playerQueue = initPlayerQueueRepository(this._dbContext)
     private readonly chanceQueue = initChanceQueueRepository(this._dbContext)
     private readonly publicTreasureQueue = initPublicTreasureQueueRepository(this._dbContext)
+    private readonly playerState = initPlayerStateRepository(this._dbContext)
     private readonly awaiting = initAwaiting()
 
     private readonly awaitingProvider = initEventBindingProvider()
@@ -40,6 +41,7 @@ export class DataProvider {
         this.playerQueue,
         this.chanceQueue,
         this.publicTreasureQueue,
+        this.playerState,
         this.awaitingProvider,
         this.bank
     )

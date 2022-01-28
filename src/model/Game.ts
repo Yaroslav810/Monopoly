@@ -13,6 +13,8 @@ import {Player} from "../infrastructure/repositories/mappers/entities/Player"
 import {ChanceCardType, GameData, PublicTreasureCardType} from "../constants/Game/GameData"
 import {ChanceQueueRepository} from "../infrastructure/repositories/chanceQueueRepository"
 import {PublicTreasureQueueRepository} from "../infrastructure/repositories/publicTreasureQueueRepository"
+import {PlayerStateRepository} from "../infrastructure/repositories/playerStateRepository"
+import {PlayerStateStatus} from "../infrastructure/configurations/PlayerState"
 
 interface AvailableGame {
     gameToken: string,
@@ -41,8 +43,9 @@ export function initGameProvider(
     playerQueueRepository: PlayerQueueRepository,
     chanceQueueRepository: ChanceQueueRepository,
     publicTreasureQueueRepository: PublicTreasureQueueRepository,
+    playerStateRepository: PlayerStateRepository,
     awaitingProvider: IEventBindingProvider,
-    bankProvider: IBankProvider
+    _: IBankProvider
 ) {
     return new class GameProvider implements IGameProvider {
         async create(numberPlayers: number): Promise<Game> {
@@ -155,18 +158,23 @@ export function initGameProvider(
                     i + 1
                 ))
             }
+
+            // Todo: Создать данные в PlayerState
+            const playerStateAwait = []
+            for (let i = 0; i < players.length; i++) {
+                playerStateAwait.push(playerStateRepository.createPlayerState(
+                    (players[i] as Player).getId(),
+                    GameData.INITIAL_AMOUNT_OF_PLAYERS,
+                    PlayerStateStatus.ACTIVE
+                ))
+            }
+
             await Promise.all([
                 playerQueueAwait,
                 chanceQueueAwait,
-                publicTreasureQueueAwait
+                publicTreasureQueueAwait,
+                playerStateAwait
             ])
-
-
-            // Todo: Создать данные в PlayerState
-
-            // Todo: Реализовать начисление игрокам денег
-
-            await bankProvider.addStartingAmount(players)
 
             // Todo: Создать и занести данные в GameState
 
