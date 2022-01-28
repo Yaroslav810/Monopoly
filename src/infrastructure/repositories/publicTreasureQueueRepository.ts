@@ -24,6 +24,16 @@ class PublicTreasureQueueRepository extends BaseRepository {
         const publicTreasureQueue = await this.dbContext.publicTreasureQueue.findByPk(id)
         return publicTreasureQueue ? MapToPublicTreasureQueue(publicTreasureQueue) : null
     }
+
+    async getPublicTreasureQueueByGameIdAndNumberInQueue(gameId: string, numberInQueue: number): Promise<PublicTreasureQueue | null> {
+        const publicTreasureQueue = await this.dbContext.publicTreasureQueue.findOne({
+            where: {
+                gameId: gameId,
+                numberInQueue: numberInQueue
+            }
+        })
+        return publicTreasureQueue ? MapToPublicTreasureQueue(publicTreasureQueue) : null
+    }
 }
 
 export type {PublicTreasureQueueRepository}
