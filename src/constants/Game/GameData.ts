@@ -86,6 +86,9 @@ type Property = {
     payload: PayloadProperty
 }
 
+export type ChanceCardType = {id: number}
+export type PublicTreasureCardType = {id: number}
+
 export class GameData {
     static readonly MIN_NUMBER_PLAYER = 2
     static readonly MAX_NUMBER_PLAYER = 6
@@ -1013,7 +1016,7 @@ export class GameData {
             }
         }
     ]
-    static readonly CHANCE: Array<{id: number}> = [
+    static readonly CHANCE: Array<ChanceCardType> = [
         // Дивиденты банка в размере $50
         {
             id: 1
@@ -1079,7 +1082,7 @@ export class GameData {
             id: 16
         }
     ]
-    static readonly PUBLIC_TREASURE: Array<{id: number}> = [
+    static readonly PUBLIC_TREASURE: Array<PublicTreasureCardType> = [
         // Получение $100 по страхованию
         {
             id: 1
