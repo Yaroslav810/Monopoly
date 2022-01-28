@@ -12,6 +12,7 @@ class PlayerStateModel extends Model {
     public playerId!: string
     public amountMoney!: number
     public state!: PlayerStateStatus
+    public positionOnMap!: number | null
 }
 
 type PlayerStateStatic = typeof Model & {
@@ -51,6 +52,10 @@ export function initPlayerStateConfiguration(sequelize: Sequelize) {
                 PlayerStateStatus.WINNER
             ),
             allowNull: false
+        },
+        positionOnMap: {
+            type: DataTypes.INTEGER,
+            field: "position_on_map"
         }
     })
 }

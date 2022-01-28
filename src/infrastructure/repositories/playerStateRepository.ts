@@ -25,6 +25,15 @@ class PlayerStateRepository extends BaseRepository {
         const playerState = await this.dbContext.playerState.findByPk(id)
         return playerState ? MapToPlayerState(playerState) : null
     }
+
+    async getPlayerStateByPlayerId(playerId: string) {
+        const playerState = await this.dbContext.playerState.findOne({
+            where: {
+                playerId: playerId
+            }
+        })
+        return playerState ? MapToPlayerState(playerState) : null
+    }
 }
 
 export type {PlayerStateRepository}

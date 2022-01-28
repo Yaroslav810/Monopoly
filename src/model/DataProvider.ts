@@ -51,6 +51,8 @@ export class DataProvider {
 
     readonly player = initPlayerProvider(
         this.playerRepository,
-        this.gameRepository
+        this.gameRepository,
+        this.playerStateRepository,
+        this.playerQueue
     )
 }

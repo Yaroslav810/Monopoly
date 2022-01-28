@@ -1,8 +1,11 @@
 import {object} from "../../../core/scheme/object"
-import {empty} from "../../../core/scheme/pseudo"
+import {empty, enumerate, optional} from "../../../core/scheme/pseudo"
 import {guid, string} from "../../../core/scheme/string"
 import {number} from "../../../core/scheme/number"
 import {array} from "../../../core/scheme/array"
+import {LevelProperty} from "../../infrastructure/configurations/Property"
+import {PlayerStateStatus} from "../../infrastructure/configurations/PlayerState"
+import {GameStatus} from "../../infrastructure/configurations/Game"
 
 export namespace CreateGame {
     export const PathVariables = empty
@@ -37,8 +40,7 @@ export namespace RemovePlayer {
 
 export namespace GetAvailable {
     const Player = () => object({
-        name: string(),
-        playerToken: guid()
+        name: string()
     })
 
     export const PathVariables = empty
@@ -49,5 +51,48 @@ export namespace GetAvailable {
             numberPlayers: number(),
             players: array(Player())
         }))
+    })
+}
+
+export namespace GetStateGame {
+    const Player = () => object({
+        name: string(),
+        amountMoney: number(),
+        positionOnMap: optional(number()),
+        state: enumerate([
+            PlayerStateStatus.ACTIVE,
+            PlayerStateStatus.WINNER,
+            PlayerStateStatus.GAVE_UP,
+            PlayerStateStatus.BANKRUPT
+        ])
+    })
+    const Property = () => object({
+        playerName: string(),
+        propertyId: number(),
+        level: enumerate([
+            LevelProperty.ZERO,
+            LevelProperty.FIRST,
+            LevelProperty.SECOND,
+            LevelProperty.THIRD,
+            LevelProperty.FOURTH,
+            LevelProperty.FIFTH
+        ])
+    })
+
+    export const PathVariables = () => object({
+        gameToken: guid()
+    })
+    export const Request = empty
+    export const Response = () => object({
+        gameState: enumerate([
+            GameStatus.RECRUITMENT_OF_PLAYERS,
+            GameStatus.PREPARATION,
+            GameStatus.ACTIVE,
+            GameStatus.GAME_OVER
+        ]),
+        currentPlayer: optional(string()),
+        players: optional(array(Player())),
+        playersQueue: optional(array(string())),
+        property: optional(array(Property()))
     })
 }

@@ -62,6 +62,15 @@ export function initGameProvider(
             return gameRepository.getGameById(id)
         }
 
+        async getCurrentPlayer(gameId: string): Promise<Player | null> {
+            const gameState = await gameStateRepository.getGameStateByGameId(gameId)
+            if (!gameState) {
+                return null
+            }
+
+            return playerRepository.getPlayerById(gameState.getCurrentPlayer())
+        }
+
         async getAvailableGames(): Promise<AvailableGame[]> {
             const games = await gameRepository.getGamesByState(GameStatus.RECRUITMENT_OF_PLAYERS)
             const players = []

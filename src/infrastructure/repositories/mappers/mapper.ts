@@ -40,7 +40,8 @@ export function MapToPlayerState(playerState: PlayerStateModel): PlayerState {
         playerState.id,
         playerState.playerId,
         playerState.amountMoney,
-        playerState.state
+        playerState.state,
+        playerState.positionOnMap
     )
 }
 

@@ -23,6 +23,15 @@ class PlayerQueueRepository extends BaseRepository {
         const playerQueue = await this.dbContext.playerQueue.findByPk(id)
         return playerQueue ? MapToPlayerQueue(playerQueue) : null
     }
+
+    async getPlayerQueueByPlayerId(playerId: string): Promise<PlayerQueue | null> {
+        const playerQueue = await this.dbContext.playerQueue.findOne({
+            where: {
+                playerId: playerId
+            }
+        })
+        return playerQueue ? MapToPlayerQueue(playerQueue) : null
+    }
 }
 
 export type {PlayerQueueRepository}
