@@ -10,6 +10,9 @@ import {Logger} from "../../core/Logger"
 import {PlayerQueueRepository} from "../infrastructure/repositories/playerQueueRepository"
 import {getRandomOrder} from "../common/utils"
 import {Player} from "../infrastructure/repositories/mappers/entities/Player"
+import {ChanceCardType, GameData, PublicTreasureCardType} from "../constants/Game/GameData"
+import {ChanceQueueRepository} from "../infrastructure/repositories/chanceQueueRepository"
+import {PublicTreasureQueueRepository} from "../infrastructure/repositories/publicTreasureQueueRepository"
 
 interface AvailableGame {
     gameToken: string,
@@ -36,6 +39,8 @@ export function initGameProvider(
     playerRepository: PlayerRepository,
     awaiting: Awaiting,
     playerQueueRepository: PlayerQueueRepository,
+    chanceQueueRepository: ChanceQueueRepository,
+    publicTreasureQueueRepository: PublicTreasureQueueRepository,
     awaitingProvider: IEventBindingProvider,
     bankProvider: IBankProvider
 ) {
@@ -128,7 +133,34 @@ export function initGameProvider(
                     numberInQueue: i + 1
                 }))
             }
-            await Promise.all(playerQueueAwait)
+
+            // Todo: Создать и занести данные в ChanceQueue
+            const chanceQueue = getRandomOrder(GameData.CHANCE)
+            const chanceQueueAwait = []
+            for (let i = 0; i < chanceQueue.length; i++) {
+                chanceQueueAwait.push(chanceQueueRepository.createChanceQueue(
+                    game.getId(),
+                    (chanceQueue[i] as ChanceCardType).id,
+                    i + 1
+                ))
+            }
+
+            // Todo: Создать и занести данные в PublicTreasureQueue
+            const publicTreasureQueue = getRandomOrder(GameData.PUBLIC_TREASURE)
+            const publicTreasureQueueAwait = []
+            for (let i = 0; i < publicTreasureQueue.length; i++) {
+                publicTreasureQueueAwait.push(publicTreasureQueueRepository.createPublicTreasureQueue(
+                    game.getId(),
+                    (publicTreasureQueue[i] as PublicTreasureCardType).id,
+                    i + 1
+                ))
+            }
+            await Promise.all([
+                playerQueueAwait,
+                chanceQueueAwait,
+                publicTreasureQueueAwait
+            ])
+
 
             // Todo: Создать данные в PlayerState
 
@@ -137,8 +169,7 @@ export function initGameProvider(
             await bankProvider.addStartingAmount(players)
 
             // Todo: Создать и занести данные в GameState
-            // Todo: Создать и занести данные в ChanceQueue
-            // Todo: Создать и занести данные в PublicTreasureQueue
+
         }
     }
 }
