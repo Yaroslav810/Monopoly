@@ -87,7 +87,7 @@ export function MapToGameState(gameState: GameStateModel): GameState {
         gameState.gameId,
         gameState.currentPlayer,
         gameState.chanceQueueId,
-        gameState.publicTreasureQueue
+        gameState.publicTreasureQueueId
     )
 }
 

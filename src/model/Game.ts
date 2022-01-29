@@ -8,7 +8,7 @@ import {StartGameAwaitingPlayerState} from "./awaiting/StartGameAwaiting"
 import {IBankProvider} from "./Bank"
 import {Logger} from "../../core/Logger"
 import {PlayerQueueRepository} from "../infrastructure/repositories/playerQueueRepository"
-import {getRandomOrder} from "../common/utils"
+import {getRandomDiceValue, getRandomOrder} from "../common/utils"
 import {Player} from "../infrastructure/repositories/mappers/entities/Player"
 import {ChanceCardType, GameData, PublicTreasureCardType} from "../constants/Game/GameData"
 import {ChanceQueueRepository} from "../infrastructure/repositories/chanceQueueRepository"
@@ -18,6 +18,8 @@ import {PlayerStateStatus} from "../infrastructure/configurations/PlayerState"
 import {GameStateRepository} from "../infrastructure/repositories/gameStateRepository"
 import {ChanceQueue} from "../infrastructure/repositories/mappers/entities/ChanceQueue"
 import {PublicTreasureQueue} from "../infrastructure/repositories/mappers/entities/PublicTreasureQueue"
+import {notEmpty} from "../../core/utils/typeutils"
+import {PlayerQueue} from "../infrastructure/repositories/mappers/entities/PlayerQueue"
 
 interface AvailableGame {
     gameToken: string,
@@ -26,6 +28,13 @@ interface AvailableGame {
         name: string,
         playerToken: string
     }[]
+}
+
+type DiceRoll = [number, number]
+
+interface MakeMove {
+    diceValues: DiceRoll,
+    currentPosition: number
 }
 
 interface IGameProvider {
@@ -204,6 +213,66 @@ export function initGameProvider(
                 currentChance.getId(),
                 currentPublicTreasure.getId()
             )
+        }
+
+        async isMoveThisPlayer(playerId: string): Promise<boolean> {
+            const player = await playerRepository.getPlayerById(playerId)
+            if (!player) {
+                return false
+            }
+
+            const gameState = await gameStateRepository.getGameStateByGameId(player.getGameId())
+            return !(!gameState || gameState.getCurrentPlayer() !== player.getId())
+        }
+
+        async makeMove(playerId: string): Promise<MakeMove | null> {
+            const playerState = await playerStateRepository.getPlayerStateByPlayerId(playerId)
+            if (!playerState || !playerState.getPositionOnMap()) {
+                return null
+            }
+            const valuesDice: DiceRoll = [getRandomDiceValue(), getRandomDiceValue()]
+            let newPosition = (playerState.getPositionOnMap() as number) + (valuesDice[0] as number) + (valuesDice[1] as number)
+            if (newPosition > GameData.MAP.length) {
+                // Todo: Начислить сумму за прохождение круга
+                newPosition %= GameData.MAP.length
+            }
+
+            const player = await playerRepository.getPlayerById(playerState.getPlayerId())
+            if (!player) {
+                return null
+            }
+
+            playerState.setPositionOnMap(newPosition)
+            Promise.all([
+                this.goNextPlayer(player.getGameId()),
+                playerStateRepository.updatePlayerState(playerState)
+            ])
+
+            return {
+                diceValues: valuesDice,
+                currentPosition: newPosition
+            }
+        }
+
+        async goNextPlayer(gameId: string) {
+            const players = await playerRepository.getPlayersByGameId(gameId)
+
+            const queueAwait = []
+            for (const player of players) {
+                queueAwait.push(playerQueueRepository.getPlayerQueueByPlayerId(player.getId()))
+            }
+            const queue = (await Promise.all(queueAwait)).filter(notEmpty).sort((a, b) => a.getNumberInQueue() - b.getNumberInQueue())
+
+            const gameState = await gameStateRepository.getGameStateByGameId(gameId)
+            if (!gameState) {
+                return
+            }
+
+            let index = queue.findIndex(pl => pl.getPlayerId() === gameState.getCurrentPlayer())
+            index = (index === queue.length - 1) ? 0 : ++index
+
+            gameState.setCurrentPlayer((queue[index] as PlayerQueue).getPlayerId())
+            await gameStateRepository.updateGameState(gameState)
         }
     }
 }

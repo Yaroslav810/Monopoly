@@ -9,14 +9,14 @@ class GameStateRepository extends BaseRepository {
         super(dbContext)
     }
 
-    async createGameState(gameId: string, currentPlayer: string, chanceQueueId: string, publicTreasureQueue: string) {
+    async createGameState(gameId: string, currentPlayer: string, chanceQueueId: string, publicTreasureQueueId: string) {
         return MapToGameState(
             await this.dbContext.gameState.create({
                 id: generateUUId(),
                 gameId: gameId,
                 currentPlayer: currentPlayer,
                 chanceQueueId: chanceQueueId,
-                publicTreasureQueue: publicTreasureQueue
+                publicTreasureQueueId: publicTreasureQueueId
             })
         )
     }
@@ -33,6 +33,18 @@ class GameStateRepository extends BaseRepository {
             }
         })
         return gameState ? MapToGameState(gameState) : null
+    }
+
+    async updateGameState(gameState: GameState): Promise<void> {
+        await this.dbContext.gameState.update({
+            currentPlayer: gameState.getCurrentPlayer(),
+            chanceQueueId: gameState.getChanceQueueId(),
+            publicTreasureQueueId: gameState.getPublicTreasureQueueId()
+        }, {
+            where: {
+                id: gameState.getId()
+            }
+        })
     }
 }
 
