@@ -43,7 +43,7 @@ type PrisonMapField = {
 
 type PayloadMapField = PropertyMapField | CardsMapField | SpecialActionMapField | TaxMapField | PrisonMapField
 
-type MapField = {
+export type MapField = {
     id: number
     payload: PayloadMapField
 }

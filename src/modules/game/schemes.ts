@@ -96,3 +96,14 @@ export namespace GetStateGame {
         property: optional(array(Property()))
     })
 }
+
+export namespace MakeMove {
+    export const PathVariables = empty
+    export const Request = () => object({
+        playerToken: guid()
+    })
+    export const Response = () => object({
+        diceValues: array(number()),
+        currentPosition: number()
+    })
+}

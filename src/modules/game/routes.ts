@@ -2,12 +2,13 @@ import {IRouter} from "../../../core/routing/IRouter"
 import {HttpMethod} from "../../../core/http/HttpMethod"
 import {SessionStorage} from "../../model/SessionStorage"
 import {DataProvider} from "../../model/DataProvider"
-import {AddPlayer, CreateGame, GetAvailable, GetStateGame, RemovePlayer} from "./schemes"
+import {AddPlayer, CreateGame, GetAvailable, GetStateGame, MakeMove, RemovePlayer} from "./schemes"
 import {createGame} from "./actions/createGame"
 import {addPlayer} from "./actions/addPlayer"
 import {removePlayer} from "./actions/removePlayer"
 import {getAvailableGames} from "./actions/getAvailableGames"
 import {getStateGame} from "./actions/getStateGame"
+import {makeMove} from "./actions/makeMove"
 
 export function gameRoutes(router: IRouter<DataProvider, SessionStorage>) {
     router.addRout({
@@ -49,5 +50,13 @@ export function gameRoutes(router: IRouter<DataProvider, SessionStorage>) {
         requestScheme: GetStateGame.Request(),
         responseScheme: GetStateGame.Response(),
         action: getStateGame
+    })
+    router.addRout({
+        path: "/game/make-move",
+        method: HttpMethod.POST,
+        pathVariables: MakeMove.PathVariables(),
+        requestScheme: MakeMove.Request(),
+        responseScheme: MakeMove.Response(),
+        action: makeMove
     })
 }

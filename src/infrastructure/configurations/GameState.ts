@@ -5,7 +5,7 @@ class GameStateModel extends Model {
     public gameId!: string
     public currentPlayer!: string
     public chanceQueueId!: string
-    public publicTreasureQueue!: string
+    public publicTreasureQueueId!: string
 }
 
 type GameStateStatic = typeof Model & {
@@ -52,7 +52,7 @@ export function initGameStateConfiguration(sequelize: Sequelize) {
             onDelete: "cascade",
             field: "chance_queue_id"
         },
-        publicTreasureQueue: {
+        publicTreasureQueueId: {
             type: DataTypes.UUID,
             allowNull: false,
             references: {
@@ -60,7 +60,7 @@ export function initGameStateConfiguration(sequelize: Sequelize) {
                 key: "id"
             },
             onDelete: "cascade",
-            field: "public_treasure_queue"
+            field: "public_treasure_queue_id"
         }
     })
 }
