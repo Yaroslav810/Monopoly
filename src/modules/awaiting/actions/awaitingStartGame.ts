@@ -15,7 +15,6 @@ export const awaitingStartGame: Action<typeof StartGame> = async ({dataProvider}
     }
 
     await dataProvider.game.startGameEvent(game.getId(), player.getId())
-    dataProvider.game.startGame(game.getId()).then()
 
     return empty
 }

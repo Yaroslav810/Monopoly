@@ -109,6 +109,7 @@ export function initGameProvider(
             if (players.length === game.getNumberPlayers() &&
                 awaiting.startGameAwaiting.isAllPlayersHasState(gameId, StartGameAwaitingPlayerState.AWAITING)) {
                 awaitingProvider.executeStartGameEvent()
+                this.startGame(gameId).then()
                 return
             }
 
@@ -243,10 +244,12 @@ export function initGameProvider(
             }
 
             playerState.setPositionOnMap(newPosition)
-            Promise.all([
+            await Promise.all([
                 this.goNextPlayer(player.getGameId()),
                 playerStateRepository.updatePlayerState(playerState)
             ])
+
+            awaitingProvider.executeGameProgressEvent()
 
             return {
                 diceValues: valuesDice,
@@ -271,8 +274,14 @@ export function initGameProvider(
             let index = queue.findIndex(pl => pl.getPlayerId() === gameState.getCurrentPlayer())
             index = (index === queue.length - 1) ? 0 : ++index
 
+            // TODO: Проверить доступность другого игрока (active)
+
             gameState.setCurrentPlayer((queue[index] as PlayerQueue).getPlayerId())
             await gameStateRepository.updateGameState(gameState)
+        }
+
+        async gameProgressEvent(): Promise<void> {
+            return awaitingProvider.initGameProgressEvent()
         }
     }
 }
