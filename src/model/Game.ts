@@ -20,6 +20,7 @@ import {ChanceQueue} from "../infrastructure/repositories/mappers/entities/Chanc
 import {PublicTreasureQueue} from "../infrastructure/repositories/mappers/entities/PublicTreasureQueue"
 import {notEmpty} from "../../core/utils/typeutils"
 import {PlayerQueue} from "../infrastructure/repositories/mappers/entities/PlayerQueue"
+import {RequestDecision} from "../constants/Game/RequestDecision"
 
 interface AvailableGame {
     gameToken: string,
@@ -58,7 +59,7 @@ export function initGameProvider(
     playerStateRepository: PlayerStateRepository,
     gameStateRepository: GameStateRepository,
     awaitingProvider: IEventBindingProvider,
-    _: IBankProvider
+    bankProvider: IBankProvider
 ) {
     return new class GameProvider implements IGameProvider {
         async create(numberPlayers: number): Promise<Game> {
@@ -244,12 +245,8 @@ export function initGameProvider(
             }
 
             playerState.setPositionOnMap(newPosition)
-            await Promise.all([
-                this.goNextPlayer(player.getGameId()),
-                playerStateRepository.updatePlayerState(playerState)
-            ])
-
-            awaitingProvider.executeGameProgressEvent()
+            playerState.setHasRollDice(true)
+            await playerStateRepository.updatePlayerState(playerState)
 
             return {
                 diceValues: valuesDice,
@@ -282,6 +279,64 @@ export function initGameProvider(
 
         async gameProgressEvent(): Promise<void> {
             return awaitingProvider.initGameProgressEvent()
+        }
+
+        async didPlayerRollDice(playerId: string): Promise<boolean> {
+            const playerState = await playerStateRepository.getPlayerStateByPlayerId(playerId)
+            if (!playerState) {
+                return false
+            }
+
+            return playerState.getHasRollDice()
+        }
+
+        async updatePlayerMove(playerId: string): Promise<void> {
+            const playerState = await playerStateRepository.getPlayerStateByPlayerId(playerId)
+            if (!playerState) {
+                return
+            }
+            playerState.setHasRollDice(false)
+            await playerStateRepository.updatePlayerState(playerState)
+        }
+
+        async payProperty(playerId: string) {
+            await bankProvider.buyProperty(playerId)
+
+            await this.updatePlayerMove(playerId)
+        }
+
+        async makeDecision(playerId: string, decision: RequestDecision) {
+            switch (decision) {
+                case RequestDecision.BUY_PROPERTY:
+                    await this.payProperty(playerId)
+            }
+
+            const playerState = await playerStateRepository.getPlayerStateByPlayerId(playerId)
+            if (!playerState || !playerState.getPositionOnMap()) {
+                return
+            }
+
+            const player = await playerRepository.getPlayerById(playerId)
+            if (!player) {
+                return
+            }
+
+            playerState.setHasRollDice(false)
+            await Promise.all([
+                playerStateRepository.updatePlayerState(playerState),
+                this.goNextPlayer(player.getGameId())
+            ])
+
+            awaitingProvider.executeGameProgressEvent()
+        }
+
+        async canPlayerPerformAction(playerId: string, decision: RequestDecision): Promise<boolean> {
+            switch (decision) {
+                case RequestDecision.BUY_PROPERTY:
+                    return await bankProvider.canPlayerBuyProperty(playerId)
+                default:
+                    return false
+            }
         }
     }
 }

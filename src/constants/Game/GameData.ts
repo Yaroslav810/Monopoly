@@ -77,7 +77,7 @@ type StreetProperty = {
 
 type PayloadProperty = StreetProperty | RailwayProperty | MunicipalServiceProperty
 
-type Property = {
+export type Property = {
     id: number
     buy: number
     groupId: number

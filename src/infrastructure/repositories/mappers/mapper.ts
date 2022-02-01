@@ -41,7 +41,8 @@ export function MapToPlayerState(playerState: PlayerStateModel): PlayerState {
         playerState.playerId,
         playerState.amountMoney,
         playerState.state,
-        playerState.positionOnMap
+        playerState.positionOnMap,
+        playerState.hasRollDice
     )
 }
 
