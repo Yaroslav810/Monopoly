@@ -10,5 +10,8 @@ export enum ErrorText {
     ERROR_ANOTHER_PLAYER_MOVE = "Another player's move",
     ERROR_MAKING_MOVE = "Error in making a move",
     ERROR_AWAITING_GAME_PROGRESS = "The game can't get progress",
-    ERROR_ACTIVE_PLAYER_WAITING = "It is impossible to expect a move in the active course of the current player"
+    ERROR_ACTIVE_PLAYER_WAITING = "It is impossible to expect a move in the active course of the current player",
+    ERROR_DICE_NOT_THROWN = "The dice haven't been thrown yet",
+    ERROR_DICE_ALREADY_THROWN = "The dice have already been thrown",
+    ERROR_ACTION_DENIED = "Action denied"
 }

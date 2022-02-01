@@ -13,6 +13,7 @@ class PlayerStateModel extends Model {
     public amountMoney!: number
     public state!: PlayerStateStatus
     public positionOnMap!: number | null
+    public hasRollDice!: boolean
 }
 
 type PlayerStateStatic = typeof Model & {
@@ -56,6 +57,11 @@ export function initPlayerStateConfiguration(sequelize: Sequelize) {
         positionOnMap: {
             type: DataTypes.INTEGER,
             field: "position_on_map"
+        },
+        hasRollDice: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            field: "has_roll_dice"
         }
     })
 }

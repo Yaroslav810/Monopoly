@@ -6,6 +6,7 @@ import {array} from "../../../core/scheme/array"
 import {LevelProperty} from "../../infrastructure/configurations/Property"
 import {PlayerStateStatus} from "../../infrastructure/configurations/PlayerState"
 import {GameStatus} from "../../infrastructure/configurations/Game"
+import {RequestDecision} from "../../constants/Game/RequestDecision"
 
 export namespace CreateGame {
     export const PathVariables = empty
@@ -106,4 +107,20 @@ export namespace MakeMove {
         diceValues: array(number()),
         currentPosition: number()
     })
+}
+
+export namespace MakeDecision {
+    export const PathVariables = empty
+    export const Request = () => object({
+        playerToken: guid(),
+        decision: enumerate([
+            RequestDecision.BUY_PROPERTY,
+            RequestDecision.RELINQUISH_PROPERTY,
+            RequestDecision.PAY_RENT,
+            RequestDecision.TAKE_CHANCE,
+            RequestDecision.TAKE_PUBLIC_TREASURE,
+            RequestDecision.PAY_TAX
+        ])
+    })
+    export const Response = empty
 }

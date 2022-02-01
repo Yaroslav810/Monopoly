@@ -6,13 +6,15 @@ export class PlayerState {
     private amountMoney!: number
     private state!: PlayerStateStatus
     private positionOnMap!: number | null
+    private hasRollDice!: boolean
 
-    constructor(id: string, playerId: string, amountMoney: number, state: PlayerStateStatus, positionOnMap: number | null) {
+    constructor(id: string, playerId: string, amountMoney: number, state: PlayerStateStatus, positionOnMap: number | null, hasRollDice: boolean) {
         this.id = id
         this.playerId = playerId
         this.amountMoney = amountMoney
         this.state = state
         this.positionOnMap = positionOnMap
+        this.hasRollDice = hasRollDice
     }
 
     public getId(): string {
@@ -45,5 +47,13 @@ export class PlayerState {
 
     public setPositionOnMap(positionOnMap: number | null): void {
         this.positionOnMap = positionOnMap
+    }
+
+    public getHasRollDice(): boolean {
+        return this.hasRollDice
+    }
+
+    public setHasRollDice(hasRollDice: boolean): void {
+        this.hasRollDice = hasRollDice
     }
 }

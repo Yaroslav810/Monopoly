@@ -18,7 +18,8 @@ class PlayerStateRepository extends BaseRepository {
                 playerId: playerId,
                 amountMoney: amountMoney,
                 state: state,
-                positionOnMap: (GameData.MAP[0] as MapField).id
+                positionOnMap: (GameData.MAP[0] as MapField).id,
+                hasRollDice: false
             })
         )
     }
@@ -28,7 +29,7 @@ class PlayerStateRepository extends BaseRepository {
         return playerState ? MapToPlayerState(playerState) : null
     }
 
-    async getPlayerStateByPlayerId(playerId: string) {
+    async getPlayerStateByPlayerId(playerId: string): Promise<PlayerState | null> {
         const playerState = await this.dbContext.playerState.findOne({
             where: {
                 playerId: playerId
@@ -41,7 +42,8 @@ class PlayerStateRepository extends BaseRepository {
         await this.dbContext.playerState.update({
             amountMoney: playerState.getAmountMoney(),
             state: playerState.getState(),
-            positionOnMap: playerState.getPositionOnMap()
+            positionOnMap: playerState.getPositionOnMap(),
+            hasRollDice: playerState.getHasRollDice()
         }, {
             where: {
                 id: playerState.getId()
